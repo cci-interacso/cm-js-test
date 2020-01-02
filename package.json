@@ -1,0 +1,52 @@
+{
+  "name": "cm_js_test",
+  "version": "0.0.1",
+  "description": "content manager javascript test framework ",
+  "main": "index.js",
+  "scripts": {
+    "test": "protractor ./protractor.conf.js --cucumberOpts.tags=@test",
+    "webdriver-update": "webdriver-manager update --versions.chrome=72.0.3626.69",
+    "report": "serenity run",
+    "clean": "rimraf target",
+    "postinstall": "serenity-bdd update",
+    "test:report": "serenity-bdd run --features ./features"
+  },
+  "keywords": [
+    "content",
+    "manager",
+    "javascript",
+    "test",
+    "framework"
+  ],
+  "author": "Niyi Falade",
+  "license": "ISC",
+  "peerDependencies": {},
+  "dependencies": {
+    "@serenity-js/assertions": "next",
+    "@serenity-js/core": "next",
+    "@serenity-js/cucumber": "next",
+    "@serenity-js/console-reporter": "next",
+    "@serenity-js/protractor": "next",
+    "@serenity-js/rest": "next",
+    "@serenity-js/serenity-bdd": "next",
+    "@types/cucumber": "^6.0.0",
+    "@types/node": "^12.12.16",
+    "axios": "^0.19.0",
+    "chromedriver": "^78.0.1",
+    "cucumber": "^6.0.5",
+    "is-ci": "^2.0.0",
+    "npm-failsafe": "^0.4.1",
+    "protractor": "^5.4.2",
+    "rimraf": "^3.0.0",
+    "ts-node": "^8.5.4",
+    "tslint": "^5.20.1",
+    "tslint-microsoft-contrib": "^6.2.0",
+    "typescript": "^3.7.3",
+    "dotenv": "8.2.0",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^7.1.1"
+  },
+  "devDependencies": {
+    "coffeescript": "^2.4.1"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [ "es6" ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "declaration": false
+  },
+
+  "include": [
+    "features/**/*.ts"
+  ],
+
+  "exclude": [
+    "node_modules",
+    "node_modules/"
+  ]
+}
