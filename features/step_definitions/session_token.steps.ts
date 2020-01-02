@@ -56,7 +56,6 @@ Then(/Output/, function (this: WithStage) {
 
     CallAnApi.as(Bob).mapLastResponse(response => {
      //   console.log(response.request)
-
     })
 
 })
