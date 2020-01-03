@@ -11,7 +11,7 @@
   },
 
   "include": [
-    "features/**/*.ts"
+    "features/**/*.ts", "src/screenplay/Api/requests/oktaRequest.ts", "src/expect.ts", "src/screenplay/Api/authentication/sessionToken.ts"
   ],
 
   "exclude": [

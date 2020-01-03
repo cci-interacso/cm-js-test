@@ -1,16 +1,10 @@
-import { Interaction, Task, UsesAbilities, Actor } from "@serenity-js/core";
-import { CallAnApi, Send, GetRequest, LastResponse } from "@serenity-js/rest";
-import { Ensure, equals } from "@serenity-js/assertions";
-import { request } from "http";
-import { Actors } from "../screenplay/actors";
-import Axios, { AxiosRequestConfig } from "axios";
-import { Debug } from "./debugger";
+import { Task, UsesAbilities } from "@serenity-js/core";
+import { Send, GetRequest } from "@serenity-js/rest";
+import { AxiosRequestConfig } from "axios";
 
 export class token implements Task {
 
-    constructor(private actor: UsesAbilities, private sessionToken:any) {
-        this.actor = actor;
-        this.sessionToken = sessionToken;
+    constructor(actor: UsesAbilities, private sessionToken:any) {
     }
 
     static getToken(actor: UsesAbilities, sessionToken : any): token {

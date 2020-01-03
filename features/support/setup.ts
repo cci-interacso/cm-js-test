@@ -1,6 +1,6 @@
 import { serenity, WithStage } from '@serenity-js/core';
 import { setDefaultTimeout, setWorldConstructor } from 'cucumber';
-import { Actors } from './../screenplay/actors';
+import { Actors } from "./../support/actors";
 
 setDefaultTimeout(15000);
 

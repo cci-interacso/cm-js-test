@@ -3,8 +3,8 @@ import { WithStage, Actor } from "@serenity-js/core";
 import { CallAnApi, Send, PostRequest } from "@serenity-js/rest";
 import { BrowseTheWeb } from "@serenity-js/protractor";
 import { protractor } from "protractor/built/ptor";
-import { okTa } from "../support/oktaRequest";
-import { token } from "../support/sessionToken";
+import { okTa } from "../../src/screenplay/Api/requests/oktaRequest";
+import { token } from "../../src/screenplay/Api/authentication/sessionToken";
 import { Debug } from "../support/debugger";
 import Axios from "axios";
 require('dotenv').config();
@@ -25,6 +25,7 @@ Given(/user is (.*) an external user/, function (this: WithStage, actorName: str
                     'Content-Type': 'application/json'
                 },
                 responseType: 'json'
+
             })),
     )
 });
@@ -42,10 +43,10 @@ Then(/get access token/, function (this: WithStage) {
     return this.stage.theActorInTheSpotlight().attemptsTo(
         token.getToken(Bob, obj_sessionToken),
     ).catch(function (err) {
-        let token :string = err.cause.request._currentUrl;
-        let token1 :string[]  = token.split('access_token=');
-        let token2 :string[] = token1[1].split('&');
-        let token3:string = token2[0];
+        let token: string = err.cause.request._currentUrl;
+        let token1: string[] = token.split('access_token=');
+        let token2: string[] = token1[1].split('&');
+        let token3: string = token2[0];
 
         console.log(token3);
     })
@@ -53,9 +54,8 @@ Then(/get access token/, function (this: WithStage) {
 
 Then(/Output/, function (this: WithStage) {
 
-
     CallAnApi.as(Bob).mapLastResponse(response => {
-     //   console.log(response.request)
+        //   console.log(response.request)
     })
 
 })
