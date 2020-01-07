@@ -23,17 +23,21 @@
   "peerDependencies": {},
   "dependencies": {
     "@serenity-js/assertions": "next",
+    "@serenity-js/console-reporter": "next",
     "@serenity-js/core": "next",
     "@serenity-js/cucumber": "next",
-    "@serenity-js/console-reporter": "next",
     "@serenity-js/protractor": "next",
     "@serenity-js/rest": "next",
     "@serenity-js/serenity-bdd": "next",
     "@types/cucumber": "^6.0.0",
     "@types/node": "^12.12.16",
     "axios": "^0.19.0",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^7.1.1",
     "chromedriver": "^78.0.1",
     "cucumber": "^6.0.5",
+    "date-and-time": "^0.11.1",
+    "dotenv": "8.2.0",
     "is-ci": "^2.0.0",
     "npm-failsafe": "^0.4.1",
     "protractor": "^5.4.2",
@@ -41,12 +45,11 @@
     "ts-node": "^8.5.4",
     "tslint": "^5.20.1",
     "tslint-microsoft-contrib": "^6.2.0",
-    "typescript": "^3.7.3",
-    "dotenv": "8.2.0",
-    "chai": "^3.5.0",
-    "chai-as-promised": "^7.1.1"
+    "typescript": "^3.7.3"
   },
   "devDependencies": {
-    "coffeescript": "^2.4.1"
+    "coffeescript": "^2.4.1",
+    "faker": "^4.1.0",
+    "node-sessionstorage": "^1.0.0"
   }
 }

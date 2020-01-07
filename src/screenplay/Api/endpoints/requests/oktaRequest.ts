@@ -1,19 +1,15 @@
-import Axios, { Method, AxiosRequestConfig } from "axios/index";
 require('dotenv').config();
-
-
 
 export const okTa: myRequest = {
 
-    username:process.env.SPANISH_INTERNAL_USERNAME,
-    password:process.env.SPANISH_INTERNAL_PASSWORD,
+    username:"automation.spain@clearchannelint.com",
+    password:"TestUser.123",
     options:{ 
        warnBeforePasswordExpired:true,
        multiOptionalFactorEnroll:true
     }
 
 }
-
 
 interface myRequest {
     username: string;
