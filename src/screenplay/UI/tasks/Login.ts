@@ -1,5 +1,5 @@
 import { PerformsActivities,Task } from "@serenity-js/core";
-import { LoginPage } from "../ui/LoginPage";
+import { LoginPage } from "../po/LoginPage";
 import { Enter, Click } from "@serenity-js/protractor/lib/screenplay/interactions";
 require('dotenv').config();
 
