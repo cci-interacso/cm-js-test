@@ -4,11 +4,11 @@ import { Ensure, equals } from "@serenity-js/assertions";
 export class Put implements Task {
 
     constructor(private path: string, private body:
-        any, private token: string) {
+        any, private token: string, private statusCode:number) {
     }
 
-    static put(path: string, body: any, token: string): Put {
-        return new Put(path, body, token);
+    static put(path: string, body: any, token: string, statusCode: number): Put {
+        return new Put(path, body, token, statusCode);
     }
 
 
@@ -24,7 +24,7 @@ export class Put implements Task {
                     data: this.body,
                     timeout: 5000
                 })),
-            Ensure.that(LastResponse.status(), equals(201))
+            Ensure.that(LastResponse.status(), equals(this.statusCode))
         )
     }
 

@@ -11,15 +11,19 @@ import { Get } from '../../src/screenplay/api/endpoints/get'
 import { expect } from '../../src/expect';
 import { CreateANewCampaign } from '../../src/screenplay/ui/tasks/CreateANewCampaign'
 import { Campaigns } from '../../src/screenplay/ui/po/campaigns';
-import { Put } from '../../src/screenplay/api/endpoints/put'
-import { Groups } from '../../src/screenplay/api/endpoints/requests/userGroups'
 import { fs } from 'file-system';
 import { stringify } from 'querystring';
+import Axios from 'axios';
+import { format } from 'path';
 var FormData = require('form-data');
+import { Put } from '../../src/screenplay/api/endpoints/put'
+
+let creativeID: any
+let userGroup : any
 
 
 
-var campaignID: any;
+
 const waitTimeInMillseconds = Duration.ofMilliseconds(5000);
 
 Given(/there is a new campaign/, async function (this: WithStage) {
@@ -35,6 +39,7 @@ Given(/there is a new campaign/, async function (this: WithStage) {
 })
 
 Then(/get campaign id from the response/, function () {
+    var campaignID
 
     CallAnApi.as(this.stage.theActorInTheSpotlight())
         .mapLastResponse(response => campaignID = response.data._id
@@ -114,23 +119,33 @@ Then(/extract id for content manager seville/, async function (this: WithStage) 
 
 Then(/(.*) upload a creative/, async function (this: WithStage, actor: string) {
 
-    var filePath 
-    var formdata :any
+    const fd = new FormData();
+    fd.append('file', fs.createReadStream('/home/niyifalade/CM_JS_TEST/src/resources/market.jpeg'));
 
+    const actorPost = Actor.named(actor).whoCan(
+        CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser));
 
-    fs.readFile('src/resources/download_13.jpeg', (err, data) => {
-        if (err) throw err;
-        filePath = data;
+    return actorPost.attemptsTo(Post.post(Path.addStaticContent, fd, await AuthenticateApi()));
+})
+
+Then(/get creative id/, function (this: WithStage) {
+    return CallAnApi.as(this.stage.theActorInTheSpotlight()).mapLastResponse((res) => {
+        creativeID = res.data._id;
+        userGroup = res.data.userGroups[0];
     })
 
+})
 
-    const actor_1 = Actor.named(actor).whoCan(
-        CallAnApi.at(process.env.REST_API),
-        BrowseTheWeb.using(protractor.browser),formdata = stringify({
-            file : filePath
-        }));
+Then(/(.*) assign static creative to external group/, async function (this: WithStage, actor: string) {
 
-    return actor_1.attemptsTo(Post.post(Path.addStaticContent,"", await AuthenticateApi()));
+    var group = {
+        userGroups :[ userGroup,'00g243c8wt1xlYnxD357'
+        ]
+    }
+  
+    return Actor.named(actor)
+        .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
+        .attemptsTo(Put.put(Path.addStaticContent.concat("/" + creativeID), group, await AuthenticateApi(),200))
 })
 
 

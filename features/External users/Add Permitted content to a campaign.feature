@@ -1,15 +1,18 @@
 @wip @CMV-83
 Feature: Add 'permitted content' to a campaign
 
-    Background:
-      Given Stan uploads a static creative as an internal user
-      Then share the creative with my regional external users
+  Background:
+    # Given Stan uploads a static creative as an internal user
+    # Then share the creative with my regional external users
+ #   Given stan upload a creative
+  #  Then get creative id
+   # Then mark assign static creative to external group
 
- 
+ @test
   Scenario: Display permitted creative content for external users
     Given Barry is an external user in the Spanish Region
-  #  When I am on the Library Screen of the APP
-    #Then only permitted contents are displayed
+    When I am on the Library Screen of the APP
+  #Then only permitted contents are displayed
 
   Scenario: Add Permitted content [draft status] to Campaign allowed by External user
     Given Tony is an external user in the Spanish Region
@@ -17,7 +20,7 @@ Feature: Add 'permitted content' to a campaign
     When add a permitted creative content to my campaign
     Then creative content is added successfully
 
- 
+
 
   Scenario: Permitted creative content to Campaign content schedule
     Given Tony is an external user in the Spanish Region

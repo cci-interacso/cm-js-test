@@ -7,13 +7,9 @@ import Axios from 'axios'
 export class Actors implements DressingRoom {
     prepare(actor: Actor): Actor {
         return actor.whoCan(
-            BrowseTheWeb.using(protractor.browser),
-            CallAnApi.using(axiosInstance)
+            BrowseTheWeb.using(protractor.browser)
         );
     }
 }
 
 
-const axiosInstance = Axios.create({
-         timeout: 5 * 1000,
-     });

@@ -18,15 +18,14 @@ export class Post implements Task {
             Send.a(PostRequest.to(this.path)
                 .using({
                     headers: {
-                        'Content-Type': 'multipart/form-data',
-                        'Authorization':'Token '.concat(this.token)
+                        'Content-Type': this.body.getHeaders()['content-type'],
+                        'Authorization':'Token '.concat(this.token),
                     },
                     data:this.body,
                     timeout:5000
                 })
             ), 
-            
-            //Ensure.that(LastResponse.status(), equals(201))
+            Ensure.that(LastResponse.status(), equals(200))
         )    
     }
 }

@@ -10,12 +10,14 @@ Feature: Creative Library
        # Then the file is available
         Then share the creative with my regional external users
 
-    @test
+   
    Scenario: title
      #  Given mark get groups
       # Then extract id for content manager seville
        Then stan upload a creative
-       Then Output
+       Then get creative id 
+       Then mark assign static creative to external group
+      
          
        
       

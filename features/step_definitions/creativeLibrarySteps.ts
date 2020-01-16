@@ -11,6 +11,7 @@ import { Path } from '../../src/screenplay/cm_variables';
 import { AuthenticateApi } from '../../src/screenplay/api/authentication/session_Token';
 import { ShareACreative } from '../../src/screenplay/ui/tasks/ShareACreative'
 import { LoginPage } from '../../src/screenplay/ui/po/LoginPage';
+import { LibraryHome } from '../../src/screenplay/ui/tasks/Library'
 
 Given(/(.*) uploads a static creative as an internal user/, function (this: WithStage, actorName: string) {
 
@@ -38,14 +39,18 @@ Then(/share the creative with my regional external users/, function (this: WithS
     return this.stage.theActorInTheSpotlight()
         .attemptsTo(
             ShareACreative.assignCreative(),
-         //   Hover.over(LoginPage.HoverOnLogin),
-         //   Wait.upTo(Duration.ofSeconds(5)).until(LoginPage.loginOut, isVisible()),
+            //   Hover.over(LoginPage.HoverOnLogin),
+            //   Wait.upTo(Duration.ofSeconds(5)).until(LoginPage.loginOut, isVisible()),
             Click.on(LoginPage.JOIN),
             Wait.for(Duration.ofSeconds(39))
         )
 })
 
-When(/When I am on the Library Screen of the APP/, function (this: WithStage) {
+When(/I am on the Library Screen of the APP/, function (this: WithStage) {
+    
     return this.stage.theActorInTheSpotlight()
-        .attemptsTo()
+        .attemptsTo(
+            
+            LibraryHome.goToLibrary()
+        )
 })

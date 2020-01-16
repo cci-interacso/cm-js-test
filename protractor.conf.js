@@ -47,6 +47,7 @@ exports.config = {
         require: [ 'features/**/*.ts', ],
         'require-module':   [ 'ts-node/register'],
         strict:  false,
+        timeout: 10000
     },
 
     capabilities: {

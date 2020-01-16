@@ -15,8 +15,6 @@ Given(/(.*) is an external user in the Spanish Region/, function(this:WithStage,
         BrowseTo.LoginPage(),
         Login.loginOnCM(process.env.SPANISH_EXTERNAL_USERNAME,process.env.SPANISH_EXTERNAL_PASSWORD)
     )
-
-
 })
 
 

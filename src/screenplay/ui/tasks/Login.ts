@@ -23,7 +23,6 @@ export class Login implements Task {
          Enter.theValue(this.username).into(LoginPage.username),
          Enter.theValue(this.password).into(LoginPage.password),
          Click.on(LoginPage.submit),
-      //   Wait.upTo(waitTimeInMillseconds).until(Campaigns.NEW_CAMPAIGN_BUTTON, isClickable())
       );
    }
 }
