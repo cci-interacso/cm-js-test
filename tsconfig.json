@@ -7,11 +7,12 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "declaration": false
+    "declaration": false,
+    "outDir": "build"
   },
 
   "include": [
-    "features/**/*.ts", "src/screenplay/Api/endpoints/requests/oktaRequest.ts", "src/expect.ts", "src/screenplay/Api/authentication/sessionToken.ts"
+    "features/**/*.ts", "src/screenplay/api/endpoints/requests/oktaRequest.ts", "src/expect.ts", "src/screenplay/api/authentication/sessionToken.ts"
   ],
 
   "exclude": [

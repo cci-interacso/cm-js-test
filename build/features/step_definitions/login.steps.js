@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var cucumber_1 = require("cucumber");
+var BrowseTo_1 = require("../../src/screenplay/ui/tasks/BrowseTo");
+var Login_1 = require("../../src/screenplay/ui/tasks/Login");
+cucumber_1.Given(/(.*) is an internal user in the Spanish Group/, function (actorName) {
+    return this.stage.theActorCalled(actorName).attemptsTo(BrowseTo_1.BrowseTo.LoginPage(), Login_1.Login.loginOnCM(process.env.SPANISH_INTERNAL_USERNAME, process.env.SPANISH_INTERNAL_PASSWORD));
+});
+cucumber_1.Given(/(.*) is an external user in the Spanish Region/, function (actorName) {
+    return this.stage.theActorCalled(actorName).attemptsTo(BrowseTo_1.BrowseTo.LoginPage(), Login_1.Login.loginOnCM(process.env.SPANISH_EXTERNAL_USERNAME, process.env.SPANISH_EXTERNAL_PASSWORD));
+});
+//# sourceMappingURL=login.steps.js.map

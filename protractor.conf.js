@@ -37,8 +37,8 @@ exports.config = {
      */
      onPrepare: function() {
          browser.waitForAngularEnabled(false);
-         var width = 800;
-         var height = 600;
+         var width = 1000;
+         var height = 1000;
          browser.driver.manage().window().setSize(width, height);
      },
 
