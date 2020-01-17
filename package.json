@@ -9,7 +9,8 @@
     "report": "serenity run",
     "clean": "rimraf target",
     "postinstall": "serenity-bdd update",
-    "test:report": "serenity-bdd run --features ./features"
+    "test:report": "serenity-bdd run --features ./features",
+    "watch:build": "tsc --watch"
   },
   "keywords": [
     "content",
@@ -48,8 +49,13 @@
     "typescript": "^3.7.3"
   },
   "devDependencies": {
+    "chai-like": "^1.1.1",
+    "chai-things": "^0.2.0",
     "coffeescript": "^2.4.1",
     "faker": "^4.1.0",
+    "file-system": "^2.2.2",
+    "form-data": "^3.0.0",
+    "fs": "0.0.1-security",
     "node-sessionstorage": "^1.0.0"
   }
 }
