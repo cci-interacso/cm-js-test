@@ -13,6 +13,8 @@ import { ShareACreative } from '../../src/screenplay/ui/tasks/ShareACreative'
 import { LoginPage } from '../../src/screenplay/ui/po/LoginPage';
 import { LibraryHome } from '../../src/screenplay/ui/tasks/Library'
 
+
+
 Given(/(.*) uploads a static creative as an internal user/, function (this: WithStage, actorName: string) {
 
     var filePath: string = '/home/niyifalade/CM_JS_TEST/src/resources/download.jpeg';
@@ -50,7 +52,6 @@ When(/I am on the Library Screen of the APP/, function (this: WithStage) {
     
     return this.stage.theActorInTheSpotlight()
         .attemptsTo(
-            
             LibraryHome.goToLibrary()
         )
 })
