@@ -14,7 +14,6 @@ export class LibraryHome implements Task {
            Wait.upTo(Duration.ofSeconds(5)).until(Library.LIBRARY, isVisible()),
            Click.on(Library.LIBRARY),
            Enter.theValue('market.jpeg').into(Library.SEARCH_BY_NAME),
-           Ensure.that(Text.of(Library.STATIC_CREATIVE), equals('market.jpeg'))
        )
     }
     

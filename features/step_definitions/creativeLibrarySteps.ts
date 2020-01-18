@@ -4,7 +4,7 @@ import { BrowseTo } from '../../src/screenplay/ui/tasks/BrowseTo';
 import { Login } from '../../src/screenplay/ui/tasks/Login';
 import { UploadACreative } from '../../src/screenplay/ui/tasks/UploadACreative'
 import { CallAnApi } from '@serenity-js/rest';
-import { BrowseTheWeb, Click, Hover, Wait, isClickable, isVisible } from '@serenity-js/protractor';
+import { BrowseTheWeb, Click, Hover, Wait, isClickable, isVisible, Text } from '@serenity-js/protractor';
 import { protractor } from 'protractor/built/ptor';
 import { Get } from '../../src/screenplay/api/endpoints/get';
 import { Path } from '../../src/screenplay/cm_variables';
@@ -12,6 +12,10 @@ import { AuthenticateApi } from '../../src/screenplay/api/authentication/session
 import { ShareACreative } from '../../src/screenplay/ui/tasks/ShareACreative'
 import { LoginPage } from '../../src/screenplay/ui/po/LoginPage';
 import { LibraryHome } from '../../src/screenplay/ui/tasks/Library'
+import { Ensure, equals } from '@serenity-js/assertions';
+import { Library } from '../../src/screenplay/ui/po/library';
+import { CampaignStatus } from '../../src/screenplay/ui/tasks/CampaignStatus'
+import { campaignName } from './CreateCampaignSteps';
 
 
 
@@ -33,7 +37,7 @@ Then(/the file is available/, async function (this: WithStage) {
     );
 
     return this.stage.theActorInTheSpotlight()
-        .attemptsTo(Get.get(Path["getCreatives"].toString(), await AuthenticateApi()))
+        .attemptsTo(Get.get(Path["getCreatives"].toString(), await AuthenticateApi(), 200))
 })
 
 
@@ -49,9 +53,23 @@ Then(/share the creative with my regional external users/, function (this: WithS
 })
 
 When(/I am on the Library Screen of the APP/, function (this: WithStage) {
-    
+
     return this.stage.theActorInTheSpotlight()
         .attemptsTo(
             LibraryHome.goToLibrary()
         )
+})
+
+Then(/only permitted static creatives are displayed/, function (this: WithStage) {
+
+    return this.stage.theActorInTheSpotlight().attemptsTo(
+        Ensure.that(Text.of(Library.STATIC_CREATIVE), equals('market.jpeg'))
+    )
+})
+
+Then(/campaign should have draft status/, function (this: WithStage) {
+
+    return this.stage.theActorInTheSpotlight().attemptsTo(
+        CampaignStatus.getCampaignStatus(campaignName())
+    )
 })

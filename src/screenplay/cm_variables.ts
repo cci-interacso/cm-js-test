@@ -1,4 +1,4 @@
-export const campaignStatus = {
+export const Status = {
     DRAFT: 1,
     PAUSED: 2,
     ONGOING: 3
@@ -17,6 +17,7 @@ export const enum Path {
     getCreatives = '/creatives/static?userGroupsDetail=false',
     getGroups = '/okta/groups',
     addStaticContent = '/creatives/static'
+
 }
 
 interface myPath {

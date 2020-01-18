@@ -4,15 +4,15 @@ import { Ensure, equals } from "@serenity-js/assertions";
 
 export class Get implements Task {
 
-    constructor(private path: string, private token: string) {
+    constructor(private path: string, private token: string, private statusCode : number) {
 
     }
-    static get(path: string, token: string): Get {
-        return new Get(path, token)
+    static get(path: string, token: string, statusCode:number): Get {
+        return new Get(path, token, statusCode)
     }
 
-    static getCampaigns(path: string, token: string): Get {
-        return new Get(path, token);
+    static getCampaigns(path: string, token: string,statuscode:number): Get {
+        return new Get(path, token,statuscode);
     }
 
     performAs(actor: import("@serenity-js/core").PerformsActivities): PromiseLike<void> {
@@ -26,7 +26,7 @@ export class Get implements Task {
                 responseType : 'json'
             
             })),
-            Ensure.that(LastResponse.status(), equals(200)))
+            Ensure.that(LastResponse.status(), equals(this.statusCode)))
     }
 
 }

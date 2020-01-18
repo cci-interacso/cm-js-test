@@ -18,6 +18,7 @@ export class Campaigns {
     static FROM_DATE = Target.the('from date').located(by.xpath("//*[@role='gridcell' and @title='" + startDate + "']"));
     static TO_DATE = Target.the('to date').located(by.xpath("//*[@role='gridcell' and @title='" + endDate + "']"))
     static SUBMIT_CAMPAIGN = Target.the("campaign submit button").located(by.xpath("//button[@class='ant-btn ant-btn-primary']"));
+    static CAMPAIGN_STATUS = Target.the('Campaign status').located(by.xpath("//td[5]/span"))
 
 
     //January 10, 2020
