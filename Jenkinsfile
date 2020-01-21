@@ -22,7 +22,6 @@ pipeline {
                 sh 'npm install'
                 sh 'npm run webdriver-update'
                 sh 'npm run postinstall'
-                echo "${params.TAGS}"
         }
         
          stage('Run tests') {
@@ -43,8 +42,10 @@ pipeline {
                              reportFiles          : 'index.html',
                              reportName           : 'Serenity Report',
                              reportTitles         : ''])
+                }
             }
         }
+
     }
 
     post {
