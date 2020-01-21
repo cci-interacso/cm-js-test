@@ -22,8 +22,8 @@ pipeline {
                 sh 'npm install'
                 sh 'npm run webdriver-update'
                 sh 'npm run postinstall'
-                echo '${params}'
-            }
+                echo "${params.TAGS}"
+            
         }
         
          stage('Run tests') {
