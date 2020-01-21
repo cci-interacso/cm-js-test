@@ -1,5 +1,6 @@
+
 pipeline {
-    def build_ok = true
+   
     agent { node { label 'slave' } }
     options {
         timeout(time: 6, unit: 'HOURS')
@@ -18,19 +19,16 @@ pipeline {
                 sh 'npm install'
             }
         }
-        try {
+        
 
          stage('Run tests') {
             steps {
-                sh 'npm run test'
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE'){
+                    sh 'npm run test'
+                }
             }
         }    
 
-        } catch(e){
-            build_ok = false
-            echo e.toString()
-        }
-       
         stage('PublishResults') {
             steps {
                 publishHTML([allowMissing         : false,
@@ -45,13 +43,7 @@ pipeline {
     }
 
     post {
-         always {
-            if(build_ok) {
-                currentBuild.result = "SUCCESS"
-            } else {
-                currentBuild.result = "FAILURE"
-            }
-        }
+         always {}
         success {
             notifySuccessful()
         }
