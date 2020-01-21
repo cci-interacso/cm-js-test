@@ -17,11 +17,6 @@ export const enum Path {
     getCreatives = '/creatives/static?userGroupsDetail=false',
     getGroups = '/okta/groups',
     addStaticContent = '/creatives/static'
-
-}
-
-interface myPath {
-    Path:string
 }
 
 

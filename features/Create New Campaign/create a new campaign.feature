@@ -1,11 +1,12 @@
+@regression @ui
 Feature: Create new campaign
 
-    Background: my
+    Background: 
         Given S is an internal user in the Spanish Group
         And is on the Create campaign page
 
     
-    Scenario: Create campaign
+    Scenario: Create campaign using Content manager
         When he enters
             | campaignName |
             | campaignId   |

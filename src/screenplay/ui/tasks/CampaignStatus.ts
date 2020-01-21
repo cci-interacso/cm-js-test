@@ -7,7 +7,7 @@ export class CampaignStatus implements Task {
     constructor(private campaignName:string) {
     }
 
-    static     getCampaignStatus(campaignName:string):CampaignStatus {
+    static getCampaignStatus(campaignName:string):CampaignStatus {
         return new CampaignStatus(campaignName)
     }
     

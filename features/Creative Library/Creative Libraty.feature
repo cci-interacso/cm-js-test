@@ -7,7 +7,7 @@ Feature: Creative Library
    
     Scenario: Upload a static creative to the library
         Given Stan uploads a static creative as an internal user
-       # Then the file is available
+        Then the file is available
         Then share the creative with my regional external users
 
    

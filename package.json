@@ -4,7 +4,7 @@
   "description": "content manager javascript test framework ",
   "main": "index.js",
   "scripts": {
-    "test": "protractor ./protractor.conf.js --cucumberOpts.tags=@test",
+    "test": "protractor ./protractor.conf.js --cucumberOpts.tags=@regression",
     "webdriver-update": "webdriver-manager update --versions.chrome=72.0.3626.69",
     "report": "serenity run",
     "pretest": "rimraf target",

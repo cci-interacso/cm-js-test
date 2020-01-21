@@ -16,6 +16,8 @@ import { Ensure, equals } from '@serenity-js/assertions';
 import { Library } from '../../src/screenplay/ui/po/library';
 import { CampaignStatus } from '../../src/screenplay/ui/tasks/CampaignStatus'
 import { campaignName } from './CreateCampaignSteps';
+import { AddCreativeToCampaign } from './../../src/screenplay/ui/tasks/AddCreativeToCampaign'
+import { Campaigns } from '../../src/screenplay/ui/po/campaigns';
 
 
 
@@ -45,8 +47,6 @@ Then(/share the creative with my regional external users/, function (this: WithS
     return this.stage.theActorInTheSpotlight()
         .attemptsTo(
             ShareACreative.assignCreative(),
-            //   Hover.over(LoginPage.HoverOnLogin),
-            //   Wait.upTo(Duration.ofSeconds(5)).until(LoginPage.loginOut, isVisible()),
             Click.on(LoginPage.JOIN),
             Wait.for(Duration.ofSeconds(39))
         )
@@ -73,3 +73,23 @@ Then(/campaign should have draft status/, function (this: WithStage) {
         CampaignStatus.getCampaignStatus(campaignName())
     )
 })
+
+When(/add a permitted creative content to my campaign/, function (this: WithStage) {
+    return this.stage.theActorInTheSpotlight().attemptsTo(
+        AddCreativeToCampaign.addCreativeToCampaign(campaignName())
+    )
+})
+
+Then(/creative content is added to Campaign content schedule/, function (this: WithStage) {
+    return this.stage.theActorInTheSpotlight().attemptsTo(
+        Ensure.that(Text.of(Campaigns.STATIC_CREATIVE_ADDED), equals("1 static | 0 dynamic"))
+    )
+})
+
+
+Then(/I have selected default content schedule/, function (this:WithStage){
+    this.stage.theActorInTheSpotlight().attemptsTo(
+        
+    )
+})
+

@@ -37,7 +37,6 @@ Then(/extract id for content manager seville/, async function (this: WithStage) 
         )
     SEVILLE_ID = data[1].id;
     SPAIN_ID = data[2].id
-    //  console.log(SEVILLE_ID,+""+SPAIN_ID)
 })
 
 Then(/(.*) adds the campaign to a group/, async function (this: WithStage, actor: string) {

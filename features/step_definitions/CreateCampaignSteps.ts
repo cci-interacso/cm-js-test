@@ -16,6 +16,7 @@ import Axios from 'axios';
 import { format } from 'path';
 import { Put } from '../../src/screenplay/api/endpoints/put'
 import { Post } from '../../src/screenplay/api/endpoints/post'
+import { SearchForCampaign } from './../../src/screenplay/ui/tasks/SearchForCampaign'
 
 let creativeID: any
 let userGroup: any
@@ -44,14 +45,6 @@ Then(/get campaign id from the response/, function () {
         }
         )
 })
-
-export function CampaignID(): string {
-    return campaignID
-}
-
-export function campaignName(): string {
-    return name;
-}
 
 Then(/Output/, function (this: WithStage) {
 
@@ -88,7 +81,7 @@ Given(/is on the Create campaign page/, function (this: WithStage) {
 
 })
 
-When(/he enters/, function (this: WithStage) {
+When(/he enters/, function (this: WithStage, table:any) {
     return this.stage.theActorInTheSpotlight().attemptsTo(
         CreateANewCampaign.enterNewCampaignData()
     )
@@ -103,9 +96,22 @@ Then(/the campaign is successfully created/, async function (this: WithStage) {
             See.if(LastResponse.body(), Actual => expect(Actual)
                 .to.have.deep.property('docs.[0].name', CreateANewCampaign.getEntries())
             ))
-
-
 })
+
+Then(/search for a campaign/, function(this:WithStage){
+    return this.stage.theActorInTheSpotlight().attemptsTo(
+        SearchForCampaign.goToCampaigns("Schinner LLC")
+    )
+})
+
+
+export function CampaignID(): string {
+    return campaignID
+}
+
+export function campaignName(): string {
+    return name;
+}
 
 
 
