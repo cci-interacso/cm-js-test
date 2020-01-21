@@ -23,13 +23,12 @@ pipeline {
                 sh 'npm run webdriver-update'
                 sh 'npm run postinstall'
                 echo "${params.TAGS}"
-            
         }
         
          stage('Run tests') {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE'){
-                    sh 'npm run test ${params.TAGS}'
+                    sh "npm run test ${params.TAGS}"
                 }
             }
         }    
