@@ -43,7 +43,6 @@ pipeline {
     }
 
     post {
-         always {}
         success {
             notifySuccessful()
         }
