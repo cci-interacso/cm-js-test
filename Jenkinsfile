@@ -3,7 +3,7 @@ pipeline {
    
     agent { node { label 'slave' } }
     parameters {
-        string(name: 'tags', defaultValue: '@regression', description: 'cucumber tags for test to execute')
+        string(name: 'TAGS', defaultValue: '@regression', description: 'cucumber tags for test to execute')
     }
     options {
         timeout(time: 6, unit: 'HOURS')
@@ -22,19 +22,21 @@ pipeline {
                 sh 'npm install'
                 sh 'npm run webdriver-update'
                 sh 'npm run postinstall'
+                echo '${params}'
             }
         }
         
          stage('Run tests') {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE'){
-                    sh 'npm run test ${params.tags}'
+                    sh 'npm run test ${params.TAGS}'
                 }
             }
         }    
 
         stage('PublishResults') {
             steps {
+                sh 'npm rum test:report'
                 publishHTML([allowMissing         : false,
                              alwaysLinkToLastBuild: true,
                              keepAll              : true,
