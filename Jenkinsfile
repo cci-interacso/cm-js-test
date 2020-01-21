@@ -3,7 +3,6 @@ pipeline {
    
     agent { node { label 'slave' } }
     parameters {
-        
         string(name: 'tags', defaultValue: '@regression', description: 'cucumber tags for test to execute')
     }
     options {
@@ -21,14 +20,15 @@ pipeline {
                 sh 'curl -sL https://deb.nodesource.com/setup_10.x | bash'
                 sh 'apt-get install nodejs'
                 sh 'npm install'
+                sh 'npm run webdriver-update'
+                sh 'npm run postinstall'
             }
         }
         
-
          stage('Run tests') {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE'){
-                    sh 'npm run test ${params.tags} '
+                    sh 'npm run test ${params.tags}'
                 }
             }
         }    
