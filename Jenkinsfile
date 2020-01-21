@@ -2,6 +2,9 @@
 pipeline {
    
     agent { node { label 'slave' } }
+    parameters{
+        string(name: 'tags', defaultValue: '@regression', description 'cucumber tags for test to execute')
+    }
     options {
         timeout(time: 6, unit: 'HOURS')
     }
@@ -24,7 +27,7 @@ pipeline {
          stage('Run tests') {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE'){
-                    sh 'npm run test'
+                    sh 'npm run test ${params.tags} '
                 }
             }
         }    

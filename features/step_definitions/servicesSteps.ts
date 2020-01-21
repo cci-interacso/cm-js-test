@@ -13,6 +13,7 @@ import { PostUpload } from '../../src/screenplay/api/endpoints/postUpload';
 
 var FormData = require('form-data');
 var faker = require('faker');
+var path = require('path')
 
 let creativeID: any
 let userGroup: any
@@ -53,15 +54,15 @@ Then(/(.*) adds the campaign to a group/, async function (this: WithStage, actor
 Then(/(.*) upload a creative/, async function (this: WithStage, actor: string) {
 
     const fd = new FormData();
-
     const name = faker.commerce.productName();
-
-    
-    fs.copyFile('src/resources/test.jpeg', "target/" + name + ".jpeg", (err) => {
+    const actual = path.resolve(process.cwd(), 'src/resources/test.jpeg');
+    const target = path.resolve(process.cwd(), "src/resources/toDeleteContent/" + name + ".jpeg");
+  
+    fs.copyFile(actual, target, (err) => {
         if (err) throw err;
     })
 
-    fd.append('file', fs.createReadStream("target/" + name + ".jpeg"));
+    fd.append('file', fs.createReadStream(target));
 
     const actorPost = Actor.named(actor).whoCan(
         CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser));
