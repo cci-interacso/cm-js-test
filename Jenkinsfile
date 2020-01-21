@@ -1,11 +1,10 @@
 
 pipeline {
    
-    agent { node { label 'slave' }
-    parameters{
-        string(name: 'tags', defaultValue: '@regression', description: 'cucumber tags for test to execute')
+    agent { node { label 'slave' } }
+    string(name: 'tags', defaultValue: '@regression', description: 'cucumber tags for test to execute')
         }
-     }
+     
    
     options {
         timeout(time: 6, unit: 'HOURS')
