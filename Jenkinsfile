@@ -22,6 +22,18 @@ pipeline {
                 sh 'npm run test'
             }
         }
+        stage('PublishResults') {
+            steps {
+                publishHTML([allowMissing         : false,
+                             alwaysLinkToLastBuild: true,
+                             keepAll              : true,
+                             reportDir            : 'target/site/serenity',
+                             reportFiles          : 'index.html',
+                             reportName           : 'Serenity Report',
+                             reportTitles         : ''])
+            }
+        }
+    }
     }
     post {
         always {
