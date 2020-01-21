@@ -18,7 +18,14 @@ export class Campaigns {
     static FROM_DATE = Target.the('from date').located(by.xpath("//*[@role='gridcell' and @title='" + startDate + "']"));
     static TO_DATE = Target.the('to date').located(by.xpath("//*[@role='gridcell' and @title='" + endDate + "']"))
     static SUBMIT_CAMPAIGN = Target.the("campaign submit button").located(by.xpath("//button[@class='ant-btn ant-btn-primary']"));
-
-
-    //January 10, 2020
+    static CAMPAIGN_STATUS = Target.the('Campaign status').located(by.xpath("//td[5]/span"))
+    static EDIT_CAMPAIGN = Target.the('Edit a campaign').located(by.xpath("//button[@data-test-id='edit-campaign']"));
+    static ADD_NEW_SCHEDULE = Target.the('Add new schediule').located(by.xpath("//button[@data-test-id='Add-new-schedule']"));
+    static ADD_CREATIVES = Target.the('Add Creative to Campaign').located(by.xpath("//button[@data-test-id='add-creative']"));
+    static NEXT_BUTTON = Target.the('Next Time').located(by.xpath("//button[@class='ui primary button']"));
+    static DONE = Target.the('Done Button').located(by.xpath("//*[contains(text(),'Done')]"))
+    static BUTTON_CONTAINER = Target.the('Button contianer').located(by.xpath("//button[@data-test-id='edit-campaign']"))
+    static STATIC_CREATIVE_ADDED = Target.the('Static creative added').located(by.xpath("//*[@data-test-id='schedule-campaign-date']/following::div[2]"))
+    static DEFAULT_CONTENT = Target.the('default content').located(by.xpath("//*[contains(text(),'Default content')]"))
+    static CAMPAIGNS = Target.the('Go to Campaigns').located(by.linkText("Campaigns"));
 }

@@ -1,4 +1,4 @@
-
+@regression
 Feature: View campaign status
   As a user of Content manager
   I should be able to see the status of the campaigns

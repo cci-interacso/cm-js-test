@@ -2,14 +2,14 @@
 import { Task } from "@serenity-js/core";
 import { Send, PostRequest, LastResponse } from "@serenity-js/rest";
 import { Ensure, equals } from "@serenity-js/assertions";
-export class Post implements Task {
+export class PostUpload implements Task {
 
     constructor(private path: string, private body:
         any, private token: string, private statusCode: number) {
     }
 
-    static post(path: string, body: any, token: string, statusCode:number): Post {
-        return new Post(path, body, token, statusCode);
+    static post(path: string, body: any, token: string, statusCode:number): PostUpload {
+        return new PostUpload(path, body, token, statusCode);
     }
 
     performAs(actor: import("@serenity-js/core").PerformsActivities): PromiseLike<void> {
@@ -18,7 +18,7 @@ export class Post implements Task {
             Send.a(PostRequest.to(this.path)
                 .using({
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': this.body.getHeaders()['content-type'],
                         'Authorization':'Token '.concat(this.token),
                     },
                     data:this.body,

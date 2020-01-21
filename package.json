@@ -4,10 +4,10 @@
   "description": "content manager javascript test framework ",
   "main": "index.js",
   "scripts": {
-    "test": "protractor ./protractor.conf.js --cucumberOpts.tags=@test",
+    "test": "protractor ./protractor.conf.js --cucumberOpts.tags=@regression",
     "webdriver-update": "webdriver-manager update --versions.chrome=72.0.3626.69",
     "report": "serenity run",
-    "clean": "rimraf target",
+    "pretest": "rimraf target",
     "postinstall": "serenity-bdd update",
     "test:report": "serenity-bdd run --features ./features",
     "watch:build": "tsc --watch"
@@ -56,6 +56,7 @@
     "file-system": "^2.2.2",
     "form-data": "^3.0.0",
     "fs": "0.0.1-security",
-    "node-sessionstorage": "^1.0.0"
+    "node-sessionstorage": "^1.0.0",
+    "path": "^0.12.7"
   }
 }
