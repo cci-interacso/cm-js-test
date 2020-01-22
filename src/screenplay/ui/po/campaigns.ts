@@ -17,7 +17,7 @@ export class Campaigns {
     static DATE_PICKER = Target.the('date area').located(by.xpath("//span[@class='ant-calendar-picker-input ant-input']"));
     static FROM_DATE = Target.the('from date').located(by.xpath("//*[@role='gridcell' and @title='" + startDate + "']"));
     static TO_DATE = Target.the('to date').located(by.xpath("//*[@role='gridcell' and @title='" + endDate + "']"))
-    static SUBMIT_CAMPAIGN = Target.the("campaign submit button").located(by.xpath("//button[@class='ant-btn ant-btn-primary']"));
+    static SUBMIT_CAMPAIGN = Target.the("campaign submit button").located(by.xpath("//*[contains(text(),'Done')]"));
     static CAMPAIGN_STATUS = Target.the('Campaign status').located(by.xpath("//td[5]/span"))
     static EDIT_CAMPAIGN = Target.the('Edit a campaign').located(by.xpath("//button[@data-test-id='edit-campaign']"));
     static ADD_NEW_SCHEDULE = Target.the('Add new schediule').located(by.xpath("//button[@data-test-id='Add-new-schedule']"));

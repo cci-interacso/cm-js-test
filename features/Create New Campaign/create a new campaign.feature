@@ -13,4 +13,5 @@ Feature: Create new campaign
             | startDate    |
             | endDate      |
         Then the campaign is successfully created
+        Then Logout
 

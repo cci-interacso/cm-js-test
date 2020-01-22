@@ -17,6 +17,7 @@ import { format } from 'path';
 import { Put } from '../../src/screenplay/api/endpoints/put'
 import { Post } from '../../src/screenplay/api/endpoints/post'
 import { SearchForCampaign } from './../../src/screenplay/ui/tasks/SearchForCampaign'
+import { LogOut } from './../../src/screenplay/ui/tasks/LogOut'
 
 let creativeID: any
 let userGroup: any
@@ -95,13 +96,22 @@ Then(/the campaign is successfully created/, async function (this: WithStage) {
             Get.getCampaigns(campaignPath.GET_CAMPAIGNS.concat('?&limit=1&userGroupsDetail=false'), await AuthenticateApi(), 200),
             See.if(LastResponse.body(), Actual => expect(Actual)
                 .to.have.deep.property('docs.[0].name', CreateANewCampaign.getEntries())
-            ))
+        ))
 })
 
 Then(/search for a campaign/, function(this:WithStage){
     return this.stage.theActorInTheSpotlight().attemptsTo(
         SearchForCampaign.goToCampaigns("Schinner LLC")
     )
+})
+
+Then(/Logout/, function(this:WithStage){
+    
+   return this.stage.theActorInTheSpotlight().attemptsTo(
+        LogOut.userLogout(),
+        Wait.for(Duration.ofSeconds(3))
+    )
+
 })
 
 

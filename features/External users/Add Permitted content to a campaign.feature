@@ -1,4 +1,4 @@
-@CMV-83 @ui @api @regression
+@CMV-83 @ui @api @regression 
 Feature: Add 'permitted content' to a campaign
 
   Background:
@@ -16,17 +16,19 @@ Feature: Add 'permitted content' to a campaign
     Given Barry is an external user in the Spanish Region
     When I am on the Library Screen of the APP
     Then only permitted static creatives are displayed
+    Then Logout
 
   Scenario: Add Permitted content [draft status] to Campaign allowed by External user
     Given Tony is an external user in the Spanish Region
     And campaign should have draft status
     When add a permitted creative content to my campaign
     Then creative content is added to Campaign content schedule
+    Then Logout
   
-  @test
   Scenario: Permitted creative content Default content schedule
     Given Tony is an external user in the Spanish Region
     And search for a campaign
+    Then Logout
 # And I have selected default content schedule
 # When add a permitted creative content to my campaign
 # Then permitted creative is successfully to the default content schedule
