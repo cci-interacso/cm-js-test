@@ -1,7 +1,7 @@
 const
     { ConsoleReporter } = require('@serenity-js/console-reporter'),
     { ArtifactArchiver } = require('@serenity-js/core'),
-    { Photographer, TakePhotosOfInteractions } = require('@serenity-js/protractor'),
+    { Photographer, TakePhotosOfInteractions,TakePhotosOfFailures } = require('@serenity-js/protractor'),
     { SerenityBDDReporter } = require('@serenity-js/serenity-bdd'),
     isCI = require('is-ci');
 
@@ -25,9 +25,12 @@ exports.config = {
         crew: [
             ArtifactArchiver.storingArtifactsAt('./target/site/serenity'),
             ConsoleReporter.forDarkTerminals(),
-            //Photographer.whoWill(TakePhotosOfInteractions),     // or Photographer.whoWill(TakePhotosOfFailures),
+            //Photographer.whoWill(TakePhotosOfFailures),
+
+            Photographer.whoWill(TakePhotosOfInteractions),     // or Photographer.whoWill(TakePhotosOfFailures),
             new SerenityBDDReporter(),
         ]
+
     },
 
     /**
@@ -40,7 +43,7 @@ exports.config = {
          var width = 1000;
          var height = 1000;
          browser.driver.manage().window().setSize(width, height);
-         browser.manage().timeouts().implicitlyWait(5000)
+         browser.manage().timeouts().implicitlyWait(10000)
      },
 
     cucumberOpts: {
@@ -64,8 +67,8 @@ exports.config = {
                 '--disable-extensions',
                 '--log-level=3',
                 '--disable-gpu',
-              //  '--headless'
+             //   '--headless'
             ].concat(isCI ? ['--headless'] : [])    // run in headless mode on the CI server
         }
     }
-};
+}

@@ -47,7 +47,7 @@ Then(/share the creative with my regional external users/, function (this: WithS
     return this.stage.theActorInTheSpotlight()
         .attemptsTo(
             ShareACreative.assignCreative(),
-            Click.on(LoginPage.JOIN),
+         //   Click.on(LoginPage.JOIN),
             Wait.for(Duration.ofSeconds(39))
         )
 })
