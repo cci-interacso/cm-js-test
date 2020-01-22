@@ -1,8 +1,9 @@
 pipeline {
    
-    agent { node { label 'slave' } }
+    agent { node { label 'master' } }
     parameters {
         string(name: 'TAGS', defaultValue: '@regression', description: 'cucumber tags for test to execute')
+        string(name: 'BRANCH', defaultValue: 'Master', description: 'Run tests in your github branch')
     }
     options {
         timeout(time: 6, unit: 'HOURS')
