@@ -25,9 +25,9 @@ exports.config = {
         crew: [
             ArtifactArchiver.storingArtifactsAt('./target/site/serenity'),
             ConsoleReporter.forDarkTerminals(),
-            //Photographer.whoWill(TakePhotosOfFailures),
+            Photographer.whoWill(TakePhotosOfFailures),
 
-            Photographer.whoWill(TakePhotosOfInteractions),     // or Photographer.whoWill(TakePhotosOfFailures),
+            //Photographer.whoWill(TakePhotosOfInteractions),     // or Photographer.whoWill(TakePhotosOfFailures),
             new SerenityBDDReporter(),
         ]
 
