@@ -29,6 +29,7 @@ Feature: Add 'permitted content' to a campaign
     Given Tony is an external user in the Spanish Region
     And search for a campaign
     Then Logout
+    
 # And I have selected default content schedule
 # When add a permitted creative content to my campaign
 # Then permitted creative is successfully to the default content schedule
