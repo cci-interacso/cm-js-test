@@ -1,4 +1,3 @@
-
 pipeline {
    
     agent { node { label 'slave' } }
@@ -22,16 +21,15 @@ pipeline {
                 sh 'npm install'
                 sh 'npm run webdriver-update'
                 sh 'npm run postinstall'
+            }
         }
-        
          stage('Run tests') {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE'){
                     sh "npm run test ${params.TAGS}"
                 }
             }
-        }    
-
+        }   
         stage('PublishResults') {
             steps {
                 sh 'npm rum test:report'
@@ -45,13 +43,14 @@ pipeline {
                 }
             }
         }
-
-    }
-
+    
+    
     post {
+
         success {
             notifySuccessful()
         }
+
         failure {
             notifyFailed()
         }
