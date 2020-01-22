@@ -22,6 +22,7 @@ Feature: Add 'permitted content' to a campaign
     And campaign should have draft status
     When add a permitted creative content to my campaign
     Then creative content is added to Campaign content schedule
+  
   @test
   Scenario: Permitted creative content Default content schedule
     Given Tony is an external user in the Spanish Region
