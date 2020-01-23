@@ -27,7 +27,9 @@ pipeline {
          stage('Run tests') {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE'){
-                    sh "npm run test ${params.TAGS}"
+                    wrap([$class: 'Xvfb', screen: '1920x1080x24']){
+                        sh "npm run test ${params.TAGS}"
+                    }
                 }
             }
         }   
