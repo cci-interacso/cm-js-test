@@ -13,8 +13,8 @@ export class ShareACreative implements Task {
     performAs(actor: import("@serenity-js/core").PerformsActivities): PromiseLike<void> {
        
         return actor.attemptsTo(
-            Wait.upTo(Duration.ofSeconds(20)).until(Library.SEARCH_BY_NAME, isVisible()),
-            Enter.theValue('download.jpeg').into(Library.SEARCH_BY_NAME),
+            Wait.upTo(Duration.ofSeconds(5)).until(Library.SEARCH_BY_NAME, isVisible()),
+            Enter.theValue('market.jpeg').into(Library.SEARCH_BY_NAME),
             Click.on(Library.SELECT_ADDED_CREATIVES),
             Click.on(Library.ADD_USER),
             Click.on(Library.ADD_CREATIVE_TO_SEVILLE),

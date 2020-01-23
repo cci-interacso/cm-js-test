@@ -1,5 +1,5 @@
 import { Task, Duration } from "@serenity-js/core";
-import { Click, Enter, Wait, isVisible, isClickable } from "@serenity-js/protractor";
+import { Click, Enter, Wait, isVisible, isClickable, isEnabled } from "@serenity-js/protractor";
 import { Library } from "../po/library";
 
 const waitTimeInMillseconds = Duration.ofMilliseconds(10000);
@@ -21,7 +21,7 @@ export class UploadACreative implements Task {
             Click.on(Library.UPLOAD_CREATIVES_ICON),
             Click.on(Library.UPLOAD_CREATIVES_FROM_DEVICE),
             Enter.theValue(this.upload).into(Library.UPLOAD_LINK),
-            Wait.upTo(Duration.ofSeconds(30)).until(Library.UPLOAD_SUCCESS, isVisible()),
+            Wait.upTo(Duration.ofSeconds(5)).until(Library.NEXT_BUTTON, isEnabled()),
             Click.on(Library.NEXT_BUTTON),
             Wait.for(Duration.ofSeconds(5))
         )

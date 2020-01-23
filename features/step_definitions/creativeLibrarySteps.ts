@@ -18,12 +18,14 @@ import { CampaignStatus } from '../../src/screenplay/ui/tasks/CampaignStatus'
 import { campaignName } from './CreateCampaignSteps';
 import { AddCreativeToCampaign } from './../../src/screenplay/ui/tasks/AddCreativeToCampaign'
 import { Campaigns } from '../../src/screenplay/ui/po/campaigns';
+import { DefaultCampaignSchedule } from './../../src/screenplay/ui/tasks/DefaultCampaignSchedule'
+var path = require('path')
 
 
 
 Given(/(.*) uploads a static creative as an internal user/, function (this: WithStage, actorName: string) {
 
-    var filePath: string = '/home/niyifalade/CM_JS_TEST/src/resources/download.jpeg';
+    var filePath: string = path.resolve(process.cwd(), 'src/resources/market.jpeg')
 
     return this.stage.theActorCalled(actorName).attemptsTo(
         BrowseTo.LoginPage(),
@@ -47,8 +49,6 @@ Then(/share the creative with my regional external users/, function (this: WithS
     return this.stage.theActorInTheSpotlight()
         .attemptsTo(
             ShareACreative.assignCreative(),
-         //   Click.on(LoginPage.JOIN),
-            Wait.for(Duration.ofSeconds(39))
         )
 })
 
@@ -87,9 +87,19 @@ Then(/creative content is added to Campaign content schedule/, function (this: W
 })
 
 
-Then(/I have selected default content schedule/, function (this:WithStage){
-    this.stage.theActorInTheSpotlight().attemptsTo(
-        
+Then(/I have selected default content schedule/, function (this: WithStage) {
+    return this.stage.theActorInTheSpotlight().attemptsTo(
+        DefaultCampaignSchedule.defaultSchedule()
+
+    )
+})
+
+
+Then(/permitted creative is successfully to the default content schedule/, function (this: WithStage) {
+    return this.stage.theActorInTheSpotlight().attemptsTo(
+        Ensure.that(Text.of(Campaigns.STATIC_CREATIVE_ADDED_DEFAULT_SCHEDULE), equals("1 static | 0 dynamic"))
+
+
     )
 })
 

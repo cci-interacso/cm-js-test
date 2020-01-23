@@ -70,8 +70,10 @@ Then(/the campaign has a status of (draft|paused|ongoing)/, async function (this
     }
 
     return this.stage.theActorInTheSpotlight()
-        .attemptsTo(Get.get(Path.getCampaigns.concat('?userGroupsDetail=false'), await AuthenticateApi(), 200))
-    //        See.if(LastResponse.body(), actual => expect(actual).to.have.property('status', campaign_status)))
+        .attemptsTo(Get.get(Path.getCampaigns.concat('?userGroupsDetail=false&limit=1'), await AuthenticateApi(), 200),
+            See.if(LastResponse.body(), Actual => expect(Actual)
+                .to.have.deep.property('docs.[0].status', campaign_status)
+            ))
 })
 
 
@@ -82,7 +84,7 @@ Given(/is on the Create campaign page/, function (this: WithStage) {
 
 })
 
-When(/he enters/, function (this: WithStage, table:any) {
+When(/he enters/, function (this: WithStage, table: any) {
     return this.stage.theActorInTheSpotlight().attemptsTo(
         CreateANewCampaign.enterNewCampaignData()
     )
@@ -96,18 +98,18 @@ Then(/the campaign is successfully created/, async function (this: WithStage) {
             Get.getCampaigns(campaignPath.GET_CAMPAIGNS.concat('?&limit=1&userGroupsDetail=false'), await AuthenticateApi(), 200),
             See.if(LastResponse.body(), Actual => expect(Actual)
                 .to.have.deep.property('docs.[0].name', CreateANewCampaign.getEntries())
-        ))
+            ))
 })
 
-Then(/search for a campaign/, function(this:WithStage){
+Then(/search for a campaign/, function (this: WithStage) {
     return this.stage.theActorInTheSpotlight().attemptsTo(
         SearchForCampaign.goToCampaigns("Schinner LLC")
     )
 })
 
-Then(/Logout/, function(this:WithStage){
-    
-   return this.stage.theActorInTheSpotlight().attemptsTo(
+Then(/Logout/, function (this: WithStage) {
+
+    return this.stage.theActorInTheSpotlight().attemptsTo(
         LogOut.userLogout(),
         Wait.for(Duration.ofSeconds(3))
     )
