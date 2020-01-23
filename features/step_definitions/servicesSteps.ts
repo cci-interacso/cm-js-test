@@ -54,7 +54,7 @@ Then(/(.*) adds the campaign to a group/, async function (this: WithStage, actor
 Then(/(.*) upload a creative/, async function (this: WithStage, actor: string) {
 
     const fd = new FormData();
-    const name = faker.commerce.productName();
+    const name = faker.internet.userName();
     const actual = path.resolve(process.cwd(), 'src/resources/test.jpeg');
     const target = path.resolve(process.cwd(), "src/resources/toDeleteContent/" + name + ".jpeg");
   
