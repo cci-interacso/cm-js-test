@@ -2,7 +2,7 @@ import { Given, Then, When } from 'cucumber';
 import { WithStage, Actor, See, Duration } from '@serenity-js/core';
 import { CallAnApi, LastResponse } from '@serenity-js/rest';
 import { PostUpload } from '../../src/screenplay/api/endpoints/postUpload'
-import { campaignRequest, campaignRequestAlreadyStarted } from '../../src/screenplay/api/endpoints/requests/CampaignRequest'
+import { campaignRequest, campaignRequestAlreadyStarted, campaignRequestFutureDate } from '../../src/screenplay/api/endpoints/requests/CampaignRequest'
 import { BrowseTheWeb, Wait, isClickable } from '@serenity-js/protractor';
 import { protractor } from 'protractor/built/ptor';
 import { AuthenticateApi } from '../../src/screenplay/api/authentication/session_Token';
@@ -25,7 +25,7 @@ let campaignID: any
 let name: any
 const waitTimeInMillseconds = Duration.ofMilliseconds(5000);
 
-Given(/there is a new campaign (starting today|already started)/, async function (this: WithStage, option: string) {
+Given(/there is a new campaign (starting today|already started|with a future date)/, async function (this: WithStage, option: string) {
 
     Actor.named('Apisit').whoCan(
         CallAnApi.at(process.env.REST_API),
@@ -39,6 +39,9 @@ Given(/there is a new campaign (starting today|already started)/, async function
         case 'already started':
             return this.stage.theActorInTheSpotlight().attemptsTo(
                 Post.post(Path.getCampaigns, campaignRequestAlreadyStarted, await AuthenticateApi(), 201))
+        case 'with a future date':
+            return this.stage.theActorInTheSpotlight().attemptsTo(
+                Post.post(Path.getCampaigns, campaignRequestFutureDate, await AuthenticateApi(), 201))
     }
 })
 

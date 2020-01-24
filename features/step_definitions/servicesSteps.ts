@@ -11,6 +11,7 @@ import { CampaignID } from './CreateCampaignSteps'
 import { fs } from 'file-system';
 import { PostUpload } from '../../src/screenplay/api/endpoints/postUpload';
 import { Post } from '../../src/screenplay/api/endpoints/post';
+import { Patch } from '../../src/screenplay/api/endpoints/patch'
 
 var FormData = require('form-data');
 var faker = require('faker');
@@ -22,7 +23,7 @@ let campaignID: any
 let name: any
 var SEVILLE_ID: any
 var SPAIN_ID: any
-var creativeFileID : any
+var creativeFileID: any
 
 Given(/(.*) get okta groups/, async function (this: WithStage, actor: string) {
 
@@ -98,9 +99,24 @@ Then(/(.*) assigns static to default content schedule/, async function (this: Wi
 
     return Actor.named(actor)
         .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
-        .attemptsTo(Post.post(Path.addstaticContentToDefaultSchedule.concat(CampaignID()+"/static"), creative, await AuthenticateApi(), 200))
+        .attemptsTo(Post.post(Path.addstaticContentToDefaultSchedule.concat(CampaignID() + "/static"), creative, await AuthenticateApi(), 200))
 })
 
-When(/he pauses the campaign/, function(this:WithStage){
-    
+When(/he (pauses|scheduled) the campaign/, async function (this: WithStage, option: string) {
+
+    switch (option) {
+        case 'pauses':
+            var status = { status: 2 }
+            return this.stage.theActorInTheSpotlight().attemptsTo(
+                Patch.patch(Path.campaigns.concat("/" + CampaignID() + "/status"), status, await AuthenticateApi(), 200))
+        case 'scheduled':
+            var status = { status: 3 }
+            return this.stage.theActorInTheSpotlight().attemptsTo(
+                Patch.patch(Path.campaigns.concat("/" + CampaignID() + "/status"), status, await AuthenticateApi(), 200))
+
+    }
+
+
+
+
 })
