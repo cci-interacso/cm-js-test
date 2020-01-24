@@ -95,7 +95,7 @@ Then(/I have selected default content schedule/, function (this: WithStage) {
 })
 
 
-Then(/permitted creative is successfully to the default content schedule/, function (this: WithStage) {
+Then(/permitted creative is successfully added to the default content schedule/, function (this: WithStage) {
     return this.stage.theActorInTheSpotlight().attemptsTo(
         Ensure.that(Text.of(Campaigns.STATIC_CREATIVE_ADDED_DEFAULT_SCHEDULE), equals("1 static | 0 dynamic"))
 

@@ -16,9 +16,25 @@ Feature: View campaign status
     Then stan assigns static to default content schedule 
     Then the campaign has a status of ongoing
 
+
 Scenario: Pause a campaign
     Given there is a new campaign already started
     Then get campaign id from the response
+    Then stan upload a creative 
+    Then get creative id
+    Then stan assigns static to default content schedule 
     When he pauses the campaign
+    Then the campaign has a status of paused
+
+
+Scenario: Campaigns with a future start date have a Scheduled status
+    Given there is a new campaign with a future date 
+    Then get campaign id from the response
+    Then stan upload a creative 
+    Then get creative id
+    Then stan assigns static to default content schedule
+     When he scheduled the campaign
+    Then the campaign has a status of ongoing 
+   
 
    
