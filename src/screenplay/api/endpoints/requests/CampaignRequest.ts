@@ -3,6 +3,7 @@
 
 const now = new Date();
 const next_month = date.addMonths(now, 1);
+const past = date.addDays(now,-3);
 
 const campaignName:string = faker.company.companyName()
 
@@ -15,4 +16,12 @@ export var campaignRequest = {
     fromDate: date.format(now, 'YYYY-MM-DD'),
     toDate: date.format(next_month, 'YYYY-MM-DD')
 }
+
+export const campaignRequestAlreadyStarted = {
+    name: campaignName,
+    fromDate: date.format(past, 'YYYY-MM-DD'),
+    toDate: date.format(next_month, 'YYYY-MM-DD')
+}
+
+
 

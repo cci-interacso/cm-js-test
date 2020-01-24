@@ -16,7 +16,8 @@ export const enum Path {
     getCampaigns = '/campaigns',
     getCreatives = '/creatives/static?userGroupsDetail=false',
     getGroups = '/okta/groups',
-    addStaticContent = '/creatives/static'
+    addStaticContent = '/creatives/static',
+    addstaticContentToDefaultSchedule = '/campaigns/'
 }
 
 

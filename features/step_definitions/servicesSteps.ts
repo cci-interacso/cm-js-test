@@ -1,4 +1,4 @@
-import { Given, Then } from 'cucumber';
+import { Given, Then, When } from 'cucumber';
 import { WithStage, Actor } from '@serenity-js/core';
 import { CallAnApi } from '@serenity-js/rest';
 import { BrowseTheWeb } from '@serenity-js/protractor';
@@ -10,6 +10,7 @@ import { Put } from '../../src/screenplay/api/endpoints/put'
 import { CampaignID } from './CreateCampaignSteps'
 import { fs } from 'file-system';
 import { PostUpload } from '../../src/screenplay/api/endpoints/postUpload';
+import { Post } from '../../src/screenplay/api/endpoints/post';
 
 var FormData = require('form-data');
 var faker = require('faker');
@@ -21,6 +22,7 @@ let campaignID: any
 let name: any
 var SEVILLE_ID: any
 var SPAIN_ID: any
+var creativeFileID : any
 
 Given(/(.*) get okta groups/, async function (this: WithStage, actor: string) {
 
@@ -57,7 +59,7 @@ Then(/(.*) upload a creative/, async function (this: WithStage, actor: string) {
     const name = faker.internet.userName();
     const actual = path.resolve(process.cwd(), 'src/resources/test.jpeg');
     const target = path.resolve(process.cwd(), "src/resources/toDeleteContent/" + name + ".jpeg");
-  
+
     fs.copyFile(actual, target, (err) => {
         if (err) throw err;
     })
@@ -73,6 +75,7 @@ Then(/(.*) upload a creative/, async function (this: WithStage, actor: string) {
 Then(/get creative id/, function (this: WithStage) {
     return CallAnApi.as(this.stage.theActorInTheSpotlight()).mapLastResponse((res) => {
         creativeID = res.data._id;
+        creativeFileID = res.data.fileId;
     })
 })
 
@@ -87,5 +90,17 @@ Then(/(.*) assign static creative to external group/, async function (this: With
         .attemptsTo(Put.put(Path.addStaticContent.concat("/" + creativeID), group, await AuthenticateApi(), 200))
 })
 
+Then(/(.*) assigns static to default content schedule/, async function (this: WithStage, actor: string) {
 
+    var creative = {
+        creativesId: [creativeFileID]
+    }
 
+    return Actor.named(actor)
+        .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
+        .attemptsTo(Post.post(Path.addstaticContentToDefaultSchedule.concat(CampaignID()+"/static"), creative, await AuthenticateApi(), 200))
+})
+
+When(/he pauses the campaign/, function(this:WithStage){
+    
+})

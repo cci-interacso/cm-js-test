@@ -3,15 +3,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var rest_1 = require("@serenity-js/rest");
 var assertions_1 = require("@serenity-js/assertions");
 var Get = /** @class */ (function () {
-    function Get(path, token) {
+    function Get(path, token, statusCode) {
         this.path = path;
         this.token = token;
+        this.statusCode = statusCode;
     }
-    Get.get = function (path, token) {
-        return new Get(path, token);
+    Get.get = function (path, token, statusCode) {
+        return new Get(path, token, statusCode);
     };
-    Get.getCampaigns = function (path, token) {
-        return new Get(path, token);
+    Get.getCampaigns = function (path, token, statuscode) {
+        return new Get(path, token, statuscode);
     };
     Get.prototype.performAs = function (actor) {
         return actor.attemptsTo(rest_1.Send.a(rest_1.GetRequest.to(this.path).using({
@@ -21,7 +22,7 @@ var Get = /** @class */ (function () {
             },
             timeout: 5000,
             responseType: 'json'
-        })), assertions_1.Ensure.that(rest_1.LastResponse.status(), assertions_1.equals(200)));
+        })), assertions_1.Ensure.that(rest_1.LastResponse.status(), assertions_1.equals(this.statusCode)));
     };
     return Get;
 }());

@@ -10,7 +10,7 @@ var ShareACreative = /** @class */ (function () {
         return new ShareACreative();
     };
     ShareACreative.prototype.performAs = function (actor) {
-        return actor.attemptsTo(protractor_1.Wait.upTo(core_1.Duration.ofSeconds(20)).until(library_1.Library.SEARCH_BY_NAME, protractor_1.isVisible()), protractor_1.Enter.theValue('download.jpeg').into(library_1.Library.SEARCH_BY_NAME), protractor_1.Click.on(library_1.Library.SELECT_ADDED_CREATIVES), protractor_1.Click.on(library_1.Library.ADD_USER), protractor_1.Click.on(library_1.Library.ADD_CREATIVE_TO_SEVILLE), protractor_1.Click.on(library_1.Library.ASSIGN_CREATIVE), protractor_1.Wait.for(core_1.Duration.ofSeconds(4)));
+        return actor.attemptsTo(protractor_1.Wait.upTo(core_1.Duration.ofSeconds(5)).until(library_1.Library.SEARCH_BY_NAME, protractor_1.isVisible()), protractor_1.Enter.theValue('market.jpeg').into(library_1.Library.SEARCH_BY_NAME), protractor_1.Click.on(library_1.Library.SELECT_ADDED_CREATIVES), protractor_1.Click.on(library_1.Library.ADD_USER), protractor_1.Click.on(library_1.Library.ADD_CREATIVE_TO_SEVILLE), protractor_1.Click.on(library_1.Library.ASSIGN_CREATIVE), protractor_1.Wait.for(core_1.Duration.ofSeconds(4)));
     };
     return ShareACreative;
 }());

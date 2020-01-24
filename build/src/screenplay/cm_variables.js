@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.campaignStatus = {
+exports.Status = {
     DRAFT: 1,
     PAUSED: 2,
     ONGOING: 3

@@ -49,7 +49,8 @@ exports.config = {
     cucumberOpts: {
         require: [ 'features/**/*.ts'],
         'require-module':   [ 'ts-node/register'],
-        strict:  false
+        strict:  false,
+        tags: '@test'
     },
 
     capabilities: {
