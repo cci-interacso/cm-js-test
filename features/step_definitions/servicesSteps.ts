@@ -62,13 +62,17 @@ Then(/(.*) adds the campaign to a group/, async function (this: WithStage, actor
 Then(/(.*) upload a creative/, async function (this: WithStage, actor: string) {
 
     const fd = new FormData();
-    const name = faker.internet.userName();
+    const name = faker.name.firstName();
     const actual = path.resolve(process.cwd(), 'src/resources/test.jpeg');
     const target = path.resolve(process.cwd(), "src/resources/toDeleteContent/" + name + ".jpeg");
 
-    fs.copyFile(actual, target, (err) => {
-        if (err) throw err;
-    })
+    try {
+        fs.copyFile(actual, target, (err) => {
+           // if (err) throw err;
+        })
+    }catch(err){
+        console.log(err)
+    }
 
     fd.append('file', fs.createReadStream(target));
 

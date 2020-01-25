@@ -117,13 +117,17 @@ cucumber_1.Then(/(.*) upload a creative/, function (actor) {
             switch (_f.label) {
                 case 0:
                     fd = new FormData();
-                    name = faker.internet.userName();
+                    name = faker.name.firstName();
                     actual = path.resolve(process.cwd(), 'src/resources/test.jpeg');
                     target = path.resolve(process.cwd(), "src/resources/toDeleteContent/" + name + ".jpeg");
-                    file_system_1.fs.copyFile(actual, target, function (err) {
-                        if (err)
-                            throw err;
-                    });
+                    try {
+                        file_system_1.fs.copyFile(actual, target, function (err) {
+                            // if (err) throw err;
+                        });
+                    }
+                    catch (err) {
+                        console.log(err);
+                    }
                     fd.append('file', file_system_1.fs.createReadStream(target));
                     actorPost = core_1.Actor.named(actor).whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser));
                     _b = (_a = actorPost).attemptsTo;
