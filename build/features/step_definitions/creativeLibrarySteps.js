@@ -99,7 +99,7 @@ cucumber_1.Then(/creative content is added to Campaign content schedule/, functi
 cucumber_1.Then(/I have selected default content schedule/, function () {
     return this.stage.theActorInTheSpotlight().attemptsTo(DefaultCampaignSchedule_1.DefaultCampaignSchedule.defaultSchedule());
 });
-cucumber_1.Then(/permitted creative is successfully to the default content schedule/, function () {
+cucumber_1.Then(/permitted creative is successfully added to the default content schedule/, function () {
     return this.stage.theActorInTheSpotlight().attemptsTo(assertions_1.Ensure.that(protractor_1.Text.of(campaigns_1.Campaigns.STATIC_CREATIVE_ADDED_DEFAULT_SCHEDULE), assertions_1.equals("1 static | 0 dynamic")));
 });
 //# sourceMappingURL=creativeLibrarySteps.js.map

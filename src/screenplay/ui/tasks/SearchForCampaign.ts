@@ -16,9 +16,7 @@ export class SearchForCampaign implements Task {
     performAs(actor: import("@serenity-js/core").PerformsActivities): PromiseLike<void> {
        return actor.attemptsTo(
             Click.on(Campaigns.CAMPAIGNS),
-            Enter.theValue(this.campaignName).into(Campaigns.SEARCH_BY_NAME),
-            Hover.over(Campaigns.BUTTON_CONTAINER),
-            Click.on(Campaigns.EDIT_CAMPAIGN),
+            Enter.theValue(this.campaignName).into(Campaigns.SEARCH_BY_NAME)
         )
     }
 

@@ -29,5 +29,7 @@ export class Campaigns {
     static DEFAULT_CONTENT = Target.the('default content').located(by.xpath("//*[contains(text(),'Default content')]"))
     static CAMPAIGNS = Target.the('Go to Campaigns').located(by.linkText("Campaigns"));
     static STATIC_CREATIVE_ADDED_DEFAULT_SCHEDULE = Target.the('Static creative added').located(by.xpath("//*[@data-test-id='default-content']/div[2]/div"))
+    static DELETE_CAMPAIGN = Target.the('delete campaign').located(by.xpath("//*[@data-test-id=\"delete-campaign\"]"))
+    static DELETE_CAMPAIGN_YES = Target.the('Yes').located(by.xpath("//*[contains(text(),'Yes')]"))
 
 }

@@ -18,12 +18,13 @@ import { Put } from '../../src/screenplay/api/endpoints/put'
 import { Post } from '../../src/screenplay/api/endpoints/post'
 import { SearchForCampaign } from './../../src/screenplay/ui/tasks/SearchForCampaign'
 import { LogOut } from './../../src/screenplay/ui/tasks/LogOut'
+import {EditCampaign} from '../../src/screenplay/ui/tasks/EditCampaign'
 
 let creativeID: any
 let userGroup: any
 let campaignID: any
 let name: any
-const waitTimeInMillseconds = Duration.ofMilliseconds(5000);
+const waitTimeInMillseconds = Duration.ofMilliseconds(15000);
 
 Given(/there is a new campaign (starting today|already started|with a future date)/, async function (this: WithStage, option: string) {
 
@@ -48,17 +49,17 @@ Given(/there is a new campaign (starting today|already started|with a future dat
 Then(/get campaign id from the response/, function () {
 
     return CallAnApi.as(this.stage.theActorInTheSpotlight())
-        .mapLastResponse(response => {
+        .mapLastResponse(response =>  {
+            
             campaignID = response.data._id;
             name = response.data.name
-        }
-        )
+        })
 })
 
 Then(/Output/, function (this: WithStage) {
 
     CallAnApi.as(this.stage.theActorInTheSpotlight())
-        .mapLastResponse(response => console.log(response))
+        .mapLastResponse(response => console.log(response.data))
 })
 
 Then(/the campaign has a status of (draft|paused|ongoing)/, async function (this: WithStage, status: string) {
@@ -111,7 +112,8 @@ Then(/the campaign is successfully created/, async function (this: WithStage) {
 
 Then(/search for a campaign/, function (this: WithStage) {
     return this.stage.theActorInTheSpotlight().attemptsTo(
-        SearchForCampaign.goToCampaigns("Schinner LLC")
+        SearchForCampaign.goToCampaigns("Schinner LLC"),
+        EditCampaign.editCampaign()
     )
 })
 

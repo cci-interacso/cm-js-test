@@ -1,5 +1,5 @@
 @wip @92
-Feature: EXTERNAL USER to EDIT campaign content schedule information
+Feature: External user to edit campaign content schedule information
 
    Scenario: Scenario name
     Given context Given Barry is an external user in the Spanish Region

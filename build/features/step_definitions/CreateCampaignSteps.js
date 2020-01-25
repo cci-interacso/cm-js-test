@@ -51,37 +51,45 @@ var campaigns_1 = require("../../src/screenplay/ui/po/campaigns");
 var post_1 = require("../../src/screenplay/api/endpoints/post");
 var SearchForCampaign_1 = require("./../../src/screenplay/ui/tasks/SearchForCampaign");
 var LogOut_1 = require("./../../src/screenplay/ui/tasks/LogOut");
+var EditCampaign_1 = require("../../src/screenplay/ui/tasks/EditCampaign");
 var creativeID;
 var userGroup;
 var campaignID;
 var name;
-var waitTimeInMillseconds = core_1.Duration.ofMilliseconds(5000);
-cucumber_1.Given(/there is a new campaign (starting today|already started)/, function (option) {
+var waitTimeInMillseconds = core_1.Duration.ofMilliseconds(15000);
+cucumber_1.Given(/there is a new campaign (starting today|already started|with a future date)/, function (option) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
-        return __generator(this, function (_m) {
-            switch (_m.label) {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
+        return __generator(this, function (_s) {
+            switch (_s.label) {
                 case 0:
                     core_1.Actor.named('Apisit').whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser));
                     _a = option;
                     switch (_a) {
                         case 'starting today': return [3 /*break*/, 1];
                         case 'already started': return [3 /*break*/, 3];
+                        case 'with a future date': return [3 /*break*/, 5];
                     }
-                    return [3 /*break*/, 5];
+                    return [3 /*break*/, 7];
                 case 1:
                     _c = (_b = this.stage.theActorInTheSpotlight()).attemptsTo;
                     _e = (_d = post_1.Post).post;
                     _f = ["/campaigns" /* getCampaigns */, CampaignRequest_1.campaignRequest];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
-                case 2: return [2 /*return*/, _c.apply(_b, [_e.apply(_d, _f.concat([_m.sent(), 201]))])];
+                case 2: return [2 /*return*/, _c.apply(_b, [_e.apply(_d, _f.concat([_s.sent(), 201]))])];
                 case 3:
                     _h = (_g = this.stage.theActorInTheSpotlight()).attemptsTo;
                     _k = (_j = post_1.Post).post;
                     _l = ["/campaigns" /* getCampaigns */, CampaignRequest_1.campaignRequestAlreadyStarted];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
-                case 4: return [2 /*return*/, _h.apply(_g, [_k.apply(_j, _l.concat([_m.sent(), 201]))])];
-                case 5: return [2 /*return*/];
+                case 4: return [2 /*return*/, _h.apply(_g, [_k.apply(_j, _l.concat([_s.sent(), 201]))])];
+                case 5:
+                    _o = (_m = this.stage.theActorInTheSpotlight()).attemptsTo;
+                    _q = (_p = post_1.Post).post;
+                    _r = ["/campaigns" /* getCampaigns */, CampaignRequest_1.campaignRequestFutureDate];
+                    return [4 /*yield*/, session_Token_1.AuthenticateApi()];
+                case 6: return [2 /*return*/, _o.apply(_m, [_q.apply(_p, _r.concat([_s.sent(), 201]))])];
+                case 7: return [2 /*return*/];
             }
         });
     });
@@ -95,7 +103,7 @@ cucumber_1.Then(/get campaign id from the response/, function () {
 });
 cucumber_1.Then(/Output/, function () {
     rest_1.CallAnApi.as(this.stage.theActorInTheSpotlight())
-        .mapLastResponse(function (response) { return console.log(response); });
+        .mapLastResponse(function (response) { return console.log(response.data); });
 });
 cucumber_1.Then(/the campaign has a status of (draft|paused|ongoing)/, function (status) {
     return __awaiter(this, void 0, void 0, function () {
@@ -150,7 +158,7 @@ cucumber_1.Then(/the campaign is successfully created/, function () {
     });
 });
 cucumber_1.Then(/search for a campaign/, function () {
-    return this.stage.theActorInTheSpotlight().attemptsTo(SearchForCampaign_1.SearchForCampaign.goToCampaigns("Schinner LLC"));
+    return this.stage.theActorInTheSpotlight().attemptsTo(SearchForCampaign_1.SearchForCampaign.goToCampaigns("Schinner LLC"), EditCampaign_1.EditCampaign.editCampaign());
 });
 cucumber_1.Then(/Logout/, function () {
     return this.stage.theActorInTheSpotlight().attemptsTo(LogOut_1.LogOut.userLogout(), protractor_1.Wait.for(core_1.Duration.ofSeconds(3)));

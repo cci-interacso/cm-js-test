@@ -10,7 +10,7 @@ var SearchForCampaign = /** @class */ (function () {
         return new SearchForCampaign(campaignName);
     };
     SearchForCampaign.prototype.performAs = function (actor) {
-        return actor.attemptsTo(protractor_1.Click.on(campaigns_1.Campaigns.CAMPAIGNS), protractor_1.Enter.theValue(this.campaignName).into(campaigns_1.Campaigns.SEARCH_BY_NAME), protractor_1.Hover.over(campaigns_1.Campaigns.BUTTON_CONTAINER), protractor_1.Click.on(campaigns_1.Campaigns.EDIT_CAMPAIGN));
+        return actor.attemptsTo(protractor_1.Click.on(campaigns_1.Campaigns.CAMPAIGNS), protractor_1.Enter.theValue(this.campaignName).into(campaigns_1.Campaigns.SEARCH_BY_NAME));
     };
     return SearchForCampaign;
 }());
