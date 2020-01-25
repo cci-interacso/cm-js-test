@@ -1,4 +1,4 @@
-@apu @ui @regression
+@api @ui @regression @test
 Feature: Delete Campaign
 
   As a user
@@ -14,6 +14,6 @@ Feature: Delete Campaign
     And campaign is successfully deleted
     And Logout
 
-    #
+    
     
 
