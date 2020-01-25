@@ -1,11 +1,11 @@
 @apu @ui @regression
-Feature: Delete Campaigns
+Feature: Delete Campaign
 
   As a user
   I want to be able to delete old campaigns
 
  
-  Scenario: Delete the campaign
+  Scenario: Delete a campaign
     Given there is a new campaign starting today
     Then get campaign id from the response
     And S is an internal user in the Spanish Group
