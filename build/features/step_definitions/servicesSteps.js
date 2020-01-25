@@ -48,6 +48,8 @@ var CreateCampaignSteps_1 = require("./CreateCampaignSteps");
 var file_system_1 = require("file-system");
 var postUpload_1 = require("../../src/screenplay/api/endpoints/postUpload");
 var post_1 = require("../../src/screenplay/api/endpoints/post");
+var patch_1 = require("../../src/screenplay/api/endpoints/patch");
+var CampaignRequest_1 = require("../../src/screenplay/api/endpoints/requests/CampaignRequest");
 var FormData = require('form-data');
 var faker = require('faker');
 var path = require('path');
@@ -58,6 +60,10 @@ var name;
 var SEVILLE_ID;
 var SPAIN_ID;
 var creativeFileID;
+var contentScheduleID;
+var screens;
+var contentSchedule;
+var templateID;
 cucumber_1.Given(/(.*) get okta groups/, function (actor) {
     return __awaiter(this, void 0, void 0, function () {
         var _a, _b, _c, _d, _e;
@@ -154,25 +160,262 @@ cucumber_1.Then(/(.*) assign static creative to external group/, function (actor
         });
     });
 });
-cucumber_1.Then(/(.*) assigns static to default content schedule/, function (actor) {
+cucumber_1.Then(/(.*) assigns static to (default|content) schedule/, function (actor, option) {
     return __awaiter(this, void 0, void 0, function () {
-        var creative, _a, _b, _c, _d, _e;
-        return __generator(this, function (_f) {
-            switch (_f.label) {
+        var creative, _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+        return __generator(this, function (_m) {
+            switch (_m.label) {
                 case 0:
                     creative = {
                         creativesId: [creativeFileID]
                     };
+                    _a = option;
+                    switch (_a) {
+                        case 'default': return [3 /*break*/, 1];
+                        case 'content': return [3 /*break*/, 3];
+                    }
+                    return [3 /*break*/, 5];
+                case 1:
+                    _c = (_b = core_1.Actor.named(actor)
+                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _e = (_d = post_1.Post).post;
+                    _f = ["/campaigns/" /* addstaticContentToDefaultSchedule */.concat(CreateCampaignSteps_1.CampaignID() + "/static"), creative];
+                    return [4 /*yield*/, session_Token_1.AuthenticateApi()];
+                case 2: return [2 /*return*/, _c.apply(_b, [_e.apply(_d, _f.concat([_m.sent(), 200]))])];
+                case 3:
+                    _h = (_g = core_1.Actor.named(actor)
+                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _k = (_j = post_1.Post).post;
+                    _l = ["/campaigns/" /* addstaticContentToDefaultSchedule */.concat(CreateCampaignSteps_1.CampaignID() + "/schedules/" /* schedules */ + contentScheduleID + "/static"), creative];
+                    return [4 /*yield*/, session_Token_1.AuthenticateApi()];
+                case 4: return [2 /*return*/, _h.apply(_g, [_k.apply(_j, _l.concat([_m.sent(), 200]))])];
+                case 5: return [2 /*return*/];
+            }
+        });
+    });
+});
+cucumber_1.When(/he (pauses|scheduled) the campaign/, function (option) {
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, status, _b, _c, _d, _e, _f, status, _g, _h, _j, _k, _l;
+        return __generator(this, function (_m) {
+            switch (_m.label) {
+                case 0:
+                    _a = option;
+                    switch (_a) {
+                        case 'pauses': return [3 /*break*/, 1];
+                        case 'scheduled': return [3 /*break*/, 3];
+                    }
+                    return [3 /*break*/, 5];
+                case 1:
+                    status = { status: 2 };
+                    _c = (_b = this.stage.theActorInTheSpotlight()).attemptsTo;
+                    _e = (_d = patch_1.Patch).patch;
+                    _f = ["/campaigns" /* campaigns */.concat("/" + CreateCampaignSteps_1.CampaignID() + "/status"), status];
+                    return [4 /*yield*/, session_Token_1.AuthenticateApi()];
+                case 2: return [2 /*return*/, _c.apply(_b, [_e.apply(_d, _f.concat([_m.sent(), 200]))])];
+                case 3:
+                    status = { status: 3 };
+                    _h = (_g = this.stage.theActorInTheSpotlight()).attemptsTo;
+                    _k = (_j = patch_1.Patch).patch;
+                    _l = ["/campaigns" /* campaigns */.concat("/" + CreateCampaignSteps_1.CampaignID() + "/status"), status];
+                    return [4 /*yield*/, session_Token_1.AuthenticateApi()];
+                case 4: return [2 /*return*/, _h.apply(_g, [_k.apply(_j, _l.concat([_m.sent(), 200]))])];
+                case 5: return [2 /*return*/];
+            }
+        });
+    });
+});
+cucumber_1.Then(/(.*) gets content manager screens/, function (actor) {
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, _b, _c, _d, _e;
+        return __generator(this, function (_f) {
+            switch (_f.label) {
+                case 0:
                     _b = (_a = core_1.Actor.named(actor)
                         .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
-                    _d = (_c = post_1.Post).post;
-                    _e = ["/campaigns/" /* addstaticContentToDefaultSchedule */.concat(CreateCampaignSteps_1.CampaignID() + "/static"), creative];
+                    _d = (_c = get_1.Get).get;
+                    _e = ["/screens?userGroupsDetail=false&limit=4" /* screens */];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
                 case 1: return [2 /*return*/, _b.apply(_a, [_d.apply(_c, _e.concat([_f.sent(), 200]))])];
             }
         });
     });
 });
-cucumber_1.When(/he pauses the campaign/, function () {
+cucumber_1.Then(/get screen id/, function () {
+    rest_1.CallAnApi.as(this.stage.theActorInTheSpotlight())
+        .mapLastResponse(function (response) {
+        screens = response.data.docs.filter(getI);
+    });
+    function getI(v) {
+        return v.name === "TOOTBEC SHELTER1";
+    }
+});
+cucumber_1.Then(/(.*) edits campaign schedule/, function (actor) {
+    return __awaiter(this, void 0, void 0, function () {
+        var editScheduleRequest, _a, _b, _c, _d, _e;
+        return __generator(this, function (_f) {
+            switch (_f.label) {
+                case 0:
+                    editScheduleRequest = {
+                        screens: [],
+                        name: 'name'
+                    };
+                    _b = (_a = core_1.Actor.named(actor)
+                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _d = (_c = put_1.Put).put;
+                    _e = ["/campaigns" /* campaigns */.concat("/" + CreateCampaignSteps_1.CampaignID() + "/schedules/" /* schedules */), editScheduleRequest];
+                    return [4 /*yield*/, session_Token_1.AuthenticateApi()];
+                case 1: return [2 /*return*/, _b.apply(_a, [_d.apply(_c, _e.concat([_f.sent(), 200]))])];
+            }
+        });
+    });
+});
+cucumber_1.Then(/(.*) post the schedules for the campaign/, function (actor) {
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, _b, _c, _d, _e;
+        return __generator(this, function (_f) {
+            switch (_f.label) {
+                case 0:
+                    _b = (_a = core_1.Actor.named(actor)
+                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _d = (_c = post_1.Post).post;
+                    _e = ["/campaigns" /* campaigns */.concat("/" + CreateCampaignSteps_1.CampaignID() + "/schedules/" /* schedules */), ""];
+                    return [4 /*yield*/, session_Token_1.AuthenticateApi()];
+                case 1: return [2 /*return*/, _b.apply(_a, [_d.apply(_c, _e.concat([_f.sent(), 201]))])];
+            }
+        });
+    });
+});
+cucumber_1.Then(/(.*) get content schedule/, function (actor) {
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, _b, _c, _d, _e;
+        return __generator(this, function (_f) {
+            switch (_f.label) {
+                case 0:
+                    _b = (_a = core_1.Actor.named(actor)
+                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _d = (_c = get_1.Get).get;
+                    _e = ["/campaigns" /* campaigns */.concat("/" + CreateCampaignSteps_1.CampaignID() + "/schedules/" /* schedules */)];
+                    return [4 /*yield*/, session_Token_1.AuthenticateApi()];
+                case 1: return [2 /*return*/, _b.apply(_a, [_d.apply(_c, _e.concat([_f.sent(), 200]))])];
+            }
+        });
+    });
+});
+cucumber_1.Then(/get content schedule id/, function () {
+    rest_1.CallAnApi.as(this.stage.theActorInTheSpotlight())
+        .mapLastResponse(function (response) {
+        contentScheduleID = response.data._id;
+        contentSchedule = response.data;
+    });
+});
+cucumber_1.Then(/add players to schedule/, function () {
+    return __awaiter(this, void 0, void 0, function () {
+        var screensRequest, _a, _b, _c, _d, _e;
+        return __generator(this, function (_f) {
+            switch (_f.label) {
+                case 0:
+                    screensRequest = {
+                        dynamicContent: [],
+                        screens: [screens[0]._id],
+                        screensGroups: [],
+                        name: 'All week'
+                    };
+                    _b = (_a = this.stage.theActorInTheSpotlight()
+                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _d = (_c = put_1.Put).put;
+                    _e = ["/campaigns" /* campaigns */.concat("/" + CreateCampaignSteps_1.CampaignID() + "/schedules/" /* schedules */ + contentScheduleID), screensRequest];
+                    return [4 /*yield*/, session_Token_1.AuthenticateApi()];
+                case 1: return [2 /*return*/, _b.apply(_a, [_d.apply(_c, _e.concat([_f.sent(), 200]))])];
+            }
+        });
+    });
+});
+cucumber_1.Then(/add a template/, function () {
+    return __awaiter(this, void 0, void 0, function () {
+        var template, _a, _b, _c, _d, _e;
+        return __generator(this, function (_f) {
+            switch (_f.label) {
+                case 0:
+                    template = {
+                        name: 'templateX',
+                        schedules: [{
+                                weekDays: contentSchedule.docs[0].weekDays,
+                                startTime: '00:00:00',
+                                endTime: "23:59:59",
+                                visibility: true,
+                                screens: [contentSchedule.docs[0].screens[0]],
+                                screensGroups: [],
+                                name: 'name',
+                                fromDate: contentSchedule.docs[0].fromDate,
+                                toDate: contentSchedule.docs[0].toDate,
+                                priority: 1,
+                                index: 1
+                            }]
+                    };
+                    _b = (_a = this.stage.theActorInTheSpotlight()
+                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _d = (_c = post_1.Post).post;
+                    _e = ["/templates/" /* templates */, template];
+                    return [4 /*yield*/, session_Token_1.AuthenticateApi()];
+                case 1: return [2 /*return*/, _b.apply(_a, [_d.apply(_c, _e.concat([_f.sent(), 201]))])];
+            }
+        });
+    });
+});
+cucumber_1.Then(/get template id/, function () {
+    return rest_1.CallAnApi.as(this.stage.theActorInTheSpotlight())
+        .mapLastResponse(function (response) {
+        templateID = response.data.docs[0]._id;
+        //  console.log(response.data)
+    });
+});
+cucumber_1.Then(/create a template from ID/, function () {
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, _b, _c, _d, _e;
+        return __generator(this, function (_f) {
+            switch (_f.label) {
+                case 0:
+                    _b = (_a = this.stage.theActorInTheSpotlight()
+                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _d = (_c = post_1.Post).post;
+                    _e = ["/campaigns" /* getCampaigns */.concat("/template/" /* template */ + templateID), CampaignRequest_1.campaignRequest];
+                    return [4 /*yield*/, session_Token_1.AuthenticateApi()];
+                case 1: return [2 /*return*/, _b.apply(_a, [_d.apply(_c, _e.concat([_f.sent(), 201]))])];
+            }
+        });
+    });
+});
+cucumber_1.Then(/(.*) get the template using templateID/, function (actor) {
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, _b, _c, _d, _e;
+        return __generator(this, function (_f) {
+            switch (_f.label) {
+                case 0:
+                    _b = (_a = core_1.Actor.named(actor)
+                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _d = (_c = get_1.Get).get;
+                    _e = ["/template/" /* template */.concat(templateID)];
+                    return [4 /*yield*/, session_Token_1.AuthenticateApi()];
+                case 1: return [2 /*return*/, _b.apply(_a, [_d.apply(_c, _e.concat([_f.sent(), 200]))])];
+            }
+        });
+    });
+});
+cucumber_1.Then(/campaign is successfully deleted/, function () {
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, _b, _c, _d, _e;
+        return __generator(this, function (_f) {
+            switch (_f.label) {
+                case 0:
+                    _b = (_a = this.stage.theActorInTheSpotlight()
+                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _d = (_c = get_1.Get).get;
+                    _e = ["/campaigns" /* getCampaigns */.concat("/" + CreateCampaignSteps_1.CampaignID())];
+                    return [4 /*yield*/, session_Token_1.AuthenticateApi()];
+                case 1: return [2 /*return*/, _b.apply(_a, [_d.apply(_c, _e.concat([_f.sent(), 404]))])];
+            }
+        });
+    });
 });
 //# sourceMappingURL=servicesSteps.js.map

@@ -29,6 +29,8 @@ var Campaigns = /** @class */ (function () {
     Campaigns.DEFAULT_CONTENT = protractor_1.Target.the('default content').located(protractor_2.by.xpath("//*[contains(text(),'Default content')]"));
     Campaigns.CAMPAIGNS = protractor_1.Target.the('Go to Campaigns').located(protractor_2.by.linkText("Campaigns"));
     Campaigns.STATIC_CREATIVE_ADDED_DEFAULT_SCHEDULE = protractor_1.Target.the('Static creative added').located(protractor_2.by.xpath("//*[@data-test-id='default-content']/div[2]/div"));
+    Campaigns.DELETE_CAMPAIGN = protractor_1.Target.the('delete campaign').located(protractor_2.by.xpath("//*[@data-test-id=\"delete-campaign\"]"));
+    Campaigns.DELETE_CAMPAIGN_YES = protractor_1.Target.the('Yes').located(protractor_2.by.xpath("//*[contains(text(),'Yes')]"));
     return Campaigns;
 }());
 exports.Campaigns = Campaigns;
