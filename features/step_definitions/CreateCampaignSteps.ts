@@ -48,17 +48,17 @@ Given(/there is a new campaign (starting today|already started|with a future dat
 Then(/get campaign id from the response/, function () {
 
     return CallAnApi.as(this.stage.theActorInTheSpotlight())
-        .mapLastResponse(response => {
+        .mapLastResponse(response =>  {
+            
             campaignID = response.data._id;
             name = response.data.name
-        }
-        )
+        })
 })
 
 Then(/Output/, function (this: WithStage) {
 
     CallAnApi.as(this.stage.theActorInTheSpotlight())
-        .mapLastResponse(response => console.log(response))
+        .mapLastResponse(response => console.log(response.data))
 })
 
 Then(/the campaign has a status of (draft|paused|ongoing)/, async function (this: WithStage, status: string) {

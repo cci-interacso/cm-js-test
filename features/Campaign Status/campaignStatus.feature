@@ -13,7 +13,7 @@ Feature: View campaign status
     Then get campaign id from the response
     Then stan upload a creative 
     Then get creative id
-    Then stan assigns static to default content schedule 
+    Then stan assigns static to default schedule 
     Then the campaign has a status of ongoing
 
 
@@ -22,7 +22,7 @@ Scenario: Pause a campaign
     Then get campaign id from the response
     Then stan upload a creative 
     Then get creative id
-    Then stan assigns static to default content schedule 
+    Then stan assigns static to default schedule 
     When he pauses the campaign
     Then the campaign has a status of paused
 
@@ -32,7 +32,7 @@ Scenario: Campaigns with a future start date have a Scheduled status
     Then get campaign id from the response
     Then stan upload a creative 
     Then get creative id
-    Then stan assigns static to default content schedule
+    Then stan assigns static to default schedule
      When he scheduled the campaign
     Then the campaign has a status of ongoing 
    
