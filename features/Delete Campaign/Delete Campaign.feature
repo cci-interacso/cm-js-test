@@ -13,5 +13,7 @@ Feature: Delete Campaign
     And he attempts to delete the campaign
     And campaign is successfully deleted
     And Logout
+
+    #
     
 
