@@ -6,7 +6,7 @@ Feature: API Services
     Then get campaign id from the response
     Then the campaign has a status of draft
 
- @test
+ 
   Scenario: Upload a creative | Assign creative to external group
     Given there is a new campaign starting today
     Then get campaign id from the response

@@ -21,7 +21,7 @@ export class Campaigns {
     static CAMPAIGN_STATUS = Target.the('Campaign status').located(by.xpath("//td[5]/span"))
     static EDIT_CAMPAIGN = Target.the('Edit a campaign').located(by.xpath("//button[@data-test-id='edit-campaign']"));
     static ADD_NEW_SCHEDULE = Target.the('Add new schediule').located(by.xpath("//button[@data-test-id='Add-new-schedule']"));
-    static ADD_CREATIVES = Target.the('Add Creative to Campaign').located(by.xpath("//button[@data-test-id='add-creative']"));
+    static ADD_CREATIVES = Target.the('Add Creative to Campaign').located(by.xpath("//button[@data-test-id='add-creative']"));''
     static NEXT_BUTTON = Target.the('Next Time').located(by.xpath("//button[@class='ui primary button']"));
     static DONE = Target.the('Done Button').located(by.xpath("//*[contains(text(),'Done')]"))
     static BUTTON_CONTAINER = Target.the('Button contianer').located(by.xpath("//button[@data-test-id='edit-campaign']"))

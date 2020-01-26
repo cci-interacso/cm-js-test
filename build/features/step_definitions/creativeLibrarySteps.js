@@ -49,12 +49,13 @@ var session_Token_1 = require("../../src/screenplay/api/authentication/session_T
 var ShareACreative_1 = require("../../src/screenplay/ui/tasks/ShareACreative");
 var Library_1 = require("../../src/screenplay/ui/tasks/Library");
 var assertions_1 = require("@serenity-js/assertions");
-var library_1 = require("../../src/screenplay/ui/po/library");
 var CampaignStatus_1 = require("../../src/screenplay/ui/tasks/CampaignStatus");
 var CreateCampaignSteps_1 = require("./CreateCampaignSteps");
 var AddCreativeToCampaign_1 = require("./../../src/screenplay/ui/tasks/AddCreativeToCampaign");
 var campaigns_1 = require("../../src/screenplay/ui/po/campaigns");
 var DefaultCampaignSchedule_1 = require("./../../src/screenplay/ui/tasks/DefaultCampaignSchedule");
+var servicesSteps_1 = require("./servicesSteps");
+var protractor_2 = require("protractor");
 var path = require('path');
 cucumber_1.Given(/(.*) uploads a static creative as an internal user/, function (actorName) {
     var filePath = path.resolve(process.cwd(), 'src/resources/market.jpeg');
@@ -82,10 +83,10 @@ cucumber_1.Then(/share the creative with my regional external users/, function (
 });
 cucumber_1.When(/I am on the Library Screen of the APP/, function () {
     return this.stage.theActorInTheSpotlight()
-        .attemptsTo(Library_1.LibraryHome.goToLibrary());
+        .attemptsTo(Library_1.LibraryHome.goToLibrary(servicesSteps_1.creative().concat(".jpeg")));
 });
 cucumber_1.Then(/only permitted static creatives are displayed/, function () {
-    return this.stage.theActorInTheSpotlight().attemptsTo(assertions_1.Ensure.that(protractor_1.Text.of(library_1.Library.STATIC_CREATIVE), assertions_1.equals('market.jpeg')));
+    return this.stage.theActorInTheSpotlight().attemptsTo(assertions_1.Ensure.that(protractor_1.Text.of(protractor_1.Target.the('static creative').located(protractor_2.by.xpath("//*[contains(text(),'" + servicesSteps_1.creative() + ".jpeg')]"))), assertions_1.equals(servicesSteps_1.creative().concat('.jpeg'))));
 });
 cucumber_1.Then(/campaign should have draft status/, function () {
     return this.stage.theActorInTheSpotlight().attemptsTo(CampaignStatus_1.CampaignStatus.getCampaignStatus(CreateCampaignSteps_1.campaignName()));

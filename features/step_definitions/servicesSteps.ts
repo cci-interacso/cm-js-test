@@ -29,6 +29,7 @@ var contentScheduleID: any
 var screens: any
 var contentSchedule: any
 var templateID: any
+var creativeName :string
 
 Given(/(.*) get okta groups/, async function (this: WithStage, actor: string) {
 
@@ -62,15 +63,16 @@ Then(/(.*) adds the campaign to a group/, async function (this: WithStage, actor
 Then(/(.*) upload a creative/, async function (this: WithStage, actor: string) {
 
     const fd = new FormData();
-    const name = faker.name.firstName();
+    creativeName = faker.name.firstName();
     const actual = path.resolve(process.cwd(), 'src/resources/test.jpeg');
-    const target = path.resolve(process.cwd(), "src/resources/toDeleteContent/" + name + ".jpeg");
+    const target = path.resolve(process.cwd(), "src/resources/toDeleteContent/" + creativeName + ".jpeg");
 
+    
     try {
         fs.copyFile(actual, target, (err) => {
-           // if (err) throw err;
+            // if (err) throw err;
         })
-    }catch(err){
+    } catch (err) {
         console.log(err)
     }
 
@@ -261,3 +263,9 @@ Then(/campaign is successfully deleted/, async function (this: WithStage) {
         .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Get.get(Path.getCampaigns.concat("/" + CampaignID()), await AuthenticateApi(), 404))
 })
+
+
+export function creative() {
+    return creativeName
+
+}

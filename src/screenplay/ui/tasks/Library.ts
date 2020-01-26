@@ -5,15 +5,19 @@ import { Ensure, equals } from "@serenity-js/assertions";
 
 export class LibraryHome implements Task {
 
-   static goToLibrary():LibraryHome {
-       return new LibraryHome();
+    constructor(private searchItem) {
+
+    }
+
+   static goToLibrary(searchItem :string):LibraryHome {
+       return new LibraryHome(searchItem);
    }
    
     performAs(actor: import("@serenity-js/core").PerformsActivities): PromiseLike<void> {
        return actor.attemptsTo(
            Wait.upTo(Duration.ofSeconds(5)).until(Library.LIBRARY, isVisible()),
            Click.on(Library.LIBRARY),
-           Enter.theValue('market.jpeg').into(Library.SEARCH_BY_NAME),
+           Enter.theValue(this.searchItem).into(Library.SEARCH_BY_NAME),
        )
     }
     

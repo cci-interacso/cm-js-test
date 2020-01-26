@@ -64,6 +64,7 @@ var contentScheduleID;
 var screens;
 var contentSchedule;
 var templateID;
+var creativeName;
 cucumber_1.Given(/(.*) get okta groups/, function (actor) {
     return __awaiter(this, void 0, void 0, function () {
         var _a, _b, _c, _d, _e;
@@ -112,14 +113,14 @@ cucumber_1.Then(/(.*) adds the campaign to a group/, function (actor) {
 });
 cucumber_1.Then(/(.*) upload a creative/, function (actor) {
     return __awaiter(this, void 0, void 0, function () {
-        var fd, name, actual, target, actorPost, _a, _b, _c, _d, _e;
+        var fd, actual, target, actorPost, _a, _b, _c, _d, _e;
         return __generator(this, function (_f) {
             switch (_f.label) {
                 case 0:
                     fd = new FormData();
-                    name = faker.name.firstName();
+                    creativeName = faker.name.firstName();
                     actual = path.resolve(process.cwd(), 'src/resources/test.jpeg');
-                    target = path.resolve(process.cwd(), "src/resources/toDeleteContent/" + name + ".jpeg");
+                    target = path.resolve(process.cwd(), "src/resources/toDeleteContent/" + creativeName + ".jpeg");
                     try {
                         file_system_1.fs.copyFile(actual, target, function (err) {
                             // if (err) throw err;
@@ -422,4 +423,8 @@ cucumber_1.Then(/campaign is successfully deleted/, function () {
         });
     });
 });
+function creative() {
+    return creativeName;
+}
+exports.creative = creative;
 //# sourceMappingURL=servicesSteps.js.map

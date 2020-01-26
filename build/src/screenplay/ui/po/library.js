@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var protractor_1 = require("@serenity-js/protractor");
 var protractor_2 = require("protractor");
+var servicesSteps_1 = require("../../../../features/step_definitions/servicesSteps");
 var Library = /** @class */ (function () {
     function Library() {
     }
@@ -18,8 +19,8 @@ var Library = /** @class */ (function () {
     Library.ADD_CREATIVE_TO_SEVILLE = protractor_1.Target.the('add static creative to seville').located(protractor_2.by.xpath("//li[2]/label/span[1]/input[@class='ant-checkbox-input'] "));
     Library.ASSIGN_CREATIVE = protractor_1.Target.the('assign creative ').located(protractor_2.by.xpath("//button[@class='ant-btn ant-btn-primary']"));
     Library.SUCCESS_MESSAGE = protractor_1.Target.the('creative added success message').located(protractor_2.by.xpath("//div[@class='ant-notification-notice-message']"));
-    Library.STATIC_CREATIVE = protractor_1.Target.the('static creative').located(protractor_2.by.xpath("//*[contains(text(),'market.jpeg')]"));
-    Library.CREATIVE_IMAGE = protractor_1.Target.the('creative image').located(protractor_2.by.xpath("//*[contains(text(),'market.jpeg')]/preceding::div[1]/img"));
+    Library.STATIC_CREATIVE = protractor_1.Target.the('static creative').located(protractor_2.by.xpath("//*[contains(text(),'" + servicesSteps_1.creative() + ".jpeg')]"));
+    Library.CREATIVE_IMAGE = protractor_1.Target.the('creative image').located(protractor_2.by.xpath("//*[contains(text(),'" + servicesSteps_1.creative() + ".jpeg')]/preceding::div[1]/img"));
     Library.LIBRARY_HOW_T0_UPLOAD = protractor_1.Target.the('how to add creatives').located(protractor_2.by.xpath("//*[contains(text(),'Library')]"));
     return Library;
 }());
