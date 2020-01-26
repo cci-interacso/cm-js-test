@@ -23,11 +23,11 @@ exports.config = {
     serenity: {
         runner: 'cucumber',
         crew: [
+
             ArtifactArchiver.storingArtifactsAt('./target/site/serenity'),
-            ConsoleReporter.forDarkTerminals(),
-          //  Photographer.whoWill(TakePhotosOfFailures),
-         // Photographer.whoWill(TakePhotosOfInteractions),     // or Photographer.whoWill(TakePhotosOfFailures),
             new SerenityBDDReporter(),
+            ConsoleReporter.forDarkTerminals(),
+            
         ]
 
         
