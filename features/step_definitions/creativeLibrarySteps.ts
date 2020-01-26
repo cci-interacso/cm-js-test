@@ -1,5 +1,5 @@
-import { Given, Then, When } from 'cucumber';
-import { WithStage, Actor, Duration } from '@serenity-js/core';
+import { Given, Then, When, Before } from 'cucumber';
+import { WithStage, Actor, Duration, engage, actorInTheSpotlight, actorCalled } from '@serenity-js/core';
 import { BrowseTo } from '../../src/screenplay/ui/tasks/BrowseTo';
 import { Login } from '../../src/screenplay/ui/tasks/Login';
 import { UploadACreative } from '../../src/screenplay/ui/tasks/UploadACreative'
@@ -21,84 +21,87 @@ import { Campaigns } from '../../src/screenplay/ui/po/campaigns';
 import { DefaultCampaignSchedule } from './../../src/screenplay/ui/tasks/DefaultCampaignSchedule'
 import { creative } from './servicesSteps';
 import { by } from 'protractor';
+import { Actors } from '../support/actors';
 var path = require('path')
 
+Before(() => {
+    engage(new Actors())
+});
 
-
-Given(/(.*) uploads a static creative as an internal user/, function (this: WithStage, actorName: string) {
+Given(/(.*) uploads a static creative as an internal user/, function (actorName: string) {
 
     var filePath: string = path.resolve(process.cwd(), 'src/resources/market.jpeg')
 
-    return this.stage.theActorCalled(actorName).attemptsTo(
+    return actorCalled(actorName).attemptsTo(
         BrowseTo.LoginPage(),
         Login.loginOnCM(process.env.SPANISH_INTERNAL_USERNAME, process.env.SPANISH_INTERNAL_PASSWORD),
         UploadACreative.upload(filePath))
 })
 
-Then(/the file is available/, async function (this: WithStage) {
+Then(/the file is available/, async function () {
 
     Actor.named('Stan').whoCan(
         CallAnApi.at(process.env.REST_API),
         BrowseTheWeb.using(protractor.browser)
     );
 
-    return this.stage.theActorInTheSpotlight()
+    return actorInTheSpotlight()
         .attemptsTo(Get.get(Path["getCreatives"].toString(), await AuthenticateApi(), 200))
 })
 
 
-Then(/share the creative with my regional external users/, function (this: WithStage) {
-    return this.stage.theActorInTheSpotlight()
+Then(/share the creative with my regional external users/, function () {
+    return actorInTheSpotlight()
         .attemptsTo(
             ShareACreative.assignCreative(),
         )
 })
 
-When(/I am on the Library Screen of the APP/, function (this: WithStage) {
+When(/I am on the Library Screen of the APP/, function () {
 
-    return this.stage.theActorInTheSpotlight()
+    return actorInTheSpotlight()
         .attemptsTo(
             LibraryHome.goToLibrary(creative().concat(".jpeg"))
         )
 })
 
-Then(/only permitted static creatives are displayed/, function (this: WithStage) {
+Then(/only permitted static creatives are displayed/, function () {
 
-    return this.stage.theActorInTheSpotlight().attemptsTo(
-        Ensure.that(Text.of(Target.the('static creative').located(by.xpath("//*[contains(text(),'"+creative()+".jpeg')]"))), equals(creative().concat('.jpeg')))
+    return actorInTheSpotlight().attemptsTo(
+        Ensure.that(Text.of(Target.the('static creative').located(by.xpath("//*[contains(text(),'" + creative() + ".jpeg')]"))), equals(creative().concat('.jpeg')))
     )
 })
 
-Then(/campaign should have draft status/, function (this: WithStage) {
+Then(/campaign should have draft status/, function () {
 
-    return this.stage.theActorInTheSpotlight().attemptsTo(
+    return actorInTheSpotlight().attemptsTo(
         CampaignStatus.getCampaignStatus(campaignName())
     )
 })
 
-When(/add a permitted creative content to my campaign/, function (this: WithStage) {
-    return this.stage.theActorInTheSpotlight().attemptsTo(
+When(/add a permitted creative content to my campaign/, function () {
+    return actorInTheSpotlight().attemptsTo(
         AddCreativeToCampaign.addCreativeToCampaign(campaignName())
     )
 })
 
-Then(/creative content is added to Campaign content schedule/, function (this: WithStage) {
-    return this.stage.theActorInTheSpotlight().attemptsTo(
+Then(/creative content is added to Campaign content schedule/, function () {
+    return actorInTheSpotlight().attemptsTo(
         Ensure.that(Text.of(Campaigns.STATIC_CREATIVE_ADDED), equals("1 static | 0 dynamic"))
     )
 })
 
 
-Then(/I have selected default content schedule/, function (this: WithStage) {
-    return this.stage.theActorInTheSpotlight().attemptsTo(
+Then(/I have selected default content schedule/, function () {
+    return actorInTheSpotlight().attemptsTo(
         DefaultCampaignSchedule.defaultSchedule()
 
     )
 })
 
 
-Then(/permitted creative is successfully added to the default content schedule/, function (this: WithStage) {
-    return this.stage.theActorInTheSpotlight().attemptsTo(
+Then(/permitted creative is successfully added to the default content schedule/, function () {
+    return actorInTheSpotlight().attemptsTo(
         Ensure.that(Text.of(Campaigns.STATIC_CREATIVE_ADDED_DEFAULT_SCHEDULE), equals("1 static | 0 dynamic"))
 
 

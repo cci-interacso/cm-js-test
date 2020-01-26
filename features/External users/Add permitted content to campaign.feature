@@ -12,7 +12,7 @@ Feature: Add 'permitted content' to a campaign
     Then get creative id
     Then mark assign static creative to external group
 
-  @test
+  
   Scenario: Display permitted creative content for external users
     Given Barry is an external user in the Spanish Region
     When I am on the Library Screen of the APP
