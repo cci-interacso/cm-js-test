@@ -1,7 +1,6 @@
 import { Given, Then, When, Before } from 'cucumber';
-import { WithStage, Actor, See, Duration, engage, actorInTheSpotlight, actorCalled } from '@serenity-js/core';
+import { See, Duration, engage, actorInTheSpotlight, actorCalled } from '@serenity-js/core';
 import { CallAnApi, LastResponse } from '@serenity-js/rest';
-import { PostUpload } from '../../src/screenplay/api/endpoints/postUpload'
 import { campaignRequest, campaignRequestAlreadyStarted, campaignRequestFutureDate } from '../../src/screenplay/api/endpoints/requests/CampaignRequest'
 import { BrowseTheWeb, Wait, isClickable } from '@serenity-js/protractor';
 import { protractor } from 'protractor/built/ptor';
@@ -11,18 +10,12 @@ import { Get } from '../../src/screenplay/api/endpoints/get'
 import { expect } from '../../src/expect';
 import { CreateANewCampaign } from '../../src/screenplay/ui/tasks/CreateANewCampaign'
 import { Campaigns } from '../../src/screenplay/ui/po/campaigns';
-import { stringify } from 'querystring';
-import Axios from 'axios';
-import { format } from 'path';
-import { Put } from '../../src/screenplay/api/endpoints/put'
 import { Post } from '../../src/screenplay/api/endpoints/post'
 import { SearchForCampaign } from './../../src/screenplay/ui/tasks/SearchForCampaign'
 import { LogOut } from './../../src/screenplay/ui/tasks/LogOut'
 import { EditCampaign } from '../../src/screenplay/ui/tasks/EditCampaign'
 import { Actors } from '../support/actors';
 
-let creativeID: any
-let userGroup: any
 let campaignID: any
 let name: any
 const waitTimeInMillseconds = Duration.ofMilliseconds(15000);
@@ -34,10 +27,7 @@ Before(() => {
 Given(/there is a new campaign (starting today|already started|with a future date)/, async (option: string) => {
 
 
-    actorCalled('Apisit').whoCan(
-        CallAnApi.at(process.env.REST_API),
-        BrowseTheWeb.using(protractor.browser)
-    );
+    actorCalled('Apisit')
 
     switch (option) {
         case 'starting today':
@@ -62,7 +52,7 @@ Then(/get campaign id from the response/, () => {
         })
     })
 
-Then(/Output/, function (this: WithStage) {
+Then(/Output/, function () {
 
     CallAnApi.as(actorInTheSpotlight())
         .mapLastResponse(response => console.log(response.data))
@@ -99,7 +89,7 @@ Given(/is on the Create campaign page/, function () {
 
 })
 
-When(/he enters/, function (table: any) {
+When(/he enters/, function () {
     return actorInTheSpotlight().attemptsTo(
         CreateANewCampaign.enterNewCampaignData()
     )
