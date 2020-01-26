@@ -1,5 +1,5 @@
 import { Given, Then, When, Before } from 'cucumber';
-import { WithStage, Actor, UsesAbilities, engage, actorInTheSpotlight } from '@serenity-js/core';
+import { WithStage, Actor, UsesAbilities, engage, actorInTheSpotlight, actorCalled } from '@serenity-js/core';
 import { CallAnApi } from '@serenity-js/rest';
 import { BrowseTheWeb } from '@serenity-js/protractor';
 import { protractor } from 'protractor/built/ptor';
@@ -38,7 +38,7 @@ Before(() => {
 
 Given(/(.*) get okta groups/, async function (actor: string) {
 
-    return Actor.named(actor).whoCan(
+    return actorCalled(actor).whoCan(
         CallAnApi.at(process.env.REST_API),
         BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Get.get(Path.getGroups, await AuthenticateApi(), 200))
@@ -60,7 +60,7 @@ Then(/(.*) adds the campaign to a group/, async function (actor: string) {
         userGroups: [SPAIN_ID, SEVILLE_ID]
     }
 
-    return Actor.named(actor)
+    return actorCalled(actor)
         .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Put.put(Path.campaigns.concat("/" + CampaignID()), groups, await AuthenticateApi(), 200))
 })
@@ -83,7 +83,7 @@ Then(/(.*) upload a creative/, async function (actor: string) {
 
     fd.append('file', fs.createReadStream(target));
 
-    const actorPost = Actor.named(actor).whoCan(
+    const actorPost = actorCalled(actor).whoCan(
         CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser));
 
     return actorPost.attemptsTo(PostUpload.post(Path.addStaticContent, fd, await AuthenticateApi(), 200));
@@ -102,7 +102,7 @@ Then(/(.*) assign static creative to external group/, async function (actor: str
         userGroups: [SEVILLE_ID, SPAIN_ID]
     }
 
-    return Actor.named(actor)
+    return actorCalled(actor)
         .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Put.put(Path.addStaticContent.concat("/" + creativeID), group, await AuthenticateApi(), 200))
 })
@@ -115,11 +115,11 @@ Then(/(.*) assigns static to (default|content) schedule/, async function (actor:
 
     switch (option) {
         case 'default':
-            return Actor.named(actor)
+            return actorCalled(actor)
                 .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
                 .attemptsTo(Post.post(Path.addstaticContentToDefaultSchedule.concat(CampaignID() + "/static"), creative, await AuthenticateApi(), 200))
         case 'content':
-            return Actor.named(actor)
+            return actorCalled(actor)
                 .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
                 .attemptsTo(Post.post(Path.addstaticContentToDefaultSchedule.concat(CampaignID() + Path.schedules + contentScheduleID + "/static"), creative, await AuthenticateApi(), 200))
     }
@@ -143,7 +143,7 @@ When(/he (pauses|scheduled) the campaign/, async function (option: string) {
 
 Then(/(.*) gets content manager screens/, async function (actor: string) {
 
-    return Actor.named(actor)
+    return actorCalled(actor)
         .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Get.get(Path.screens, await AuthenticateApi(), 200))
 })
@@ -168,7 +168,7 @@ Then(/(.*) edits campaign schedule/, async function (actor: string) {
         name: 'name'
     }
 
-    return Actor.named(actor)
+    return actorCalled(actor)
         .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Put.put(Path.campaigns.concat("/" + CampaignID() + Path.schedules), editScheduleRequest, await AuthenticateApi(), 200))
 
@@ -176,7 +176,7 @@ Then(/(.*) edits campaign schedule/, async function (actor: string) {
 
 Then(/(.*) post the schedules for the campaign/, async function (actor: string) {
 
-    return Actor.named(actor)
+    return actorCalled(actor)
         .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Post.post(Path.campaigns.concat("/" + CampaignID() + Path.schedules), "", await AuthenticateApi(), 201))
 
@@ -184,7 +184,7 @@ Then(/(.*) post the schedules for the campaign/, async function (actor: string) 
 
 Then(/(.*) get content schedule/, async function (actor: string) {
 
-    return Actor.named(actor)
+    return actorCalled(actor)
         .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Get.get(Path.campaigns.concat("/" + CampaignID() + Path.schedules), await AuthenticateApi(), 200))
 })
@@ -256,7 +256,7 @@ Then(/create a template from ID/, async function () {
 
 Then(/(.*) get the template using templateID/, async function (actor: string) {
 
-    return Actor.named(actor)
+    return actorCalled(actor)
         .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Get.get(Path.template.concat(templateID), await AuthenticateApi(), 200))
 

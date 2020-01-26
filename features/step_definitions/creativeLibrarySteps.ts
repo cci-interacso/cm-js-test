@@ -40,7 +40,7 @@ Given(/(.*) uploads a static creative as an internal user/, function (actorName:
 
 Then(/the file is available/, async function () {
 
-    Actor.named('Stan').whoCan(
+    actorCalled('Stan').whoCan(
         CallAnApi.at(process.env.REST_API),
         BrowseTheWeb.using(protractor.browser)
     );
