@@ -67,7 +67,7 @@ exports.config = {
                 '--disable-extensions',
                 '--log-level=3',
                 '--disable-gpu',
-             //   '--headless'
+                '--headless'
             ].concat(isCI ? ['--headless'] : [])    // run in headless mode on the CI server
         }
     }
