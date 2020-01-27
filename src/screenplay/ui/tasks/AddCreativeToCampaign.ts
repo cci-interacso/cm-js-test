@@ -20,6 +20,7 @@ export class AddCreativeToCampaign implements Task {
 
         return actor.attemptsTo(
             Hover.over(Campaigns.BUTTON_CONTAINER),
+            Wait.upTo(Duration.ofSeconds(3)).until(Campaigns.EDIT_CAMPAIGN, isClickable()),
             Click.on(Campaigns.EDIT_CAMPAIGN),
             Click.on(Campaigns.ADD_NEW_SCHEDULE),
             Wait.upTo(Duration.ofSeconds(5)).until(Campaigns.ADD_CREATIVES, isClickable()),

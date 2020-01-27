@@ -1,6 +1,6 @@
-import { Given, Then, When, Before } from 'cucumber';
+import { Given, Then, When, Before, After } from 'cucumber';
 import { CallAnApi } from '@serenity-js/rest';
-import { BrowseTheWeb } from '@serenity-js/protractor';
+import { BrowseTheWeb, Wait } from '@serenity-js/protractor';
 import { protractor } from 'protractor/built/ptor';
 import { AuthenticateApi } from '../../src/screenplay/api/authentication/session_Token';
 import { Path } from '../../src/screenplay/cm_variables'
@@ -13,7 +13,8 @@ import { Post } from '../../src/screenplay/api/endpoints/post';
 import { Patch } from '../../src/screenplay/api/endpoints/patch'
 import { campaignRequest } from '../../src/screenplay/api/endpoints/requests/CampaignRequest';
 import { Actors } from '../support/actors';
-import { engage, actorCalled, actorInTheSpotlight } from '@serenity-js/core';
+import { engage, actorCalled, actorInTheSpotlight, Duration } from '@serenity-js/core';
+import { LogOut } from '../../src/screenplay/ui/tasks/LogOut';
 
 var FormData = require('form-data');
 var faker = require('faker');
@@ -32,16 +33,9 @@ var contentSchedule: any
 var templateID: any
 var creativeName: string
 
-Before(() => {
-    engage(new Actors())
-});
-
 Given(/(.*) get okta groups/, async function (actor: string) {
 
-    return actorCalled(actor).whoCan(
-        CallAnApi.at(process.env.REST_API),
-        BrowseTheWeb.using(protractor.browser))
-        .attemptsTo(Get.get(Path.getGroups, await AuthenticateApi(), 200))
+    return actorCalled(actor).attemptsTo(Get.get(Path.getGroups, await AuthenticateApi(), 200))
 })
 
 Then(/extract id for content manager seville/, async function () {

@@ -1,4 +1,4 @@
-import { Given, Then, When, Before } from 'cucumber';
+import { Given, Then, When, Before, After } from 'cucumber';
 import { See, Duration, engage, actorInTheSpotlight, actorCalled } from '@serenity-js/core';
 import { CallAnApi, LastResponse } from '@serenity-js/rest';
 import { campaignRequest, campaignRequestAlreadyStarted, campaignRequestFutureDate } from '../../src/screenplay/api/endpoints/requests/CampaignRequest'
@@ -16,24 +16,36 @@ import { LogOut } from './../../src/screenplay/ui/tasks/LogOut'
 import { EditCampaign } from '../../src/screenplay/ui/tasks/EditCampaign'
 import { Actors } from '../support/actors';
 import { ProtractorBrowser } from 'protractor';
+var date = require('date-and-time');
 
 let campaignID: any
 let name: any
 const waitTimeInMillseconds = Duration.ofMilliseconds(15000);
 
-Before(() => {
 
-    engage(new Actors())
-});
 
-Given(/there is a new campaign (starting today|already started|with a future date)/, async (option: string) => {
+Given(/there is a new campaign (starting today|already started|with a future date)/, async (option: string) => {var faker = require('faker');
+
+
+const now = new Date();
+const next_month = date.addMonths(now, 1);
+
+
+var campaignRequest1 = {
+    name: faker.company.companyName(),
+    fromDate: date.format(now, 'YYYY-MM-DD'),
+    toDate: date.format(next_month, 'YYYY-MM-DD')
+}
+
+
+
 
     actorCalled('Apisit')
 
     switch (option) {
         case 'starting today':
             return actorInTheSpotlight().attemptsTo(
-                Post.post(Path.getCampaigns, campaignRequest, await AuthenticateApi(), 201))
+                Post.post(Path.getCampaigns, campaignRequest1, await AuthenticateApi(), 201))
         case 'already started':
             return actorInTheSpotlight().attemptsTo(
                 Post.post(Path.getCampaigns, campaignRequestAlreadyStarted, await AuthenticateApi(), 201))
@@ -52,6 +64,10 @@ Then(/get campaign id from the response/, () => {
             name = response.data.name
         })
 })
+
+export function getCampaignName():string{
+    return name
+}
 
 Then(/Output/, function () {
 
@@ -99,7 +115,6 @@ When(/he enters/, function () {
 
 Then(/the campaign is successfully created/, async function () {
     return actorInTheSpotlight()
-        .whoCan(CallAnApi.at(process.env.REST_API))
         .attemptsTo(
             Get.getCampaigns(campaignPath.GET_CAMPAIGNS.concat('?&limit=1&userGroupsDetail=false'), await AuthenticateApi(), 200),
             See.if(LastResponse.body(), Actual => expect(Actual)
