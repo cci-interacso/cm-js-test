@@ -50,6 +50,7 @@ var postUpload_1 = require("../../src/screenplay/api/endpoints/postUpload");
 var post_1 = require("../../src/screenplay/api/endpoints/post");
 var patch_1 = require("../../src/screenplay/api/endpoints/patch");
 var CampaignRequest_1 = require("../../src/screenplay/api/endpoints/requests/CampaignRequest");
+var actors_1 = require("../support/actors");
 var FormData = require('form-data');
 var faker = require('faker');
 var path = require('path');
@@ -64,6 +65,10 @@ var contentScheduleID;
 var screens;
 var contentSchedule;
 var templateID;
+var creativeName;
+cucumber_1.Before(function () {
+    core_1.engage(new actors_1.Actors());
+});
 cucumber_1.Given(/(.*) get okta groups/, function (actor) {
     return __awaiter(this, void 0, void 0, function () {
         var _a, _b, _c, _d, _e;
@@ -83,7 +88,7 @@ cucumber_1.Then(/extract id for content manager seville/, function () {
     return __awaiter(this, void 0, void 0, function () {
         var data;
         return __generator(this, function (_a) {
-            rest_1.CallAnApi.as(this.stage.theActorInTheSpotlight())
+            rest_1.CallAnApi.as(core_1.actorInTheSpotlight())
                 .mapLastResponse(function (response) { return data = response.data; });
             SEVILLE_ID = data[1].id;
             SPAIN_ID = data[2].id;
@@ -112,18 +117,22 @@ cucumber_1.Then(/(.*) adds the campaign to a group/, function (actor) {
 });
 cucumber_1.Then(/(.*) upload a creative/, function (actor) {
     return __awaiter(this, void 0, void 0, function () {
-        var fd, name, actual, target, actorPost, _a, _b, _c, _d, _e;
+        var fd, actual, target, actorPost, _a, _b, _c, _d, _e;
         return __generator(this, function (_f) {
             switch (_f.label) {
                 case 0:
                     fd = new FormData();
-                    name = faker.internet.userName();
+                    creativeName = faker.name.firstName();
                     actual = path.resolve(process.cwd(), 'src/resources/test.jpeg');
-                    target = path.resolve(process.cwd(), "src/resources/toDeleteContent/" + name + ".jpeg");
-                    file_system_1.fs.copyFile(actual, target, function (err) {
-                        if (err)
-                            throw err;
-                    });
+                    target = path.resolve(process.cwd(), "src/resources/toDeleteContent/" + creativeName + ".jpeg");
+                    try {
+                        file_system_1.fs.copyFile(actual, target, function (err) {
+                            // if (err) throw err;
+                        });
+                    }
+                    catch (err) {
+                        console.log(err);
+                    }
                     fd.append('file', file_system_1.fs.createReadStream(target));
                     actorPost = core_1.Actor.named(actor).whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser));
                     _b = (_a = actorPost).attemptsTo;
@@ -136,7 +145,7 @@ cucumber_1.Then(/(.*) upload a creative/, function (actor) {
     });
 });
 cucumber_1.Then(/get creative id/, function () {
-    return rest_1.CallAnApi.as(this.stage.theActorInTheSpotlight()).mapLastResponse(function (res) {
+    return rest_1.CallAnApi.as(core_1.actorInTheSpotlight()).mapLastResponse(function (res) {
         creativeID = res.data._id;
         creativeFileID = res.data.fileId;
     });
@@ -208,14 +217,14 @@ cucumber_1.When(/he (pauses|scheduled) the campaign/, function (option) {
                     return [3 /*break*/, 5];
                 case 1:
                     status = { status: 2 };
-                    _c = (_b = this.stage.theActorInTheSpotlight()).attemptsTo;
+                    _c = (_b = core_1.actorInTheSpotlight()).attemptsTo;
                     _e = (_d = patch_1.Patch).patch;
                     _f = ["/campaigns" /* campaigns */.concat("/" + CreateCampaignSteps_1.CampaignID() + "/status"), status];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
                 case 2: return [2 /*return*/, _c.apply(_b, [_e.apply(_d, _f.concat([_m.sent(), 200]))])];
                 case 3:
                     status = { status: 3 };
-                    _h = (_g = this.stage.theActorInTheSpotlight()).attemptsTo;
+                    _h = (_g = core_1.actorInTheSpotlight()).attemptsTo;
                     _k = (_j = patch_1.Patch).patch;
                     _l = ["/campaigns" /* campaigns */.concat("/" + CreateCampaignSteps_1.CampaignID() + "/status"), status];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
@@ -242,7 +251,7 @@ cucumber_1.Then(/(.*) gets content manager screens/, function (actor) {
     });
 });
 cucumber_1.Then(/get screen id/, function () {
-    rest_1.CallAnApi.as(this.stage.theActorInTheSpotlight())
+    rest_1.CallAnApi.as(core_1.actorInTheSpotlight())
         .mapLastResponse(function (response) {
         screens = response.data.docs.filter(getI);
     });
@@ -303,7 +312,7 @@ cucumber_1.Then(/(.*) get content schedule/, function (actor) {
     });
 });
 cucumber_1.Then(/get content schedule id/, function () {
-    rest_1.CallAnApi.as(this.stage.theActorInTheSpotlight())
+    rest_1.CallAnApi.as(core_1.actorInTheSpotlight())
         .mapLastResponse(function (response) {
         contentScheduleID = response.data._id;
         contentSchedule = response.data;
@@ -321,7 +330,7 @@ cucumber_1.Then(/add players to schedule/, function () {
                         screensGroups: [],
                         name: 'All week'
                     };
-                    _b = (_a = this.stage.theActorInTheSpotlight()
+                    _b = (_a = core_1.actorInTheSpotlight()
                         .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
                     _d = (_c = put_1.Put).put;
                     _e = ["/campaigns" /* campaigns */.concat("/" + CreateCampaignSteps_1.CampaignID() + "/schedules/" /* schedules */ + contentScheduleID), screensRequest];
@@ -353,7 +362,7 @@ cucumber_1.Then(/add a template/, function () {
                                 index: 1
                             }]
                     };
-                    _b = (_a = this.stage.theActorInTheSpotlight()
+                    _b = (_a = core_1.actorInTheSpotlight()
                         .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
                     _d = (_c = post_1.Post).post;
                     _e = ["/templates/" /* templates */, template];
@@ -364,7 +373,7 @@ cucumber_1.Then(/add a template/, function () {
     });
 });
 cucumber_1.Then(/get template id/, function () {
-    return rest_1.CallAnApi.as(this.stage.theActorInTheSpotlight())
+    return rest_1.CallAnApi.as(core_1.actorInTheSpotlight())
         .mapLastResponse(function (response) {
         templateID = response.data.docs[0]._id;
         //  console.log(response.data)
@@ -376,7 +385,7 @@ cucumber_1.Then(/create a template from ID/, function () {
         return __generator(this, function (_f) {
             switch (_f.label) {
                 case 0:
-                    _b = (_a = this.stage.theActorInTheSpotlight()
+                    _b = (_a = core_1.actorInTheSpotlight()
                         .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
                     _d = (_c = post_1.Post).post;
                     _e = ["/campaigns" /* getCampaigns */.concat("/template/" /* template */ + templateID), CampaignRequest_1.campaignRequest];
@@ -408,7 +417,7 @@ cucumber_1.Then(/campaign is successfully deleted/, function () {
         return __generator(this, function (_f) {
             switch (_f.label) {
                 case 0:
-                    _b = (_a = this.stage.theActorInTheSpotlight()
+                    _b = (_a = core_1.actorInTheSpotlight()
                         .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
                     _d = (_c = get_1.Get).get;
                     _e = ["/campaigns" /* getCampaigns */.concat("/" + CreateCampaignSteps_1.CampaignID())];
@@ -418,4 +427,8 @@ cucumber_1.Then(/campaign is successfully deleted/, function () {
         });
     });
 });
+function creative() {
+    return creativeName;
+}
+exports.creative = creative;
 //# sourceMappingURL=servicesSteps.js.map

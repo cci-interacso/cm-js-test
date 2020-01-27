@@ -13,7 +13,7 @@ Feature: Create new campaign
         Then the campaign is successfully created
         Then Logout
 
-
+    @test
     Scenario: Create campaign from a template
         Given there is a new campaign starting today
         Then get campaign id from the response
@@ -30,7 +30,7 @@ Feature: Create new campaign
         Then get content schedule id
         Then add a template
         Then get template id
-        Then create a template from ID
+        Then create a campaign from template id
         Then marks get the template using templateID
 
 

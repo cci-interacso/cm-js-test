@@ -49,16 +49,21 @@ var session_Token_1 = require("../../src/screenplay/api/authentication/session_T
 var ShareACreative_1 = require("../../src/screenplay/ui/tasks/ShareACreative");
 var Library_1 = require("../../src/screenplay/ui/tasks/Library");
 var assertions_1 = require("@serenity-js/assertions");
-var library_1 = require("../../src/screenplay/ui/po/library");
 var CampaignStatus_1 = require("../../src/screenplay/ui/tasks/CampaignStatus");
 var CreateCampaignSteps_1 = require("./CreateCampaignSteps");
 var AddCreativeToCampaign_1 = require("./../../src/screenplay/ui/tasks/AddCreativeToCampaign");
 var campaigns_1 = require("../../src/screenplay/ui/po/campaigns");
 var DefaultCampaignSchedule_1 = require("./../../src/screenplay/ui/tasks/DefaultCampaignSchedule");
+var servicesSteps_1 = require("./servicesSteps");
+var protractor_2 = require("protractor");
+var actors_1 = require("../support/actors");
 var path = require('path');
+cucumber_1.Before(function () {
+    core_1.engage(new actors_1.Actors());
+});
 cucumber_1.Given(/(.*) uploads a static creative as an internal user/, function (actorName) {
     var filePath = path.resolve(process.cwd(), 'src/resources/market.jpeg');
-    return this.stage.theActorCalled(actorName).attemptsTo(BrowseTo_1.BrowseTo.LoginPage(), Login_1.Login.loginOnCM(process.env.SPANISH_INTERNAL_USERNAME, process.env.SPANISH_INTERNAL_PASSWORD), UploadACreative_1.UploadACreative.upload(filePath));
+    return core_1.actorCalled(actorName).attemptsTo(BrowseTo_1.BrowseTo.LoginPage(), Login_1.Login.loginOnCM(process.env.SPANISH_INTERNAL_USERNAME, process.env.SPANISH_INTERNAL_PASSWORD), UploadACreative_1.UploadACreative.upload(filePath));
 });
 cucumber_1.Then(/the file is available/, function () {
     return __awaiter(this, void 0, void 0, function () {
@@ -67,7 +72,7 @@ cucumber_1.Then(/the file is available/, function () {
             switch (_f.label) {
                 case 0:
                     core_1.Actor.named('Stan').whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser));
-                    _b = (_a = this.stage.theActorInTheSpotlight()).attemptsTo;
+                    _b = (_a = core_1.actorInTheSpotlight()).attemptsTo;
                     _d = (_c = get_1.Get).get;
                     _e = ["/creatives/static?userGroupsDetail=false" /* "getCreatives" */.toString()];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
@@ -77,29 +82,29 @@ cucumber_1.Then(/the file is available/, function () {
     });
 });
 cucumber_1.Then(/share the creative with my regional external users/, function () {
-    return this.stage.theActorInTheSpotlight()
+    return core_1.actorInTheSpotlight()
         .attemptsTo(ShareACreative_1.ShareACreative.assignCreative());
 });
 cucumber_1.When(/I am on the Library Screen of the APP/, function () {
-    return this.stage.theActorInTheSpotlight()
-        .attemptsTo(Library_1.LibraryHome.goToLibrary());
+    return core_1.actorInTheSpotlight()
+        .attemptsTo(Library_1.LibraryHome.goToLibrary(servicesSteps_1.creative().concat(".jpeg")));
 });
 cucumber_1.Then(/only permitted static creatives are displayed/, function () {
-    return this.stage.theActorInTheSpotlight().attemptsTo(assertions_1.Ensure.that(protractor_1.Text.of(library_1.Library.STATIC_CREATIVE), assertions_1.equals('market.jpeg')));
+    return core_1.actorInTheSpotlight().attemptsTo(assertions_1.Ensure.that(protractor_1.Text.of(protractor_1.Target.the('static creative').located(protractor_2.by.xpath("//*[contains(text(),'" + servicesSteps_1.creative() + ".jpeg')]"))), assertions_1.equals(servicesSteps_1.creative().concat('.jpeg'))));
 });
 cucumber_1.Then(/campaign should have draft status/, function () {
-    return this.stage.theActorInTheSpotlight().attemptsTo(CampaignStatus_1.CampaignStatus.getCampaignStatus(CreateCampaignSteps_1.campaignName()));
+    return core_1.actorInTheSpotlight().attemptsTo(CampaignStatus_1.CampaignStatus.getCampaignStatus(CreateCampaignSteps_1.campaignName()));
 });
 cucumber_1.When(/add a permitted creative content to my campaign/, function () {
-    return this.stage.theActorInTheSpotlight().attemptsTo(AddCreativeToCampaign_1.AddCreativeToCampaign.addCreativeToCampaign(CreateCampaignSteps_1.campaignName()));
+    return core_1.actorInTheSpotlight().attemptsTo(AddCreativeToCampaign_1.AddCreativeToCampaign.addCreativeToCampaign(CreateCampaignSteps_1.campaignName()));
 });
 cucumber_1.Then(/creative content is added to Campaign content schedule/, function () {
-    return this.stage.theActorInTheSpotlight().attemptsTo(assertions_1.Ensure.that(protractor_1.Text.of(campaigns_1.Campaigns.STATIC_CREATIVE_ADDED), assertions_1.equals("1 static | 0 dynamic")));
+    return core_1.actorInTheSpotlight().attemptsTo(assertions_1.Ensure.that(protractor_1.Text.of(campaigns_1.Campaigns.STATIC_CREATIVE_ADDED), assertions_1.equals("1 static | 0 dynamic")));
 });
 cucumber_1.Then(/I have selected default content schedule/, function () {
-    return this.stage.theActorInTheSpotlight().attemptsTo(DefaultCampaignSchedule_1.DefaultCampaignSchedule.defaultSchedule());
+    return core_1.actorInTheSpotlight().attemptsTo(DefaultCampaignSchedule_1.DefaultCampaignSchedule.defaultSchedule());
 });
 cucumber_1.Then(/permitted creative is successfully added to the default content schedule/, function () {
-    return this.stage.theActorInTheSpotlight().attemptsTo(assertions_1.Ensure.that(protractor_1.Text.of(campaigns_1.Campaigns.STATIC_CREATIVE_ADDED_DEFAULT_SCHEDULE), assertions_1.equals("1 static | 0 dynamic")));
+    return core_1.actorInTheSpotlight().attemptsTo(assertions_1.Ensure.that(protractor_1.Text.of(campaigns_1.Campaigns.STATIC_CREATIVE_ADDED_DEFAULT_SCHEDULE), assertions_1.equals("1 static | 0 dynamic")));
 });
 //# sourceMappingURL=creativeLibrarySteps.js.map

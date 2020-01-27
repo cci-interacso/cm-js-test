@@ -12,11 +12,13 @@ Feature: Add 'permitted content' to a campaign
     Then get creative id
     Then mark assign static creative to external group
 
+  
   Scenario: Display permitted creative content for external users
     Given Barry is an external user in the Spanish Region
     When I am on the Library Screen of the APP
     Then only permitted static creatives are displayed
     Then Logout
+
 
   Scenario: Add Permitted content [draft status] to Campaign allowed by External user
     Given Tony is an external user in the Spanish Region

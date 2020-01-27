@@ -1,6 +1,6 @@
 
 import { PerformsActivities,Task } from "@serenity-js/core";
-import { Navigate } from "@serenity-js/protractor";
+import { Navigate, Website } from "@serenity-js/protractor";
 require('dotenv').config();
 
 export class BrowseTo extends Task  {

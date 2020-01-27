@@ -23,13 +23,14 @@ exports.config = {
     serenity: {
         runner: 'cucumber',
         crew: [
+
             ArtifactArchiver.storingArtifactsAt('./target/site/serenity'),
-            ConsoleReporter.forDarkTerminals(),
-          //  Photographer.whoWill(TakePhotosOfFailures),
-          Photographer.whoWill(TakePhotosOfInteractions),     // or Photographer.whoWill(TakePhotosOfFailures),
             new SerenityBDDReporter(),
+            ConsoleReporter.forDarkTerminals(),
+            
         ]
 
+        
     },
 
     /**
@@ -67,7 +68,7 @@ exports.config = {
                 '--disable-extensions',
                 '--log-level=3',
                 '--disable-gpu',
-             //   '--headless'
+              //  '--headless'
             ].concat(isCI ? ['--headless'] : [])    // run in headless mode on the CI server
         }
     }

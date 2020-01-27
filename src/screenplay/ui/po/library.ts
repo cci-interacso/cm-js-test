@@ -1,5 +1,7 @@
 import { Target } from '@serenity-js/protractor';
 import { by } from 'protractor';
+import { creative } from '../../../../features/step_definitions/servicesSteps';
+import { resolveTxt } from 'dns';
 
 
 export class Library {
@@ -17,7 +19,7 @@ export class Library {
     static ADD_CREATIVE_TO_SEVILLE = Target.the('add static creative to seville').located(by.xpath("//li[2]/label/span[1]/input[@class='ant-checkbox-input'] "));
     static ASSIGN_CREATIVE = Target.the('assign creative ').located(by.xpath("//button[@class='ant-btn ant-btn-primary']"));
     static SUCCESS_MESSAGE = Target.the('creative added success message').located(by.xpath("//div[@class='ant-notification-notice-message']"));
-    static STATIC_CREATIVE = Target.the('static creative').located(by.xpath("//*[contains(text(),'market.jpeg')]"));
-    static CREATIVE_IMAGE = Target.the('creative image').located(by.xpath("//*[contains(text(),'market.jpeg')]/preceding::div[1]/img"))
+    static STATIC_CREATIVE = Target.the('static creative').located(by.xpath("//*[contains(text(),'"+creative()+".jpeg')]"));
+    static CREATIVE_IMAGE = Target.the('creative image').located(by.xpath("//*[contains(text(),'"+creative()+".jpeg')]/preceding::div[1]/img"))
     static LIBRARY_HOW_T0_UPLOAD = Target.the('how to add creatives').located(by.xpath("//*[contains(text(),'Library')]"));
 }
