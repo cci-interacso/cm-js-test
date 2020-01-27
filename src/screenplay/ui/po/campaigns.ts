@@ -31,5 +31,8 @@ export class Campaigns {
     static STATIC_CREATIVE_ADDED_DEFAULT_SCHEDULE = Target.the('Static creative added').located(by.xpath("//*[@data-test-id='default-content']/div[2]/div"))
     static DELETE_CAMPAIGN = Target.the('delete campaign').located(by.xpath("//*[@data-test-id=\"delete-campaign\"]"))
     static DELETE_CAMPAIGN_YES = Target.the('Yes').located(by.xpath("//*[contains(text(),'Yes')]"))
+    static SORT_CREATIVES = Target.the('sort by name').located(by.xpath("//*[contains(text(),'Sort by - None')]"))
+    static ADDED_NEWEST = Target.the('added newest').located(by.xpath("//*[contains(text(),'Added: Newest')]"))
+
 
 }

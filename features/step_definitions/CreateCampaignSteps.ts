@@ -2,7 +2,7 @@ import { Given, Then, When, Before } from 'cucumber';
 import { See, Duration, engage, actorInTheSpotlight, actorCalled } from '@serenity-js/core';
 import { CallAnApi, LastResponse } from '@serenity-js/rest';
 import { campaignRequest, campaignRequestAlreadyStarted, campaignRequestFutureDate } from '../../src/screenplay/api/endpoints/requests/CampaignRequest'
-import { BrowseTheWeb, Wait, isClickable } from '@serenity-js/protractor';
+import { BrowseTheWeb, Wait, isClickable, Website } from '@serenity-js/protractor';
 import { protractor } from 'protractor/built/ptor';
 import { AuthenticateApi } from '../../src/screenplay/api/authentication/session_Token';
 import { campaignPath, Path, Status } from '../../src/screenplay/cm_variables'
@@ -15,6 +15,7 @@ import { SearchForCampaign } from './../../src/screenplay/ui/tasks/SearchForCamp
 import { LogOut } from './../../src/screenplay/ui/tasks/LogOut'
 import { EditCampaign } from '../../src/screenplay/ui/tasks/EditCampaign'
 import { Actors } from '../support/actors';
+import { ProtractorBrowser } from 'protractor';
 
 let campaignID: any
 let name: any
@@ -26,7 +27,6 @@ Before(() => {
 });
 
 Given(/there is a new campaign (starting today|already started|with a future date)/, async (option: string) => {
-
 
     actorCalled('Apisit')
 
@@ -45,13 +45,13 @@ Given(/there is a new campaign (starting today|already started|with a future dat
 
 Then(/get campaign id from the response/, () => {
 
-   return CallAnApi.as(actorInTheSpotlight())
+    return CallAnApi.as(actorInTheSpotlight())
         .mapLastResponse(response => {
 
             campaignID = response.data._id;
             name = response.data.name
         })
-    })
+})
 
 Then(/Output/, function () {
 

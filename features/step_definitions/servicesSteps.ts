@@ -1,5 +1,4 @@
 import { Given, Then, When, Before } from 'cucumber';
-import { WithStage, Actor, UsesAbilities, engage, actorInTheSpotlight, actorCalled } from '@serenity-js/core';
 import { CallAnApi } from '@serenity-js/rest';
 import { BrowseTheWeb } from '@serenity-js/protractor';
 import { protractor } from 'protractor/built/ptor';
@@ -14,6 +13,7 @@ import { Post } from '../../src/screenplay/api/endpoints/post';
 import { Patch } from '../../src/screenplay/api/endpoints/patch'
 import { campaignRequest } from '../../src/screenplay/api/endpoints/requests/CampaignRequest';
 import { Actors } from '../support/actors';
+import { engage, actorCalled, actorInTheSpotlight } from '@serenity-js/core';
 
 var FormData = require('form-data');
 var faker = require('faker');
