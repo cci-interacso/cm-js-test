@@ -1,4 +1,4 @@
-@CMV-83 @api @regression  @test
+@CMV-83 @api @regression  
 Feature: Add 'permitted content' to a campaign
 
   Background:
