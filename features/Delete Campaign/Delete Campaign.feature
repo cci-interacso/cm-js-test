@@ -1,6 +1,7 @@
 @regression
 Feature: Delete Campaign
 
+  @ui @api
   Scenario: Delete a campaign
     Given there is a new campaign starting today
     Then get campaign id from the response
@@ -8,7 +9,7 @@ Feature: Delete Campaign
     And is on the Create campaign page
     And he attempts to delete the campaign
     And campaign is successfully deleted
-    And Logout
+  #  And Logout
 
 
 

@@ -1,14 +1,12 @@
-import { WithStage, engage, actorCalled } from "@serenity-js/core";
-import { Given, Before } from 'cucumber';
+import { WithStage, engage, actorCalled, actorInTheSpotlight, Duration } from "@serenity-js/core";
+import { Given, Before, After } from 'cucumber';
 import { BrowseTo } from '../../src/screenplay/ui/tasks/BrowseTo'
 import { Login } from '../../src/screenplay/ui/tasks/Login'
 import { Actors } from "../support/actors";
 import { expect } from "../../src/expect";
-import { Website } from "@serenity-js/protractor";
+import { Website, Wait } from "@serenity-js/protractor";
+import { LogOut } from "../../src/screenplay/ui/tasks/LogOut";
 
-Before(() => {
-    engage(new Actors())
-});
 
 
 Given(/(.*) is an internal user in the Spanish Group/, function (this: WithStage, actorName: string) {

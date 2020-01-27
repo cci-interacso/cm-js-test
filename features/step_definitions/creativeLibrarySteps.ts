@@ -1,4 +1,4 @@
-import { Given, Then, When, Before } from 'cucumber';
+import { Given, Then, When, Before, After } from 'cucumber';
 import { WithStage, Actor, Duration, engage, actorInTheSpotlight, actorCalled } from '@serenity-js/core';
 import { BrowseTo } from '../../src/screenplay/ui/tasks/BrowseTo';
 import { Login } from '../../src/screenplay/ui/tasks/Login';
@@ -22,11 +22,8 @@ import { DefaultCampaignSchedule } from './../../src/screenplay/ui/tasks/Default
 import { creative } from './servicesSteps';
 import { by } from 'protractor';
 import { Actors } from '../support/actors';
+import { LogOut } from '../../src/screenplay/ui/tasks/LogOut';
 var path = require('path')
-
-Before(() => {
-    engage(new Actors())
-});
 
 Given(/(.*) uploads a static creative as an internal user/, function (actorName: string) {
 
@@ -40,13 +37,7 @@ Given(/(.*) uploads a static creative as an internal user/, function (actorName:
 
 Then(/the file is available/, async function () {
 
-    actorCalled('Stan').whoCan(
-        CallAnApi.at(process.env.REST_API),
-        BrowseTheWeb.using(protractor.browser)
-    );
-
-    return actorInTheSpotlight()
-        .attemptsTo(Get.get(Path["getCreatives"].toString(), await AuthenticateApi(), 200))
+    return actorCalled('Stan').attemptsTo(Get.get(Path["getCreatives"].toString(), await AuthenticateApi(), 200))
 })
 
 

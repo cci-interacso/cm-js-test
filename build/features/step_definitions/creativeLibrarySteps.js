@@ -41,9 +41,7 @@ var core_1 = require("@serenity-js/core");
 var BrowseTo_1 = require("../../src/screenplay/ui/tasks/BrowseTo");
 var Login_1 = require("../../src/screenplay/ui/tasks/Login");
 var UploadACreative_1 = require("../../src/screenplay/ui/tasks/UploadACreative");
-var rest_1 = require("@serenity-js/rest");
 var protractor_1 = require("@serenity-js/protractor");
-var ptor_1 = require("protractor/built/ptor");
 var get_1 = require("../../src/screenplay/api/endpoints/get");
 var session_Token_1 = require("../../src/screenplay/api/authentication/session_Token");
 var ShareACreative_1 = require("../../src/screenplay/ui/tasks/ShareACreative");
@@ -56,11 +54,7 @@ var campaigns_1 = require("../../src/screenplay/ui/po/campaigns");
 var DefaultCampaignSchedule_1 = require("./../../src/screenplay/ui/tasks/DefaultCampaignSchedule");
 var servicesSteps_1 = require("./servicesSteps");
 var protractor_2 = require("protractor");
-var actors_1 = require("../support/actors");
 var path = require('path');
-cucumber_1.Before(function () {
-    core_1.engage(new actors_1.Actors());
-});
 cucumber_1.Given(/(.*) uploads a static creative as an internal user/, function (actorName) {
     var filePath = path.resolve(process.cwd(), 'src/resources/market.jpeg');
     return core_1.actorCalled(actorName).attemptsTo(BrowseTo_1.BrowseTo.LoginPage(), Login_1.Login.loginOnCM(process.env.SPANISH_INTERNAL_USERNAME, process.env.SPANISH_INTERNAL_PASSWORD), UploadACreative_1.UploadACreative.upload(filePath));
@@ -71,8 +65,7 @@ cucumber_1.Then(/the file is available/, function () {
         return __generator(this, function (_f) {
             switch (_f.label) {
                 case 0:
-                    core_1.Actor.named('Stan').whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser));
-                    _b = (_a = core_1.actorInTheSpotlight()).attemptsTo;
+                    _b = (_a = core_1.actorCalled('Stan')).attemptsTo;
                     _d = (_c = get_1.Get).get;
                     _e = ["/creatives/static?userGroupsDetail=false" /* "getCreatives" */.toString()];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];

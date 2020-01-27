@@ -37,7 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var cucumber_1 = require("cucumber");
-var core_1 = require("@serenity-js/core");
 var rest_1 = require("@serenity-js/rest");
 var protractor_1 = require("@serenity-js/protractor");
 var ptor_1 = require("protractor/built/ptor");
@@ -50,7 +49,7 @@ var postUpload_1 = require("../../src/screenplay/api/endpoints/postUpload");
 var post_1 = require("../../src/screenplay/api/endpoints/post");
 var patch_1 = require("../../src/screenplay/api/endpoints/patch");
 var CampaignRequest_1 = require("../../src/screenplay/api/endpoints/requests/CampaignRequest");
-var actors_1 = require("../support/actors");
+var core_1 = require("@serenity-js/core");
 var FormData = require('form-data');
 var faker = require('faker');
 var path = require('path');
@@ -66,16 +65,13 @@ var screens;
 var contentSchedule;
 var templateID;
 var creativeName;
-cucumber_1.Before(function () {
-    core_1.engage(new actors_1.Actors());
-});
 cucumber_1.Given(/(.*) get okta groups/, function (actor) {
     return __awaiter(this, void 0, void 0, function () {
         var _a, _b, _c, _d, _e;
         return __generator(this, function (_f) {
             switch (_f.label) {
                 case 0:
-                    _b = (_a = core_1.Actor.named(actor).whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _b = (_a = core_1.actorCalled(actor)).attemptsTo;
                     _d = (_c = get_1.Get).get;
                     _e = ["/okta/groups" /* getGroups */];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
@@ -105,7 +101,7 @@ cucumber_1.Then(/(.*) adds the campaign to a group/, function (actor) {
                     groups = {
                         userGroups: [SPAIN_ID, SEVILLE_ID]
                     };
-                    _b = (_a = core_1.Actor.named(actor)
+                    _b = (_a = core_1.actorCalled(actor)
                         .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
                     _d = (_c = put_1.Put).put;
                     _e = ["/campaigns" /* campaigns */.concat("/" + CreateCampaignSteps_1.CampaignID()), groups];
@@ -117,7 +113,7 @@ cucumber_1.Then(/(.*) adds the campaign to a group/, function (actor) {
 });
 cucumber_1.Then(/(.*) upload a creative/, function (actor) {
     return __awaiter(this, void 0, void 0, function () {
-        var fd, actual, target, actorPost, _a, _b, _c, _d, _e;
+        var fd, actual, target, _a, _b, _c, _d, _e;
         return __generator(this, function (_f) {
             switch (_f.label) {
                 case 0:
@@ -134,8 +130,7 @@ cucumber_1.Then(/(.*) upload a creative/, function (actor) {
                         console.log(err);
                     }
                     fd.append('file', file_system_1.fs.createReadStream(target));
-                    actorPost = core_1.Actor.named(actor).whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser));
-                    _b = (_a = actorPost).attemptsTo;
+                    _b = (_a = core_1.actorCalled(actor)).attemptsTo;
                     _d = (_c = postUpload_1.PostUpload).post;
                     _e = ["/creatives/static" /* addStaticContent */, fd];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
@@ -159,8 +154,7 @@ cucumber_1.Then(/(.*) assign static creative to external group/, function (actor
                     group = {
                         userGroups: [SEVILLE_ID, SPAIN_ID]
                     };
-                    _b = (_a = core_1.Actor.named(actor)
-                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _b = (_a = core_1.actorCalled(actor)).attemptsTo;
                     _d = (_c = put_1.Put).put;
                     _e = ["/creatives/static" /* addStaticContent */.concat("/" + creativeID), group];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
@@ -185,15 +179,13 @@ cucumber_1.Then(/(.*) assigns static to (default|content) schedule/, function (a
                     }
                     return [3 /*break*/, 5];
                 case 1:
-                    _c = (_b = core_1.Actor.named(actor)
-                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _c = (_b = core_1.actorCalled(actor)).attemptsTo;
                     _e = (_d = post_1.Post).post;
                     _f = ["/campaigns/" /* addstaticContentToDefaultSchedule */.concat(CreateCampaignSteps_1.CampaignID() + "/static"), creative];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
                 case 2: return [2 /*return*/, _c.apply(_b, [_e.apply(_d, _f.concat([_m.sent(), 200]))])];
                 case 3:
-                    _h = (_g = core_1.Actor.named(actor)
-                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _h = (_g = core_1.actorCalled(actor)).attemptsTo;
                     _k = (_j = post_1.Post).post;
                     _l = ["/campaigns/" /* addstaticContentToDefaultSchedule */.concat(CreateCampaignSteps_1.CampaignID() + "/schedules/" /* schedules */ + contentScheduleID + "/static"), creative];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
@@ -240,8 +232,7 @@ cucumber_1.Then(/(.*) gets content manager screens/, function (actor) {
         return __generator(this, function (_f) {
             switch (_f.label) {
                 case 0:
-                    _b = (_a = core_1.Actor.named(actor)
-                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _b = (_a = core_1.actorCalled(actor)).attemptsTo;
                     _d = (_c = get_1.Get).get;
                     _e = ["/screens?userGroupsDetail=false&limit=4" /* screens */];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
@@ -269,8 +260,7 @@ cucumber_1.Then(/(.*) edits campaign schedule/, function (actor) {
                         screens: [],
                         name: 'name'
                     };
-                    _b = (_a = core_1.Actor.named(actor)
-                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _b = (_a = core_1.actorCalled(actor)).attemptsTo;
                     _d = (_c = put_1.Put).put;
                     _e = ["/campaigns" /* campaigns */.concat("/" + CreateCampaignSteps_1.CampaignID() + "/schedules/" /* schedules */), editScheduleRequest];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
@@ -285,8 +275,7 @@ cucumber_1.Then(/(.*) post the schedules for the campaign/, function (actor) {
         return __generator(this, function (_f) {
             switch (_f.label) {
                 case 0:
-                    _b = (_a = core_1.Actor.named(actor)
-                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _b = (_a = core_1.actorCalled(actor)).attemptsTo;
                     _d = (_c = post_1.Post).post;
                     _e = ["/campaigns" /* campaigns */.concat("/" + CreateCampaignSteps_1.CampaignID() + "/schedules/" /* schedules */), ""];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
@@ -301,8 +290,7 @@ cucumber_1.Then(/(.*) get content schedule/, function (actor) {
         return __generator(this, function (_f) {
             switch (_f.label) {
                 case 0:
-                    _b = (_a = core_1.Actor.named(actor)
-                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _b = (_a = core_1.actorCalled(actor)).attemptsTo;
                     _d = (_c = get_1.Get).get;
                     _e = ["/campaigns" /* campaigns */.concat("/" + CreateCampaignSteps_1.CampaignID() + "/schedules/" /* schedules */)];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
@@ -330,8 +318,7 @@ cucumber_1.Then(/add players to schedule/, function () {
                         screensGroups: [],
                         name: 'All week'
                     };
-                    _b = (_a = core_1.actorInTheSpotlight()
-                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _b = (_a = core_1.actorInTheSpotlight()).attemptsTo;
                     _d = (_c = put_1.Put).put;
                     _e = ["/campaigns" /* campaigns */.concat("/" + CreateCampaignSteps_1.CampaignID() + "/schedules/" /* schedules */ + contentScheduleID), screensRequest];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
@@ -362,8 +349,7 @@ cucumber_1.Then(/add a template/, function () {
                                 index: 1
                             }]
                     };
-                    _b = (_a = core_1.actorInTheSpotlight()
-                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _b = (_a = core_1.actorInTheSpotlight()).attemptsTo;
                     _d = (_c = post_1.Post).post;
                     _e = ["/templates/" /* templates */, template];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
@@ -375,18 +361,17 @@ cucumber_1.Then(/add a template/, function () {
 cucumber_1.Then(/get template id/, function () {
     return rest_1.CallAnApi.as(core_1.actorInTheSpotlight())
         .mapLastResponse(function (response) {
-        templateID = response.data.docs[0]._id;
+        templateID = response.data._id;
         //  console.log(response.data)
     });
 });
-cucumber_1.Then(/create a template from ID/, function () {
+cucumber_1.Then(/create a campaign from template id/, function () {
     return __awaiter(this, void 0, void 0, function () {
         var _a, _b, _c, _d, _e;
         return __generator(this, function (_f) {
             switch (_f.label) {
                 case 0:
-                    _b = (_a = core_1.actorInTheSpotlight()
-                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _b = (_a = core_1.actorInTheSpotlight()).attemptsTo;
                     _d = (_c = post_1.Post).post;
                     _e = ["/campaigns" /* getCampaigns */.concat("/template/" /* template */ + templateID), CampaignRequest_1.campaignRequest];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
@@ -401,8 +386,7 @@ cucumber_1.Then(/(.*) get the template using templateID/, function (actor) {
         return __generator(this, function (_f) {
             switch (_f.label) {
                 case 0:
-                    _b = (_a = core_1.Actor.named(actor)
-                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _b = (_a = core_1.actorCalled(actor)).attemptsTo;
                     _d = (_c = get_1.Get).get;
                     _e = ["/template/" /* template */.concat(templateID)];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
@@ -417,8 +401,7 @@ cucumber_1.Then(/campaign is successfully deleted/, function () {
         return __generator(this, function (_f) {
             switch (_f.label) {
                 case 0:
-                    _b = (_a = core_1.actorInTheSpotlight()
-                        .whoCan(rest_1.CallAnApi.at(process.env.REST_API), protractor_1.BrowseTheWeb.using(ptor_1.protractor.browser))).attemptsTo;
+                    _b = (_a = core_1.actorInTheSpotlight()).attemptsTo;
                     _d = (_c = get_1.Get).get;
                     _e = ["/campaigns" /* getCampaigns */.concat("/" + CreateCampaignSteps_1.CampaignID())];
                     return [4 /*yield*/, session_Token_1.AuthenticateApi()];
