@@ -30,7 +30,7 @@ var contentScheduleID: any
 var screens: any
 var contentSchedule: any
 var templateID: any
-var creativeName :string
+var creativeName: string
 
 Before(() => {
     engage(new Actors())
@@ -72,7 +72,7 @@ Then(/(.*) upload a creative/, async function (actor: string) {
     const actual = path.resolve(process.cwd(), 'src/resources/test.jpeg');
     const target = path.resolve(process.cwd(), "src/resources/toDeleteContent/" + creativeName + ".jpeg");
 
-    
+
     try {
         fs.copyFile(actual, target, (err) => {
             // if (err) throw err;
@@ -83,10 +83,8 @@ Then(/(.*) upload a creative/, async function (actor: string) {
 
     fd.append('file', fs.createReadStream(target));
 
-    const actorPost = actorCalled(actor).whoCan(
-        CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser));
-
-    return actorPost.attemptsTo(PostUpload.post(Path.addStaticContent, fd, await AuthenticateApi(), 200));
+    return actorCalled(actor)
+        .attemptsTo(PostUpload.post(Path.addStaticContent, fd, await AuthenticateApi(), 200));
 })
 
 Then(/get creative id/, function () {
@@ -103,7 +101,6 @@ Then(/(.*) assign static creative to external group/, async function (actor: str
     }
 
     return actorCalled(actor)
-        .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Put.put(Path.addStaticContent.concat("/" + creativeID), group, await AuthenticateApi(), 200))
 })
 
@@ -116,11 +113,9 @@ Then(/(.*) assigns static to (default|content) schedule/, async function (actor:
     switch (option) {
         case 'default':
             return actorCalled(actor)
-                .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
                 .attemptsTo(Post.post(Path.addstaticContentToDefaultSchedule.concat(CampaignID() + "/static"), creative, await AuthenticateApi(), 200))
         case 'content':
             return actorCalled(actor)
-                .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
                 .attemptsTo(Post.post(Path.addstaticContentToDefaultSchedule.concat(CampaignID() + Path.schedules + contentScheduleID + "/static"), creative, await AuthenticateApi(), 200))
     }
 })
@@ -144,7 +139,6 @@ When(/he (pauses|scheduled) the campaign/, async function (option: string) {
 Then(/(.*) gets content manager screens/, async function (actor: string) {
 
     return actorCalled(actor)
-        .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Get.get(Path.screens, await AuthenticateApi(), 200))
 })
 
@@ -169,7 +163,6 @@ Then(/(.*) edits campaign schedule/, async function (actor: string) {
     }
 
     return actorCalled(actor)
-        .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Put.put(Path.campaigns.concat("/" + CampaignID() + Path.schedules), editScheduleRequest, await AuthenticateApi(), 200))
 
 })
@@ -177,7 +170,6 @@ Then(/(.*) edits campaign schedule/, async function (actor: string) {
 Then(/(.*) post the schedules for the campaign/, async function (actor: string) {
 
     return actorCalled(actor)
-        .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Post.post(Path.campaigns.concat("/" + CampaignID() + Path.schedules), "", await AuthenticateApi(), 201))
 
 })
@@ -185,7 +177,6 @@ Then(/(.*) post the schedules for the campaign/, async function (actor: string) 
 Then(/(.*) get content schedule/, async function (actor: string) {
 
     return actorCalled(actor)
-        .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Get.get(Path.campaigns.concat("/" + CampaignID() + Path.schedules), await AuthenticateApi(), 200))
 })
 
@@ -207,7 +198,6 @@ Then(/add players to schedule/, async function () {
     }
 
     return actorInTheSpotlight()
-        .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Put.put(Path.campaigns.concat("/" + CampaignID() + Path.schedules + contentScheduleID), screensRequest, await AuthenticateApi(), 200))
 })
 
@@ -233,7 +223,6 @@ Then(/add a template/, async function () {
     }
 
     return actorInTheSpotlight()
-        .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Post.post(Path.templates, template, await AuthenticateApi(), 201))
 })
 
@@ -241,15 +230,14 @@ Then(/get template id/, function () {
 
     return CallAnApi.as(actorInTheSpotlight())
         .mapLastResponse(response => {
-            templateID = response.data.docs[0]._id
+            templateID = response.data._id
             //  console.log(response.data)
         })
 })
 
-Then(/create a template from ID/, async function () {
+Then(/create a campaign from template id/, async function () {
 
     return actorInTheSpotlight()
-        .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Post.post(Path.getCampaigns.concat(Path.template + templateID), campaignRequest, await AuthenticateApi(), 201))
 
 })
@@ -257,7 +245,6 @@ Then(/create a template from ID/, async function () {
 Then(/(.*) get the template using templateID/, async function (actor: string) {
 
     return actorCalled(actor)
-        .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Get.get(Path.template.concat(templateID), await AuthenticateApi(), 200))
 
 })
@@ -265,7 +252,6 @@ Then(/(.*) get the template using templateID/, async function (actor: string) {
 Then(/campaign is successfully deleted/, async function () {
 
     return actorInTheSpotlight()
-        .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Get.get(Path.getCampaigns.concat("/" + CampaignID()), await AuthenticateApi(), 404))
 })
 
