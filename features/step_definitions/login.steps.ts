@@ -13,10 +13,6 @@ Before(() => {
 
 Given(/(.*) is an internal user in the Spanish Group/, function (this: WithStage, actorName: string) {
 
-
-    if (expect(Website.url()).to.include("/login/login.htm")) {
-
-    }
     return actorCalled(actorName).attemptsTo(
         BrowseTo.LoginPage(),
         Login.loginOnCM(process.env.SPANISH_INTERNAL_USERNAME,process.env.SPANISH_INTERNAL_PASSWORD),
