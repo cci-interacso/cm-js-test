@@ -410,6 +410,24 @@ cucumber_1.Then(/campaign is successfully deleted/, function () {
         });
     });
 });
+cucumber_1.Then(/add seville group to screen/, function () {
+    return __awaiter(this, void 0, void 0, function () {
+        var addGrouptoScreenRequest, _a, _b, _c, _d, _e;
+        return __generator(this, function (_f) {
+            switch (_f.label) {
+                case 0:
+                    addGrouptoScreenRequest = {
+                        userGroups: [SPAIN_ID, SEVILLE_ID]
+                    };
+                    _b = (_a = core_1.actorInTheSpotlight()).attemptsTo;
+                    _d = (_c = put_1.Put).put;
+                    _e = ["/screens/" /* screen */.concat(screens[0]._id), addGrouptoScreenRequest];
+                    return [4 /*yield*/, session_Token_1.AuthenticateApi()];
+                case 1: return [2 /*return*/, _b.apply(_a, [_d.apply(_c, _e.concat([_f.sent(), 200]))])];
+            }
+        });
+    });
+});
 function creative() {
     return creativeName;
 }

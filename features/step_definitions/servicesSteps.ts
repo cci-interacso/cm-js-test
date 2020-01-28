@@ -250,6 +250,19 @@ Then(/campaign is successfully deleted/, async function () {
 })
 
 
+
+Then(/add seville group to screen/, async function(){
+
+    var addGrouptoScreenRequest = {
+        userGroups: [SPAIN_ID,SEVILLE_ID]
+    }
+    return actorInTheSpotlight()
+        .attemptsTo(
+            Put.put(Path.screen.concat(screens[0]._id),addGrouptoScreenRequest,await AuthenticateApi(),200)
+        )
+})
+
+
 export function creative() {
     return creativeName
 
