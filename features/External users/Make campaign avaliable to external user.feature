@@ -1,4 +1,4 @@
-@cmv-118
+@cmv-118 @Ignore
 Feature: Make Campaign available to an External User
     
 

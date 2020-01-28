@@ -1,4 +1,4 @@
-@wip @92
+@wip @92 @Ignore
 Feature: External user to edit campaign content schedule information
 
    Scenario: Scenario name

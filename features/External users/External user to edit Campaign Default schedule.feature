@@ -1,4 +1,4 @@
-@wip @cm-103
+ @Ignore @wip @cm-103
 Feature: External user to edit campaign default scheduel
 
 
