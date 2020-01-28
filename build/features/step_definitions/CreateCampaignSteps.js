@@ -144,7 +144,7 @@ cucumber_1.Then(/the campaign has a status of (draft|paused|ongoing)/, function 
 cucumber_1.Given(/is on the Create campaign page/, function () {
     return core_1.actorInTheSpotlight().attemptsTo(protractor_1.Wait.upTo(waitTimeInMillseconds).until(campaigns_1.Campaigns.NEW_CAMPAIGN_BUTTON, protractor_1.isClickable()));
 });
-cucumber_1.When(/he enters/, function () {
+cucumber_1.When(/he enters/, function (options) {
     return core_1.actorInTheSpotlight().attemptsTo(CreateANewCampaign_1.CreateANewCampaign.enterNewCampaignData());
 });
 cucumber_1.Then(/the campaign is successfully created/, function () {
