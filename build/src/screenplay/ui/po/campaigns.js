@@ -33,6 +33,7 @@ var Campaigns = /** @class */ (function () {
     Campaigns.DELETE_CAMPAIGN_YES = protractor_1.Target.the('Yes').located(protractor_2.by.xpath("//*[contains(text(),'Yes')]"));
     Campaigns.SORT_CREATIVES = protractor_1.Target.the('sort by name').located(protractor_2.by.xpath("//*[contains(text(),'Sort by - None')]"));
     Campaigns.ADDED_NEWEST = protractor_1.Target.the('added newest').located(protractor_2.by.xpath("//*[contains(text(),'Added: Newest')]"));
+    Campaigns.EDIT_ICON = protractor_1.Target.the('edit icon').located(protractor_2.by.xpath("//*[@data-test-id=\"edit-icon\"]"));
     return Campaigns;
 }());
 exports.Campaigns = Campaigns;

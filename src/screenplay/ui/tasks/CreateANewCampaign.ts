@@ -1,5 +1,5 @@
 import { Task, Duration } from "@serenity-js/core";
-import { Click, Enter, Wait, isClickable, ExecuteScript } from "@serenity-js/protractor";
+import { Click, Enter, Wait, isClickable, ExecuteScript, Clear } from "@serenity-js/protractor";
 import { Campaigns } from "../po/campaigns";
 import { callbackify } from "util";
 var faker = require('faker');
@@ -18,7 +18,7 @@ export class CreateANewCampaign implements Task {
 
     performAs(actor: import("@serenity-js/core").PerformsActivities): PromiseLike<void> {
        return actor.attemptsTo(
-             Click.on(Campaigns.NEW_CAMPAIGN_BUTTON),
+             Clear.theValueOf(Campaigns.CAMPAIGN_NAME),
              Enter.theValue(campaignName).into(Campaigns.CAMPAIGN_NAME),
              Enter.theValue(faker.random.number()).into(Campaigns.CAMPAIGN_ID),
              Click.on(Campaigns.DATE_PICKER),
@@ -32,7 +32,6 @@ export class CreateANewCampaign implements Task {
                  callback(res)
 
              }).withArguments(Campaigns.SUBMIT_CAMPAIGN),
-        //     Click.on(Campaigns.SUBMIT_CAMPAIGN)
        )
     }
     

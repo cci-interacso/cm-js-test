@@ -16,7 +16,10 @@ import { LogOut } from './../../src/screenplay/ui/tasks/LogOut'
 import { EditCampaign } from '../../src/screenplay/ui/tasks/EditCampaign'
 import { Actors } from '../support/actors';
 import { ProtractorBrowser } from 'protractor';
-var date = require('date-and-time');
+import { ClickOnNewCampaign } from './../../src/screenplay/ui/tasks/ClickOnNewCampaign'
+import { EditTheCampaign } from './../../src/screenplay/ui/tasks/EditIcon'
+
+var date = require('date-and-time')
 
 let campaignID: any
 let name: any
@@ -108,12 +111,13 @@ Given(/is on the Create campaign page/, function () {
 
 When(/he enters/, function (options:any) {
     return actorInTheSpotlight().attemptsTo(
+        ClickOnNewCampaign.clickOnNewButton(),
         CreateANewCampaign.enterNewCampaignData()
     )
 
 })
 
-Then(/the campaign is successfully created/, async function () {
+Then(/the campaign is successfully (?:created|edited)/, async function () {
     return actorInTheSpotlight()
         .attemptsTo(
             Get.getCampaigns(campaignPath.GET_CAMPAIGNS.concat('?&limit=1&userGroupsDetail=false'), await AuthenticateApi(), 200),
@@ -124,9 +128,21 @@ Then(/the campaign is successfully created/, async function () {
 
 Then(/search for a campaign/, function () {
     return actorInTheSpotlight().attemptsTo(
-        SearchForCampaign.goToCampaigns("Schinner LLC"),
+        SearchForCampaign.goToCampaigns(getCampaignName()),
         EditCampaign.editCampaign()
     )
+})
+
+Then(/(.*) edits the campaign/, function (actor:string){
+
+    return actorCalled(actor).attemptsTo(EditTheCampaign.editCampaignUsingTheEditIcon())
+})
+
+Then(/I can edit the campaign/, function (){
+    return actorInTheSpotlight().attemptsTo(
+        CreateANewCampaign.enterNewCampaignData()
+    )
+
 })
 
 Then(/Logout/, function () {
