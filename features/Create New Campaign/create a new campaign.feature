@@ -1,7 +1,7 @@
 @regression @api
 Feature: Create new campaign
 
-     @ui
+     @ui @test
     Scenario: Create campaign using Content manager
         Given S is an internal user in the Spanish Group
         And is on the Create campaign page
@@ -11,7 +11,6 @@ Feature: Create new campaign
             | startDate    |
             | endDate      |
         Then the campaign is successfully created
-       # Then Logout
 
     @api
     Scenario: Create campaign from a template

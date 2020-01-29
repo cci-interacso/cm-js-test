@@ -10,7 +10,6 @@ cucumber_1.Before(function () {
     core_1.engage(new actors_1.Actors());
 });
 cucumber_1.After({ tags: "@ui" }, function (scenario) {
-    console.log('I am a after hook');
     return core_1.actorInTheSpotlight().attemptsTo(LogOut_1.LogOut.userLogout(), protractor_1.Wait.for(core_1.Duration.ofSeconds(3)));
 });
 //# sourceMappingURL=setup.js.map

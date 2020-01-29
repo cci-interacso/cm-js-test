@@ -1,7 +1,6 @@
 import { Target } from '@serenity-js/protractor';
 import { by } from 'protractor';
 import { creative } from '../../../../features/step_definitions/servicesSteps';
-import { resolveTxt } from 'dns';
 
 
 export class Library {

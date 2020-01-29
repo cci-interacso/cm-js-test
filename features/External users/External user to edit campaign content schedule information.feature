@@ -1,11 +1,19 @@
-@wip @92
+@cmv-92 @regression
 Feature: External user to edit campaign content schedule information
 
-   Scenario: Scenario name
-    Given context Given Barry is an external user in the Spanish Region
-    And select a campaign that is shared 
-    And campaign is in draft status
-    Then I can edit the campaign
-    Then CM will allow edit the following 
-      | Schedule Content Name| 
-      |Start Date | 
+   Background:
+      Given there is a new campaign starting today
+      Then get campaign id from the response
+      Then the campaign has a status of draft
+      Then stan get okta groups
+      Then extract id for content manager seville
+      Then Starks adds the campaign to a group
+      Then stan post the schedules for the campaign
+
+   @ui
+   Scenario: External user can edit shared content schedule of shared campaign
+      And Barry is an external user in the Spanish Region
+      And search for a campaign
+      When edit the content schedule
+      And Barry get content schedule
+      Then content schedule is updated 

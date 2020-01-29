@@ -19,7 +19,7 @@ Feature: Add 'permitted content' to a campaign
     Then only permitted static creatives are displayed
  
 
-   @ui
+   @ui 
   Scenario: Add Permitted content [draft status] to Campaign allowed by External user
     Given Tony is an external user in the Spanish Region
     And campaign should have draft status

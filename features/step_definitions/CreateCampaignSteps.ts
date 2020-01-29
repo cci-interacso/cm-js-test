@@ -1,9 +1,8 @@
-import { Given, Then, When, Before, After } from 'cucumber';
-import { See, Duration, engage, actorInTheSpotlight, actorCalled } from '@serenity-js/core';
+import { Given, Then, When } from 'cucumber';
+import { See, Duration, actorInTheSpotlight, actorCalled } from '@serenity-js/core';
 import { CallAnApi, LastResponse } from '@serenity-js/rest';
-import { campaignRequest, campaignRequestAlreadyStarted, campaignRequestFutureDate } from '../../src/screenplay/api/endpoints/requests/CampaignRequest'
-import { BrowseTheWeb, Wait, isClickable, Website } from '@serenity-js/protractor';
-import { protractor } from 'protractor/built/ptor';
+import { campaignRequestAlreadyStarted, campaignRequestFutureDate } from '../../src/screenplay/api/endpoints/requests/CampaignRequest'
+import { Wait, isClickable, Text } from '@serenity-js/protractor';
 import { AuthenticateApi } from '../../src/screenplay/api/authentication/session_Token';
 import { campaignPath, Path, Status } from '../../src/screenplay/cm_variables'
 import { Get } from '../../src/screenplay/api/endpoints/get'
@@ -14,9 +13,11 @@ import { Post } from '../../src/screenplay/api/endpoints/post'
 import { SearchForCampaign } from './../../src/screenplay/ui/tasks/SearchForCampaign'
 import { LogOut } from './../../src/screenplay/ui/tasks/LogOut'
 import { EditCampaign } from '../../src/screenplay/ui/tasks/EditCampaign'
-import { Actors } from '../support/actors';
-import { ProtractorBrowser } from 'protractor';
-var date = require('date-and-time');
+import { ClickOnNewCampaign } from './../../src/screenplay/ui/tasks/ClickOnNewCampaign'
+import { EditTheCampaign } from './../../src/screenplay/ui/tasks/EditIcon'
+import {EditContentSchedule} from './../../src/screenplay/ui/tasks/EditContentSchedule'
+
+var date = require('date-and-time')
 
 let campaignID: any
 let name: any
@@ -106,14 +107,16 @@ Given(/is on the Create campaign page/, function () {
 
 })
 
-When(/he enters/, function () {
+When(/he enters/, function (options: string) {
+
     return actorInTheSpotlight().attemptsTo(
+        ClickOnNewCampaign.clickOnNewButton(),
         CreateANewCampaign.enterNewCampaignData()
     )
 
 })
 
-Then(/the campaign is successfully created/, async function () {
+Then(/the campaign is successfully (?:created|edited)/, async function () {
     return actorInTheSpotlight()
         .attemptsTo(
             Get.getCampaigns(campaignPath.GET_CAMPAIGNS.concat('?&limit=1&userGroupsDetail=false'), await AuthenticateApi(), 200),
@@ -124,9 +127,25 @@ Then(/the campaign is successfully created/, async function () {
 
 Then(/search for a campaign/, function () {
     return actorInTheSpotlight().attemptsTo(
-        SearchForCampaign.goToCampaigns("Schinner LLC"),
+        SearchForCampaign.goToCampaigns(campaignName()),
         EditCampaign.editCampaign()
     )
+})
+
+Then(/(.*) edits the campaign/, function (actor:string){
+
+    return actorCalled(actor).attemptsTo(EditTheCampaign.editCampaignUsingTheEditIcon())
+})
+
+Then(/edit the content schedule/, function (){
+    return actorInTheSpotlight().attemptsTo(EditContentSchedule.editContentSchedule())
+})
+
+Then(/I can edit the campaign/, function (){
+    return actorInTheSpotlight().attemptsTo(
+        CreateANewCampaign.enterNewCampaignData()
+    )
+
 })
 
 Then(/Logout/, function () {

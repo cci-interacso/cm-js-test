@@ -59,6 +59,9 @@ When(/I am on the Library Screen of the APP/, function () {
 Then(/only permitted static creatives are displayed/, function () {
 
     return actorInTheSpotlight().attemptsTo(
+        Hover.over(Campaigns.SORT_CREATIVES),
+        Click.on(Campaigns.ADDED_NEWEST),
+        Wait.for(Duration.ofSeconds(5)),
         Ensure.that(Text.of(Target.the('static creative').located(by.xpath("//*[contains(text(),'" + creative() + ".jpeg')]"))), equals(creative().concat('.jpeg')))
     )
 })

@@ -12,9 +12,7 @@ Before(() => {
     engage(new Actors())
 });
 
-After({tags: "@ui"},function (scenario) {
-
-    console.log('I am a after hook')
+After({ tags: "@ui" }, function (scenario) {
 
     return actorInTheSpotlight().attemptsTo(
         LogOut.userLogout(),

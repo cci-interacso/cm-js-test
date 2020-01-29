@@ -51,6 +51,9 @@ var post_1 = require("../../src/screenplay/api/endpoints/post");
 var SearchForCampaign_1 = require("./../../src/screenplay/ui/tasks/SearchForCampaign");
 var LogOut_1 = require("./../../src/screenplay/ui/tasks/LogOut");
 var EditCampaign_1 = require("../../src/screenplay/ui/tasks/EditCampaign");
+var ClickOnNewCampaign_1 = require("./../../src/screenplay/ui/tasks/ClickOnNewCampaign");
+var EditIcon_1 = require("./../../src/screenplay/ui/tasks/EditIcon");
+var EditContentSchedule_1 = require("./../../src/screenplay/ui/tasks/EditContentSchedule");
 var date = require('date-and-time');
 var campaignID;
 var name;
@@ -145,9 +148,9 @@ cucumber_1.Given(/is on the Create campaign page/, function () {
     return core_1.actorInTheSpotlight().attemptsTo(protractor_1.Wait.upTo(waitTimeInMillseconds).until(campaigns_1.Campaigns.NEW_CAMPAIGN_BUTTON, protractor_1.isClickable()));
 });
 cucumber_1.When(/he enters/, function () {
-    return core_1.actorInTheSpotlight().attemptsTo(CreateANewCampaign_1.CreateANewCampaign.enterNewCampaignData());
+    return core_1.actorInTheSpotlight().attemptsTo(ClickOnNewCampaign_1.ClickOnNewCampaign.clickOnNewButton(), CreateANewCampaign_1.CreateANewCampaign.enterNewCampaignData());
 });
-cucumber_1.Then(/the campaign is successfully created/, function () {
+cucumber_1.Then(/the campaign is successfully (?:created|edited)/, function () {
     return __awaiter(this, void 0, void 0, function () {
         var _a, _b, _c, _d, _e;
         return __generator(this, function (_f) {
@@ -165,7 +168,16 @@ cucumber_1.Then(/the campaign is successfully created/, function () {
     });
 });
 cucumber_1.Then(/search for a campaign/, function () {
-    return core_1.actorInTheSpotlight().attemptsTo(SearchForCampaign_1.SearchForCampaign.goToCampaigns("Schinner LLC"), EditCampaign_1.EditCampaign.editCampaign());
+    return core_1.actorInTheSpotlight().attemptsTo(SearchForCampaign_1.SearchForCampaign.goToCampaigns('Orn - Flatley'), EditCampaign_1.EditCampaign.editCampaign());
+});
+cucumber_1.Then(/(.*) edits the campaign/, function (actor) {
+    return core_1.actorCalled(actor).attemptsTo(EditIcon_1.EditTheCampaign.editCampaignUsingTheEditIcon());
+});
+cucumber_1.Then(/edit the content schedule/, function () {
+    return core_1.actorInTheSpotlight().attemptsTo(EditContentSchedule_1.EditContentSchedule.editContentSchedule());
+});
+cucumber_1.Then(/I can edit the campaign/, function () {
+    return core_1.actorInTheSpotlight().attemptsTo(CreateANewCampaign_1.CreateANewCampaign.enterNewCampaignData());
 });
 cucumber_1.Then(/Logout/, function () {
     return core_1.actorInTheSpotlight().attemptsTo(LogOut_1.LogOut.userLogout(), protractor_1.Wait.for(core_1.Duration.ofSeconds(3)));

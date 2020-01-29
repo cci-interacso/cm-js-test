@@ -21,7 +21,8 @@ export const enum Path {
     schedules ='/schedules/',
     screens = '/screens?userGroupsDetail=false&limit=4',
     templates ='/templates/',
-    template = '/template/'
+    template = '/template/',
+    screen = '/screens/'
 }
 
 
