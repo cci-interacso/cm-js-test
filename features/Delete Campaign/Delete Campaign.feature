@@ -9,7 +9,6 @@ Feature: Delete Campaign
     And is on the Create campaign page
     And he attempts to delete the campaign
     And campaign is successfully deleted
-  #  And Logout
 
 
 

@@ -1,5 +1,5 @@
 import { Given, Then, When, Before, After } from 'cucumber';
-import { CallAnApi } from '@serenity-js/rest';
+import { CallAnApi, LastResponse } from '@serenity-js/rest';
 import { BrowseTheWeb, Wait } from '@serenity-js/protractor';
 import { protractor } from 'protractor/built/ptor';
 import { AuthenticateApi } from '../../src/screenplay/api/authentication/session_Token';
@@ -13,8 +13,10 @@ import { Post } from '../../src/screenplay/api/endpoints/post';
 import { Patch } from '../../src/screenplay/api/endpoints/patch'
 import { campaignRequest } from '../../src/screenplay/api/endpoints/requests/CampaignRequest';
 import { Actors } from '../support/actors';
-import { engage, actorCalled, actorInTheSpotlight, Duration } from '@serenity-js/core';
+import { engage, actorCalled, actorInTheSpotlight, Duration, Question, See } from '@serenity-js/core';
 import { LogOut } from '../../src/screenplay/ui/tasks/LogOut';
+import { Ensure, equals, includes } from '@serenity-js/assertions';
+import { expect } from '../../src/expect';
 
 var FormData = require('form-data');
 var faker = require('faker');
@@ -174,6 +176,15 @@ Then(/(.*) get content schedule/, async function (actor: string) {
         .attemptsTo(Get.get(Path.campaigns.concat("/" + CampaignID() + Path.schedules), await AuthenticateApi(), 200))
 })
 
+Then(/content schedule is updated/, function () {
+
+    return actorInTheSpotlight()
+        .attemptsTo(
+            See.if(LastResponse.body(), Actual => expect(Actual).to.have.deep.property('docs.[0].startTime', '01:03:00')),
+            See.if(LastResponse.body(), Actual => expect(Actual).to.have.deep.property('docs.[0].name', 'ScheduleEdited')
+            ))
+})
+
 Then(/get content schedule id/, function () {
 
     CallAnApi.as(actorInTheSpotlight())
@@ -251,14 +262,14 @@ Then(/campaign is successfully deleted/, async function () {
 
 
 
-Then(/add seville group to screen/, async function(){
+Then(/add seville group to screen/, async function () {
 
     var addGrouptoScreenRequest = {
-        userGroups: [SPAIN_ID,SEVILLE_ID]
+        userGroups: [SPAIN_ID, SEVILLE_ID]
     }
     return actorInTheSpotlight()
         .attemptsTo(
-            Put.put(Path.screen.concat(screens[0]._id),addGrouptoScreenRequest,await AuthenticateApi(),200)
+            Put.put(Path.screen.concat(screens[0]._id), addGrouptoScreenRequest, await AuthenticateApi(), 200)
         )
 })
 
