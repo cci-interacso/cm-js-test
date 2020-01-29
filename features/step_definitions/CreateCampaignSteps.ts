@@ -107,7 +107,7 @@ Given(/is on the Create campaign page/, function () {
 
 })
 
-When(/he enters/, function () {
+When(/he enters/, function (options: string) {
     return actorInTheSpotlight().attemptsTo(
         ClickOnNewCampaign.clickOnNewButton(),
         CreateANewCampaign.enterNewCampaignData()
