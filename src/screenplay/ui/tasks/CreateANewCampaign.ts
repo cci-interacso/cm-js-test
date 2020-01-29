@@ -18,6 +18,7 @@ export class CreateANewCampaign implements Task {
 
     performAs(actor: import("@serenity-js/core").PerformsActivities): PromiseLike<void> {
        return actor.attemptsTo(
+             Wait.for(Duration.ofSeconds(3)),
              Clear.theValueOf(Campaigns.CAMPAIGN_NAME),
              Enter.theValue(campaignName).into(Campaigns.CAMPAIGN_NAME),
              Enter.theValue(faker.random.number()).into(Campaigns.CAMPAIGN_ID),

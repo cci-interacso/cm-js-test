@@ -9,7 +9,6 @@ Feature: Creative Library
         Given Stan uploads a static creative as an internal user
         Then the file is available
         Then share the creative with my regional external users
-      #  Then Logout
 
   
       
