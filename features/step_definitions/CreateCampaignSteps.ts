@@ -25,7 +25,9 @@ const waitTimeInMillseconds = Duration.ofMilliseconds(15000);
 
 
 
-Given(/there is a new campaign (starting today|already started|with a future date)/, async (option: string) => {var faker = require('faker');
+Given(/there is a new campaign (starting today|already started|with a future date)/, async (option: string) => {
+
+var faker = require('faker');
 
 
 const now = new Date();

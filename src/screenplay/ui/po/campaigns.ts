@@ -5,8 +5,8 @@ var date = require('date-and-time');
 const now = new Date();
 const next_month = date.addDays(now, 5);
 
-const startDate = date.format(now, 'MMMM DD, YYYY');
-const endDate = date.format(next_month, 'MMMM DD, YYYY');
+const startDate = date.format(now, 'MMMM D, YYYY');
+const endDate = date.format(next_month, 'MMMM D, YYYY');
 
 export class Campaigns {
 
@@ -32,7 +32,7 @@ export class Campaigns {
     static DELETE_CAMPAIGN = Target.the('delete campaign').located(by.xpath("//*[@data-test-id=\"delete-campaign\"]"))
     static DELETE_CAMPAIGN_YES = Target.the('Yes').located(by.xpath("//*[contains(text(),'Yes')]"))
     static SORT_CREATIVES = Target.the('sort by name').located(by.xpath("//*[contains(text(),'Sort by - None')]"))
-    static ADDED_NEWEST = Target.the('added newest').located(by.xpath("//*[contains(text(),'Added: Newest')]"))
+    static ADDED_NEWEST = Target.the('added newest').located(by.xpath("//*[@id='root']/div/div/div/div[2]/div/div[1]/div[2]/div[2]/div[6]"))
     static EDIT_ICON = Target.the('edit icon').located(by.xpath("//*[@data-test-id=\"edit-icon\"]"))
 
 

@@ -4,7 +4,7 @@ import { BrowseTo } from '../../src/screenplay/ui/tasks/BrowseTo';
 import { Login } from '../../src/screenplay/ui/tasks/Login';
 import { UploadACreative } from '../../src/screenplay/ui/tasks/UploadACreative'
 import { CallAnApi } from '@serenity-js/rest';
-import { BrowseTheWeb, Click, Hover, Wait, isClickable, isVisible, Text, Target } from '@serenity-js/protractor';
+import { BrowseTheWeb, Click, Hover, Wait, isClickable, isVisible, Text, Target, DoubleClick } from '@serenity-js/protractor';
 import { protractor } from 'protractor/built/ptor';
 import { Get } from '../../src/screenplay/api/endpoints/get';
 import { Path } from '../../src/screenplay/cm_variables';
@@ -61,7 +61,7 @@ Then(/only permitted static creatives are displayed/, function () {
     return actorInTheSpotlight().attemptsTo(
         Hover.over(Campaigns.SORT_CREATIVES),
         Click.on(Campaigns.ADDED_NEWEST),
-        Wait.for(Duration.ofSeconds(5)),
+        Wait.for(Duration.ofSeconds(10)),
         Ensure.that(Text.of(Target.the('static creative').located(by.xpath("//*[contains(text(),'" + creative() + ".jpeg')]"))), equals(creative().concat('.jpeg')))
     )
 })
