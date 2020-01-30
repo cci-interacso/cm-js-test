@@ -2,7 +2,7 @@ import { Given, Then, When } from 'cucumber';
 import { See, Duration, actorInTheSpotlight, actorCalled } from '@serenity-js/core';
 import { CallAnApi, LastResponse } from '@serenity-js/rest';
 import { campaignRequestAlreadyStarted, campaignRequestFutureDate } from '../../src/screenplay/api/endpoints/requests/CampaignRequest'
-import { Wait, isClickable, Text } from '@serenity-js/protractor';
+import { Wait, isClickable, Text, Website } from '@serenity-js/protractor';
 import { AuthenticateApi } from '../../src/screenplay/api/authentication/session_Token';
 import { campaignPath, Path, Status } from '../../src/screenplay/cm_variables'
 import { Get } from '../../src/screenplay/api/endpoints/get'
@@ -103,6 +103,8 @@ Then(/the campaign has a status of (draft|paused|ongoing)/, async function (stat
 
 
 Given(/is on the Create campaign page/, function () {
+    Website.title().answeredBy(actorInTheSpotlight())
+
     return actorInTheSpotlight().attemptsTo(
         Wait.upTo(waitTimeInMillseconds).until(Campaigns.NEW_CAMPAIGN_BUTTON, isClickable())
     )

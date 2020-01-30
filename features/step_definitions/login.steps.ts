@@ -12,6 +12,8 @@ import { equals } from "@serenity-js/assertions";
 Given(/(.*) is an internal user in the Spanish Group/, function (this: WithStage, actorName: string) {
 
 
+    
+
     return actorCalled(actorName).attemptsTo(
         BrowseTo.LoginPage(),
         Login.loginOnCM(process.env.SPANISH_INTERNAL_USERNAME,process.env.SPANISH_INTERNAL_PASSWORD),

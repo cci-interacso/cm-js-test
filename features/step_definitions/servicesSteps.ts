@@ -66,7 +66,7 @@ Then(/(.*) upload a creative/, async function (actor: string) {
     const fd = new FormData();
     creativeName = faker.name.firstName();
     const actual = path.resolve(process.cwd(), 'src/resources/test.jpeg');
-    const target = path.resolve(process.cwd(), "src/resources/toDeleteContent/" + creativeName + ".jpeg");
+    const target = path.resolve(process.cwd(), "images/" + creativeName + ".jpeg");
 
 
     try {
