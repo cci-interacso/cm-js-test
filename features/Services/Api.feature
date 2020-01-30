@@ -1,6 +1,7 @@
 @api @regression
 Feature: API Services
 
+  @test
   Scenario: View campaign status
     Given there is a new campaign starting today
     Then get campaign id from the response

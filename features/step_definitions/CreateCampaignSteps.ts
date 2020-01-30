@@ -93,7 +93,7 @@ Then(/the campaign has a status of (draft|paused|ongoing)/, async function (stat
     }
 
     return actorInTheSpotlight()
-        .attemptsTo(Get.get(Path.getCampaigns.concat('?userGrouptsDetail=false&limit=1'), await AuthenticateApi(), 200),
+        .attemptsTo(Get.get(Path.getCampaigns.concat('?userGroupsDetail=true&limit=1'), await AuthenticateApi(), 200),
             See.if(LastResponse.body(), Actual => expect(Actual)
                 .to.have.deep.property('docs.[0].status', campaign_status)
             ))
