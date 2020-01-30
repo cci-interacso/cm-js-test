@@ -20,7 +20,7 @@ export class Get implements Task {
             Send.a(GetRequest.to(this.path).using({
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Token '.concat(this.token)
+                    'Authorization':'Bearer'.concat(" "+this.token)
                 },
                 timeout: 5000,
                 responseType : 'json'

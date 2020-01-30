@@ -3,7 +3,7 @@ import { by } from 'protractor';
 var date = require('date-and-time');
 
 const now = new Date();
-const next_month = date.addMonths(now, 1);
+const next_month = date.addDays(now, 5);
 
 const startDate = date.format(now, 'MMMM DD, YYYY');
 const endDate = date.format(next_month, 'MMMM DD, YYYY');

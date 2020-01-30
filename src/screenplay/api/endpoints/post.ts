@@ -19,7 +19,7 @@ export class Post implements Task {
                 .using({
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization':'Token '.concat(this.token),
+                        'Authorization':'Bearer '.concat(this.token),
                     },
                     data:this.body,
                     timeout:5000
