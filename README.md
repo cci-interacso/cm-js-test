@@ -24,7 +24,7 @@ Run tests locallly
 
 npm run test (@your feature file tage) - this should run a single  " npm run test @test "
 
-to run all test 
+to run all test "npm run test @regression"
 
 Generate report ( output will stored at target/site/serenity/index.html )
 
