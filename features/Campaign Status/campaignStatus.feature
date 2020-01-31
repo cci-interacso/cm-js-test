@@ -10,33 +10,47 @@ Feature: View campaign status
     Then the campaign has a status of draft
 
 
- Scenario: Current campaigns are in Ongoing status
+  Scenario: Current campaigns are in Ongoing status
     Given there is a new campaign already started
     Then get campaign id from the response
-    Then stan upload a creative 
+    Then stan upload a creative
     Then get creative id
-    Then stan assigns static to default schedule 
+    Then stan assigns static to default schedule
+    Then he set the campaign status to ongoing
     Then the campaign has a status of ongoing
 
 
-Scenario: Pause a campaign
+  Scenario: Pause a campaign
     Given there is a new campaign already started
     Then get campaign id from the response
-    Then stan upload a creative 
+    Then stan upload a creative
     Then get creative id
-    Then stan assigns static to default schedule 
-    When he pauses the campaign
+    Then stan assigns static to default schedule
+    When he set the campaign status to pauses
     Then the campaign has a status of paused
 
 
-Scenario: Campaigns with a future start date have a Scheduled status
-    Given there is a new campaign with a future date 
+
+  Scenario: Campaigns with a future start date have a Scheduled status
+    Given there is a new campaign with a future date
     Then get campaign id from the response
-    Then stan upload a creative 
+    Then stan upload a creative
     Then get creative id
     Then stan assigns static to default schedule
-     When he scheduled the campaign
-    Then the campaign has a status of ongoing 
-   
+    When he set the campaign status to scheduled
+    Then the campaign has a status of scheduled
 
-   
+  @test
+  Scenario: Completed campaign are in Completed status
+    Given there is a new campaign with an end date in the past
+    Then get campaign id from the response
+    Then stan upload a creative
+    Then get creative id
+    Then stan assigns static to default schedule
+    When he set the campaign status to completed
+    Then the campaign has a status of completed
+
+
+
+
+

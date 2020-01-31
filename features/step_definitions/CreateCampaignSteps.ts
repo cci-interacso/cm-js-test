@@ -1,7 +1,7 @@
 import { Given, Then, When } from 'cucumber';
 import { See, Duration, actorInTheSpotlight, actorCalled } from '@serenity-js/core';
 import { CallAnApi, LastResponse } from '@serenity-js/rest';
-import { campaignRequestAlreadyStarted, campaignRequestFutureDate } from '../../src/screenplay/api/endpoints/requests/CampaignRequest'
+import { campaignRequestAlreadyStarted, campaignRequestFutureDate, campaignRequestEndDateInthePast } from '../../src/screenplay/api/endpoints/requests/CampaignRequest'
 import { Wait, isClickable, Text, Website } from '@serenity-js/protractor';
 import { AuthenticateApi } from '../../src/screenplay/api/authentication/session_Token';
 import { campaignPath, Path, Status } from '../../src/screenplay/cm_variables'
@@ -15,7 +15,7 @@ import { LogOut } from './../../src/screenplay/ui/tasks/LogOut'
 import { EditCampaign } from '../../src/screenplay/ui/tasks/EditCampaign'
 import { ClickOnNewCampaign } from './../../src/screenplay/ui/tasks/ClickOnNewCampaign'
 import { EditTheCampaign } from './../../src/screenplay/ui/tasks/EditIcon'
-import {EditContentSchedule} from './../../src/screenplay/ui/tasks/EditContentSchedule'
+import { EditContentSchedule } from './../../src/screenplay/ui/tasks/EditContentSchedule'
 
 var date = require('date-and-time')
 
@@ -25,20 +25,20 @@ const waitTimeInMillseconds = Duration.ofMilliseconds(15000);
 
 
 
-Given(/there is a new campaign (starting today|already started|with a future date)/, async (option: string) => {
+Given(/there is a new campaign (starting today|already started|with a future date|with an end date in the past)/, async (option: string) => {
 
-var faker = require('faker');
-
-
-const now = new Date();
-const next_month = date.addMonths(now, 1);
+    var faker = require('faker');
 
 
-var campaignRequest1 = {
-    name: faker.company.companyName(),
-    fromDate: date.format(now, 'YYYY-MM-DD'),
-    toDate: date.format(next_month, 'YYYY-MM-DD')
-}
+    const now = new Date();
+    const next_month = date.addMonths(now, 1);
+
+
+    var campaignRequest1 = {
+        name: faker.company.companyName(),
+        fromDate: date.format(now, 'YYYY-MM-DD'),
+        toDate: date.format(next_month, 'YYYY-MM-DD')
+    }
 
 
 
@@ -55,6 +55,9 @@ var campaignRequest1 = {
         case 'with a future date':
             return actorInTheSpotlight().attemptsTo(
                 Post.post(Path.getCampaigns, campaignRequestFutureDate, await AuthenticateApi(), 201))
+        case 'with an end date in the past':
+            return actorInTheSpotlight().attemptsTo(
+                Post.post(Path.getCampaigns, campaignRequestEndDateInthePast, await AuthenticateApi(), 201))
     }
 })
 
@@ -68,7 +71,7 @@ Then(/get campaign id from the response/, () => {
         })
 })
 
-export function getCampaignName():string{
+export function getCampaignName(): string {
     return name
 }
 
@@ -78,7 +81,7 @@ Then(/Output/, function () {
         .mapLastResponse(response => console.log(response.data))
 })
 
-Then(/the campaign has a status of (draft|paused|ongoing)/, async function (status: string) {
+Then(/the campaign has a status of (draft|paused|ongoing|scheduled|completed)/, async function (status: string) {
 
     var campaign_status: number;
 
@@ -92,6 +95,13 @@ Then(/the campaign has a status of (draft|paused|ongoing)/, async function (stat
         case "ongoing":
             campaign_status = Status.ONGOING;
             break;
+        case "scheduled":
+            campaign_status = Status.ONGOING;
+            break;
+        case "completed":
+            campaign_status = Status.ONGOING;
+            break;
+
     }
 
     return actorInTheSpotlight()
@@ -136,16 +146,16 @@ Then(/search for a campaign/, function () {
     )
 })
 
-Then(/(.*) edits the campaign/, function (actor:string){
+Then(/(.*) edits the campaign/, function (actor: string) {
 
     return actorCalled(actor).attemptsTo(EditTheCampaign.editCampaignUsingTheEditIcon())
 })
 
-Then(/edit the content schedule/, function (){
+Then(/edit the content schedule/, function () {
     return actorInTheSpotlight().attemptsTo(EditContentSchedule.editContentSchedule())
 })
 
-Then(/I can edit the campaign/, function (){
+Then(/I can edit the campaign/, function () {
     return actorInTheSpotlight().attemptsTo(
         CreateANewCampaign.enterNewCampaignData()
     )

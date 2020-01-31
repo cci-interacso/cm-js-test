@@ -117,17 +117,26 @@ Then(/(.*) assigns static to (default|content) schedule/, async function (actor:
 })
 
 
-When(/he (pauses|scheduled) the campaign/, async function (option: string) {
+When(/he set the campaign status to (pauses|ongoing|scheduled|completed)/, async function (option: string) {
 
     switch (option) {
-        case 'pauses':
-            var status = { status: 2 }
-            return actorInTheSpotlight().attemptsTo(
-                Patch.patch(Path.campaigns.concat("/" + CampaignID() + "/status"), status, await AuthenticateApi(), 200))
         case 'scheduled':
             var status = { status: 3 }
             return actorInTheSpotlight().attemptsTo(
                 Patch.patch(Path.campaigns.concat("/" + CampaignID() + "/status"), status, await AuthenticateApi(), 200))
+        case 'pauses':
+            var status = { status: 2 }
+            return actorInTheSpotlight().attemptsTo(
+                Patch.patch(Path.campaigns.concat("/" + CampaignID() + "/status"), status, await AuthenticateApi(), 200))
+        case 'ongoing':
+            var status = { status: 3 }
+            return actorInTheSpotlight().attemptsTo(
+                Patch.patch(Path.campaigns.concat("/" + CampaignID() + "/status"), status, await AuthenticateApi(), 200))
+        case 'completed':
+            var status = { status: 3 }
+            return actorInTheSpotlight().attemptsTo(
+                Patch.patch(Path.campaigns.concat("/" + CampaignID() + "/status"), status, await AuthenticateApi(), 200))
+
     }
 
 })
