@@ -6,7 +6,7 @@ import { TextData } from "@serenity-js/core/lib/model";
 import { expect } from "../../../expect";
 var faker = require('faker');
 
-const campaignName: string = faker.company.companyName()
+const campaignName: string = faker.random.word()
 
 export class CreateANewCampaign implements Task {
 

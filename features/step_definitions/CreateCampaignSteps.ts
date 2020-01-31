@@ -35,7 +35,7 @@ Given(/there is a new campaign (starting today|already started|with a future dat
 
 
     var campaignRequest1 = {
-        name: faker.company.companyName(),
+        name: faker.random.word(),
         fromDate: date.format(now, 'YYYY-MM-DD'),
         toDate: date.format(next_month, 'YYYY-MM-DD')
     }
@@ -133,10 +133,12 @@ When(/he enters/, function (options: string) {
 Then(/the campaign is successfully (?:created|edited)/, async function () {
     return actorInTheSpotlight()
         .attemptsTo(
-            Get.getCampaigns(campaignPath.GET_CAMPAIGNS.concat('?&limit=1&userGroupsDetail=false'), await AuthenticateApi(), 200),
+            Get.getCampaigns(campaignPath.GET_CAMPAIGNS.concat('?&limit=10&userGroupsDetail=false'), await AuthenticateApi(), 200),
             See.if(LastResponse.body(), Actual => expect(Actual)
                 .to.have.deep.property('docs.[0].name', CreateANewCampaign.getEntries())
             ))
+
+            // See.if(LastResponse.body(), Actual => expect(Actual).to.have.deep.property('docs.[0].name', CreateANewCampaign.getEntries())
 })
 
 Then(/search for a campaign/, function () {
