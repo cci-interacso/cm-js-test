@@ -12,7 +12,7 @@ Feature: Create new campaign
             | endDate      |
         Then the campaign is successfully created
 
-    @api @test
+    @api
     Scenario: Create campaign from a template
         Given there is a new campaign starting today
         Then get campaign id from the response

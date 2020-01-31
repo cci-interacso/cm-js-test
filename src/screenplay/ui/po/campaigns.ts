@@ -32,7 +32,7 @@ export class Campaigns {
     static DELETE_CAMPAIGN = Target.the('delete campaign').located(by.xpath("//*[@data-test-id=\"delete-campaign\"]"))
     static DELETE_CAMPAIGN_YES = Target.the('Yes').located(by.xpath("//*[contains(text(),'Yes')]"))
     static SORT_CREATIVES = Target.the('sort by name').located(by.xpath("//*[contains(text(),'Sort by - None')]"))
-    static ADDED_NEWEST = Target.the('added newest').located(by.xpath("//*[@id='root']/div/div/div/div[2]/div/div[1]/div[2]/div[2]/div[6]"))
+    static ADDED_NEWEST = Target.the('added newest').located(by.xpath("//div[@class='menu transition']/div[6]"))
     static EDIT_ICON = Target.the('edit icon').located(by.xpath("//*[@data-test-id=\"edit-icon\"]"))
 
 
