@@ -10,7 +10,7 @@ Feature: External user to edit campaign content schedule information
       Then Starks adds the campaign to a group
       Then stan post the schedules for the campaign
 
-   @ui
+   @ui @test
    Scenario: External user can edit shared content schedule of shared campaign
       And Barry is an external user in the Spanish Region
       And search for a campaign

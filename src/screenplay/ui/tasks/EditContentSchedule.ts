@@ -18,7 +18,7 @@ export class EditContentSchedule implements Task {
             Click.on(ContentSchedule.DATE_PICKER_FROM),
             Click.on(ContentSchedule.FROM_DATE),
             Click.on(ContentSchedule.DATE_PICKER_END),
-            Click.on(ContentSchedule.TO_DATE),
+            Click.on(ContentSchedule.FROM_DATE),
             Click.on(ContentSchedule.TIME_TXTAREA),
             Wait.for(Duration.ofSeconds(2)),
             Click.on(ContentSchedule.START_TIME_HRS), 

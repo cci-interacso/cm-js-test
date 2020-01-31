@@ -21,6 +21,12 @@ import { expect } from '../../src/expect';
 var FormData = require('form-data');
 var faker = require('faker');
 var path = require('path')
+var date = require('date-and-time');
+
+const now = new Date();
+
+const today = date.format(now, 'YYYY-MM-DD');
+
 
 let creativeID: any
 let userGroup: any
@@ -193,7 +199,9 @@ Then(/content schedule is updated/, function () {
     return actorInTheSpotlight()
         .attemptsTo(
             See.if(LastResponse.body(), Actual => expect(Actual).to.have.deep.property('docs.[0].startTime', '01:03:00')),
-            See.if(LastResponse.body(), Actual => expect(Actual).to.have.deep.property('docs.[0].name', 'ScheduleEdited')
+            See.if(LastResponse.body(), Actual => expect(Actual).to.have.deep.property('docs.[0].name', 'ScheduleEdited')),
+            See.if(LastResponse.body(), Actual => expect(Actual).to.have.deep.property('docs.[0].fromDate', today)),
+            See.if(LastResponse.body(), Actual => expect(Actual).to.have.deep.property('docs.[0].toDate', today)
             ))
 })
 
