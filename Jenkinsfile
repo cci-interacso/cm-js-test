@@ -10,6 +10,11 @@ pipeline {
         timeout(time: 6, unit: 'HOURS')
     }
     stages {
+        stage('delete workspace'){
+            steps {
+                sh 'git clean -fdx'
+            }
+        }
         stage("Get repo") {
             steps {
               //  git credentialsId: 'github-user-token', url: 'https://github.com/cci-interacso/cm-js-test.git'
