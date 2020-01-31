@@ -68,7 +68,7 @@ Then(/(.*) upload a creative/, async function (actor: string) {
     const actual = path.resolve(process.cwd(), 'src/resources/test.jpeg');
     const target = path.resolve(process.cwd(), "images/" + creativeName + ".jpeg");
 
-
+    /*
     try {
        await fs.copyFile(actual, target, (err) => {
             // if (err) throw err;
@@ -77,9 +77,10 @@ Then(/(.*) upload a creative/, async function (actor: string) {
         console.log(err)
     }
 
+    */
     
 
-    fd.append('file', fs.createReadStream(target));
+    fd.append('file', fs.createReadStream(actual));
 
     return actorCalled(actor)
         .attemptsTo(PostUpload.post(Path.addStaticContent, fd, await AuthenticateApi(), 200));
@@ -286,6 +287,6 @@ Then(/add seville group to screen/, async function () {
 
 
 export function creative() {
-    return creativeName
+    return "test"
 
 }
