@@ -1,32 +1,49 @@
-import { WithStage, actorCalled, Question, actorInTheSpotlight, See } from "@serenity-js/core";
+import { WithStage, actorCalled, Question, actorInTheSpotlight, See, Duration } from "@serenity-js/core";
 import { Given } from 'cucumber';
 import { BrowseTo } from '../../src/screenplay/ui/tasks/BrowseTo'
 import { Login } from '../../src/screenplay/ui/tasks/Login'
-import { Website, BrowseTheWeb, Browser } from "@serenity-js/protractor";
+import { Website, BrowseTheWeb, Browser, Wait } from "@serenity-js/protractor";
 import { expect } from "../../src/expect";
 import { toASCII } from "punycode";
-import { equals } from "@serenity-js/assertions";
+import { equals, Ensure, includes } from "@serenity-js/assertions";
+import { LogOut } from "../../src/screenplay/ui/tasks/LogOut";
 
 
 
-Given(/(.*) is an internal user in the Spanish Group/, function (this: WithStage, actorName: string) {
+Given(/(.*) is an internal user in the Spanish Group/, async function (this: WithStage, actorName: string) {
 
+    const url: string = await BrowseTheWeb.as(actorCalled(actorName)).getCurrentUrl()
+    if (url.includes("cmanager.cc")) {
+        return actorInTheSpotlight().attemptsTo(
+            LogOut.userLogout(),
+            BrowseTo.LoginPage(),
+            Wait.for(Duration.ofSeconds(3)),
+            Login.loginOnCM(process.env.SPANISH_INTERNAL_USERNAME, process.env.SPANISH_INTERNAL_PASSWORD),
+        )
+    } else {
+        return actorCalled(actorName).attemptsTo(
+            BrowseTo.LoginPage(),
+            Login.loginOnCM(process.env.SPANISH_INTERNAL_USERNAME, process.env.SPANISH_INTERNAL_PASSWORD),
+        )
+    }
 
-    
-
-    return actorCalled(actorName).attemptsTo(
-        BrowseTo.LoginPage(),
-        Login.loginOnCM(process.env.SPANISH_INTERNAL_USERNAME,process.env.SPANISH_INTERNAL_PASSWORD),
-    )
 });
 
-Given(/(.*) is an external user in the Spanish Region/, function(this:WithStage, actorName: string){
-
-    Website.url()
-    return actorCalled(actorName).attemptsTo(
-        BrowseTo.LoginPage(),
-        Login.loginOnCM(process.env.SPANISH_EXTERNAL_USERNAME,process.env.SPANISH_EXTERNAL_PASSWORD)
-    )
+Given(/(.*) is an external user in the Spanish Region/, async function (this: WithStage, actorName: string) {
+    const url: string = await BrowseTheWeb.as(actorCalled(actorName)).getCurrentUrl()
+    if (url.includes("cmanager.cc")) {
+        return actorInTheSpotlight().attemptsTo(
+            LogOut.userLogout(),
+            Wait.for(Duration.ofSeconds(3)),
+            BrowseTo.LoginPage(),
+            Login.loginOnCM(process.env.SPANISH_EXTERNAL_USERNAME, process.env.SPANISH_EXTERNAL_PASSWORD)
+        )
+    } else {
+        return actorCalled(actorName).attemptsTo(
+            BrowseTo.LoginPage(),
+            Login.loginOnCM(process.env.SPANISH_EXTERNAL_USERNAME, process.env.SPANISH_EXTERNAL_PASSWORD)
+        )
+    }
 })
 
 
