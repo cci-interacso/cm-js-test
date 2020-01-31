@@ -10,8 +10,6 @@
     "postinstall": "serenity-bdd update",
     "test:report": "serenity-bdd run",
     "watch:build": "tsc --watch"
-    
-    
   },
   "keywords": [
     "content",

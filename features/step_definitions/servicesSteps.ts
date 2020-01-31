@@ -66,18 +66,21 @@ Then(/(.*) upload a creative/, async function (actor: string) {
     const fd = new FormData();
     creativeName = faker.name.firstName();
     const actual = path.resolve(process.cwd(), 'src/resources/test.jpeg');
-    const target = path.resolve(process.cwd(), "src/resources/toDeleteContent/" + creativeName + ".jpeg");
+    const target = path.resolve(process.cwd(), "images/" + creativeName + ".jpeg");
 
-
+    /*
     try {
-        fs.copyFile(actual, target, (err) => {
+       await fs.copyFile(actual, target, (err) => {
             // if (err) throw err;
         })
     } catch (err) {
         console.log(err)
     }
 
-    fd.append('file', fs.createReadStream(target));
+    */
+    
+
+    fd.append('file', fs.createReadStream(actual));
 
     return actorCalled(actor)
         .attemptsTo(PostUpload.post(Path.addStaticContent, fd, await AuthenticateApi(), 200));
@@ -117,17 +120,26 @@ Then(/(.*) assigns static to (default|content) schedule/, async function (actor:
 })
 
 
-When(/he (pauses|scheduled) the campaign/, async function (option: string) {
+When(/he set the campaign status to (pauses|ongoing|scheduled|completed)/, async function (option: string) {
 
     switch (option) {
-        case 'pauses':
-            var status = { status: 2 }
-            return actorInTheSpotlight().attemptsTo(
-                Patch.patch(Path.campaigns.concat("/" + CampaignID() + "/status"), status, await AuthenticateApi(), 200))
         case 'scheduled':
             var status = { status: 3 }
             return actorInTheSpotlight().attemptsTo(
                 Patch.patch(Path.campaigns.concat("/" + CampaignID() + "/status"), status, await AuthenticateApi(), 200))
+        case 'pauses':
+            var status = { status: 2 }
+            return actorInTheSpotlight().attemptsTo(
+                Patch.patch(Path.campaigns.concat("/" + CampaignID() + "/status"), status, await AuthenticateApi(), 200))
+        case 'ongoing':
+            var status = { status: 3 }
+            return actorInTheSpotlight().attemptsTo(
+                Patch.patch(Path.campaigns.concat("/" + CampaignID() + "/status"), status, await AuthenticateApi(), 200))
+        case 'completed':
+            var status = { status: 3 }
+            return actorInTheSpotlight().attemptsTo(
+                Patch.patch(Path.campaigns.concat("/" + CampaignID() + "/status"), status, await AuthenticateApi(), 200))
+
     }
 
 })
@@ -275,6 +287,6 @@ Then(/add seville group to screen/, async function () {
 
 
 export function creative() {
-    return creativeName
+    return "test"
 
 }

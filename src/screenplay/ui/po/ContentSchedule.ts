@@ -4,7 +4,7 @@ import { by } from 'protractor';
 var date = require('date-and-time');
 
 const now = new Date();
-const addDays = date.addDays(now, 10);
+const addDays = date.addDays(now, 1);
 
 const startDate = date.format(now, 'MMMM D, YYYY');
 const endDate = date.format(addDays, 'MMMM D, YYYY');

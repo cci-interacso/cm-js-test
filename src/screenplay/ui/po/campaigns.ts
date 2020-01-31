@@ -5,8 +5,8 @@ var date = require('date-and-time');
 const now = new Date();
 const next_month = date.addDays(now, 5);
 
-const startDate = date.format(now, 'MMMM DD, YYYY');
-const endDate = date.format(next_month, 'MMMM DD, YYYY');
+const startDate = date.format(now, 'MMMM D, YYYY');
+const endDate = date.format(next_month, 'MMMM D, YYYY');
 
 export class Campaigns {
 
@@ -24,7 +24,7 @@ export class Campaigns {
     static ADD_CREATIVES = Target.the('Add Creative to Campaign').located(by.xpath("//button[@data-test-id='add-creative']"));''
     static NEXT_BUTTON = Target.the('Next Time').located(by.xpath("//button[@class='ui primary button']"));
     static DONE = Target.the('Done Button').located(by.xpath("//*[contains(text(),'Done')]"))
-    static BUTTON_CONTAINER = Target.the('Button contianer').located(by.xpath("//button[@data-test-id='edit-campaign']"))
+    static BUTTON_CONTAINER = Target.the('Button contianer').located(by.xpath("//div[@data-test-id='action-buttons-container']"))
     static STATIC_CREATIVE_ADDED = Target.the('Static creative added').located(by.xpath("//*[@data-test-id='schedule-campaign-date']/following::div[2]"))
     static DEFAULT_CONTENT = Target.the('default content').located(by.xpath("//*[contains(text(),'Default content')]"))
     static CAMPAIGNS = Target.the('Go to Campaigns').located(by.linkText("Campaigns"));
@@ -32,7 +32,7 @@ export class Campaigns {
     static DELETE_CAMPAIGN = Target.the('delete campaign').located(by.xpath("//*[@data-test-id=\"delete-campaign\"]"))
     static DELETE_CAMPAIGN_YES = Target.the('Yes').located(by.xpath("//*[contains(text(),'Yes')]"))
     static SORT_CREATIVES = Target.the('sort by name').located(by.xpath("//*[contains(text(),'Sort by - None')]"))
-    static ADDED_NEWEST = Target.the('added newest').located(by.xpath("//*[contains(text(),'Added: Newest')]"))
+    static ADDED_NEWEST = Target.the('added newest').located(by.xpath("//div[@class='menu transition']/div[6]"))
     static EDIT_ICON = Target.the('edit icon').located(by.xpath("//*[@data-test-id=\"edit-icon\"]"))
 
 
