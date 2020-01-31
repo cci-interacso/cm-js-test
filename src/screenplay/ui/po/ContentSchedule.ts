@@ -16,7 +16,7 @@ export class ContentSchedule {
     static SCHEDULE_TITLE = Target.the('shedule title').located(by.id("schedule-name"))
     static DATE_PICKER_FROM = Target.the('date area').located(by.xpath("//input[@class='ant-calendar-picker-input ant-input']"))
     static DATE_PICKER_END = Target.the('date area').located(by.xpath("//span[@id='schedule-to-date']/div/input"))
-    static FROM_DATE = Target.the('from date').located(by.xpath("//*[@role='gridcell' and @title='" + startDate + "']"));
+    static FROM_DATE = Target.the('from date').located(by.xpath("//a[contains(text(),'Today')]"));
     static TO_DATE = Target.the('to date').located(by.xpath("//*[@role='gridcell' and @title='" + endDate + "']"))
     static DAYS = Target.the('days').located(by.xpath("//span[1]/input"))
     static TIME_TXTAREA = Target.the('').located(by.xpath("//*[@id='schedule-start-time']"))
