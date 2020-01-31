@@ -40,7 +40,7 @@ Feature: View campaign status
     When he set the campaign status to scheduled
     Then the campaign has a status of scheduled
 
-  @test
+  
   Scenario: Completed campaign are in Completed status
     Given there is a new campaign with an end date in the past
     Then get campaign id from the response
