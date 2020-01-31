@@ -70,12 +70,14 @@ Then(/(.*) upload a creative/, async function (actor: string) {
 
 
     try {
-        fs.copyFile(actual, target, (err) => {
+       await fs.copyFile(actual, target, (err) => {
             // if (err) throw err;
         })
     } catch (err) {
         console.log(err)
     }
+
+    
 
     fd.append('file', fs.createReadStream(target));
 
