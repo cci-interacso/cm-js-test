@@ -113,7 +113,6 @@ Then(/the campaign has a status of (draft|paused|ongoing|scheduled|completed)/, 
 
 
 Given(/is on the Create campaign page/, function () {
-    Website.title().answeredBy(actorInTheSpotlight())
 
     return actorInTheSpotlight().attemptsTo(
         Wait.upTo(waitTimeInMillseconds).until(Campaigns.NEW_CAMPAIGN_BUTTON, isClickable())
@@ -144,11 +143,17 @@ Then(/the campaign is successfully (?:created|edited)/, async function () {
 Then(/search for a campaign/, function () {
     return actorInTheSpotlight().attemptsTo(
         SearchForCampaign.goToCampaigns(campaignName()),
+        
+    )
+})
+
+Then(/edit the campaign/, function(){
+    return actorInTheSpotlight().attemptsTo(
         EditCampaign.editCampaign()
     )
 })
 
-Then(/(.*) edits the campaign/, function (actor: string) {
+ Then(/(.*) edits the campaign/, function (actor: string) {
 
     return actorCalled(actor).attemptsTo(EditTheCampaign.editCampaignUsingTheEditIcon())
 })
