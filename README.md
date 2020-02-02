@@ -1,9 +1,9 @@
-Project Title
+**Project Title**
 
-Content Manager E2E Javascript Test Framework 
+**Content Manager E2E Javascript Test Framework** 
 
 
-Prerequisites 
+**Prerequisites** 
 
 Install node js 
 
@@ -13,14 +13,14 @@ webdriver-manager update  (Execute the command from terminal)
 
 
 
-Installing 
+**Installing**
 
 npm install  (from the root of the project)
 npm run webdriver-update'
 npm run postinstall'
 
 
-Run tests locallly
+**Run tests locallly**
 
 npm run test (@your feature file tage) - this should run a single  " npm run test @test "
 
@@ -32,7 +32,7 @@ npm run test:report
 
 
 
-Run tests on CI
+**Run tests on CI**
 
 Project name  - cm-js-test 
 
