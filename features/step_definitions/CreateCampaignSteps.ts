@@ -15,7 +15,8 @@ import { LogOut } from './../../src/screenplay/ui/tasks/LogOut'
 import { EditCampaign } from '../../src/screenplay/ui/tasks/EditCampaign'
 import { ClickOnNewCampaign } from './../../src/screenplay/ui/tasks/ClickOnNewCampaign'
 import { EditTheCampaign } from './../../src/screenplay/ui/tasks/EditIcon'
-import { EditContentSchedule } from './../../src/screenplay/ui/tasks/EditContentSchedule'
+import { EditContentSchedule} from './../../src/screenplay/ui/tasks/EditContentSchedule'
+import { EditDefaultSchedule} from './../../src/screenplay/ui/tasks/EditDefaultSchedule'
 
 var date = require('date-and-time')
 
@@ -158,8 +159,16 @@ Then(/edit the campaign/, function(){
     return actorCalled(actor).attemptsTo(EditTheCampaign.editCampaignUsingTheEditIcon())
 })
 
-Then(/edit the content schedule/, function () {
-    return actorInTheSpotlight().attemptsTo(EditContentSchedule.editContentSchedule())
+Then(/edit the (content|default) schedule/, function (option:string) {
+
+    switch(option){
+        case 'content':
+            return actorInTheSpotlight().attemptsTo(EditContentSchedule.editContentSchedule());
+        case 'default':
+            return actorInTheSpotlight().attemptsTo(EditDefaultSchedule.editDefaultSchedule());
+    }
+
+    
 })
 
 Then(/I can edit the campaign/, function () {
