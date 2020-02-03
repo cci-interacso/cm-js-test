@@ -72,21 +72,9 @@ Then(/(.*) upload a creative/, async function (actor: string) {
     const fd = new FormData();
     creativeName = faker.name.firstName();
     const actual = path.resolve(process.cwd(), 'src/resources/test.jpeg');
-    const target = path.resolve(process.cwd(), "images/" + creativeName + ".jpeg");
-
-    /*
-    try {
-       await fs.copyFile(actual, target, (err) => {
-            // if (err) throw err;
-        })
-    } catch (err) {
-        console.log(err)
-    }
-
-    */
-    
 
     fd.append('file', fs.createReadStream(actual));
+    
 
     return actorCalled(actor)
         .attemptsTo(PostUpload.post(Path.addStaticContent, fd, await AuthenticateApi(), 200));
@@ -112,7 +100,7 @@ Then(/(.*) assign static creative to external group/, async function (actor: str
 Then(/(.*) assigns static to (default|content) schedule/, async function (actor: string, option: string) {
 
     var creative = {
-        creativesId: [creativeFileID]
+        creativesId: [creativeID]
     }
 
     switch (option) {
@@ -188,7 +176,7 @@ Then(/(.*) post the schedules for the campaign/, async function (actor: string) 
 
 })
 
-Then(/(.*) get content schedule/, async function (actor: string) {
+Then(/(.*) get (content|default) schedule/, async function (actor: string,option:string) {
 
     return actorCalled(actor)
         .attemptsTo(Get.get(Path.campaigns.concat("/" + CampaignID() + Path.schedules), await AuthenticateApi(), 200))
