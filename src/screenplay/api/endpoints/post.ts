@@ -22,7 +22,7 @@ export class Post implements Task {
                         'Authorization':'Bearer '.concat(this.token),
                     },
                     data:this.body,
-                    timeout:5000
+                    timeout:10000
                 })
             ), 
             Ensure.that(LastResponse.status(), equals(this.statusCode))

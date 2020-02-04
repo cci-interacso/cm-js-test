@@ -22,6 +22,5 @@ Feature: External user to edit campaign default schedule
     And edit the campaign
     When edit the default schedule
     Then permitted creative is successfully added to the default content schedule
- #   And Barry get default schedule
 
 

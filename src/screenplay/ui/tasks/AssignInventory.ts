@@ -1,12 +1,6 @@
-import { Task, Duration } from "@serenity-js/core";
+import { Task, Duration, See } from "@serenity-js/core";
 import { Inventory } from "../po/Inventory";
-import {
-  Click,
-  Enter,
-  Hover,
-  Wait,
-  isClickable
-} from "@serenity-js/protractor";
+import { Click, Enter, Hover, Wait, isEnabled, isClickable, isVisible } from "@serenity-js/protractor";
 
 export class AssignInventory implements Task {
   constructor(private inventory: string) {}
