@@ -1,4 +1,4 @@
-@cmv-172 @gregression
+@cmv-172 @regression 
 Feature: Assign user groups to player
 
     @ui
