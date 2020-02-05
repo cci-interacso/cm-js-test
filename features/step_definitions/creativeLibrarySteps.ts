@@ -4,7 +4,7 @@ import { BrowseTo } from '../../src/screenplay/ui/tasks/BrowseTo';
 import { Login } from '../../src/screenplay/ui/tasks/Login';
 import { UploadACreative } from '../../src/screenplay/ui/tasks/UploadACreative'
 import { CallAnApi } from '@serenity-js/rest';
-import { BrowseTheWeb, Click, Hover, Wait, isClickable, isVisible, Text, Target, DoubleClick } from '@serenity-js/protractor';
+import { BrowseTheWeb, Click, Hover, Wait, isClickable, isVisible, Text, Target, DoubleClick, Website } from '@serenity-js/protractor';
 import { protractor } from 'protractor/built/ptor';
 import { Get } from '../../src/screenplay/api/endpoints/get';
 import { Path } from '../../src/screenplay/cm_variables';
@@ -12,7 +12,7 @@ import { AuthenticateApi } from '../../src/screenplay/api/authentication/session
 import { ShareACreative } from '../../src/screenplay/ui/tasks/ShareACreative'
 import { LoginPage } from '../../src/screenplay/ui/po/LoginPage';
 import { LibraryHome } from '../../src/screenplay/ui/tasks/Library'
-import { Ensure, equals } from '@serenity-js/assertions';
+import { Ensure, equals, includes, Check } from '@serenity-js/assertions';
 import { Library } from '../../src/screenplay/ui/po/library';
 import { CampaignStatus } from '../../src/screenplay/ui/tasks/CampaignStatus'
 import { campaignName } from './CreateCampaignSteps';
@@ -30,7 +30,15 @@ Given(/(.*) uploads a static creative as an internal user/, function (actorName:
     var filePath: string = path.resolve(process.cwd(), 'src/resources/market.jpeg')
 
     return actorCalled(actorName).attemptsTo(
-        BrowseTo.LoginPage(),
+
+        Check.whether(Website.url(), includes("cmanager.cc"))
+            .andIfSo(
+                LogOut.userLogout(),
+                BrowseTo.LoginPage(),
+                Wait.for(Duration.ofSeconds(3)),
+            ).otherwise(
+                BrowseTo.LoginPage(),
+            ),
         Login.loginOnCM(process.env.SPANISH_INTERNAL_USERNAME, process.env.SPANISH_INTERNAL_PASSWORD),
         UploadACreative.upload(filePath))
 })
