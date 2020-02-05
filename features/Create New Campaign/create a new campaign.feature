@@ -33,7 +33,7 @@ Feature: Create new campaign
         Then marks get the template using templateID
 
 
-    @cmv-189 @test
+    @cmv-189
     Scenario: Schedule a default content only camapaign
         Given there is a new campaign starting today
         Then get campaign id from the response

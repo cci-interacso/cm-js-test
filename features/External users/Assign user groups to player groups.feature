@@ -1,7 +1,7 @@
 @cmv-172 @regression 
 Feature: Assign user groups to player
 
-    @ui
+    @ui @test
     Scenario: Internal to assign user groups to a player group
         Given there is a new campaign starting today
         And get campaign id from the response
