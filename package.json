@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "protractor ./protractor.conf.js --cucumberOpts.tags",
-    "webdriver-update": "webdriver-manager update --versions.chrome=72.0.3626.69",
+    "webdriver-update": "webdriver-manager update --versions.chrome=78.0.3904.70",
     "pretest": "rimraf target",
     "postinstall": "serenity-bdd update",
     "test:report": "serenity-bdd run",
