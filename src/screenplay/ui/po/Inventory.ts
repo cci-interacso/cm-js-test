@@ -12,3 +12,6 @@ export class Inventory {
     static SEARCH_BY_NAME = Target.the("search by name").located(by.xpath("//input[@placeholder='Search by name...']"));
     static ASSIGN_USERGROUP = Target.the("Assign the inventory").located(by.xpath("//button[@data-test-id='assign-campaign']"));
 }
+
+
+//data-test-id="assign-campaign"

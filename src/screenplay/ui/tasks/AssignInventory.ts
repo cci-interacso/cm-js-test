@@ -18,7 +18,7 @@ export class AssignInventory implements Task {
       Hover.over(Inventory.HOVER_ON_PLAYER),
       Wait.upTo(Duration.ofSeconds(3)).until(
         Inventory.ASSIGN_USERGROUP,
-        isClickable()
+        isVisible()
       ),
       Click.on(Inventory.ASSIGN_USERGROUP),
       Click.on(Inventory.ASSIGN_TO_SEVILLE),

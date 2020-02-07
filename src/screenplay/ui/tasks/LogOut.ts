@@ -1,5 +1,5 @@
-import { Task } from "@serenity-js/core";
-import { Hover, Click } from "@serenity-js/protractor";
+import { Task, Duration } from "@serenity-js/core";
+import { Hover, Click, Wait } from "@serenity-js/protractor";
 import {LoginPage } from './../po/LoginPage'
 
 export class LogOut implements Task {
@@ -12,6 +12,7 @@ export class LogOut implements Task {
     
       return  actor.attemptsTo(
             Hover.over(LoginPage.loginOutIcon),
+            Wait.for(Duration.ofSeconds(3)),
             Click.on(LoginPage.LogOut)
 
         )
