@@ -15,8 +15,9 @@ import { LogOut } from './../../src/screenplay/ui/tasks/LogOut'
 import { EditCampaign } from '../../src/screenplay/ui/tasks/EditCampaign'
 import { ClickOnNewCampaign } from './../../src/screenplay/ui/tasks/ClickOnNewCampaign'
 import { EditTheCampaign } from './../../src/screenplay/ui/tasks/EditIcon'
-import { EditContentSchedule} from './../../src/screenplay/ui/tasks/EditContentSchedule'
-import { EditDefaultSchedule} from './../../src/screenplay/ui/tasks/EditDefaultSchedule'
+import { EditContentSchedule } from './../../src/screenplay/ui/tasks/EditContentSchedule'
+import { EditDefaultSchedule } from './../../src/screenplay/ui/tasks/EditDefaultSchedule'
+import { Ensure, equals } from '@serenity-js/assertions';
 
 var date = require('date-and-time')
 
@@ -131,44 +132,58 @@ When(/he enters/, function (options: string) {
 })
 
 Then(/the campaign is successfully (?:created|edited)/, async function () {
+
+    var res: any
+    CallAnApi.as(actorInTheSpotlight())
+        .mapLastResponse(response => {
+            res = response.data
+        })
+
+    var expected = res.docs.filter(function (e) {
+        return e.name === CreateANewCampaign.getEntries()
+    })
+
     return actorInTheSpotlight()
         .attemptsTo(
-            Get.getCampaigns(campaignPath.GET_CAMPAIGNS.concat('?&limit=10&userGroupsDetail=false'), await AuthenticateApi(), 200),
-            See.if(LastResponse.body(), Actual => expect(Actual)
-                .to.have.deep.property('docs.[0].name', CreateANewCampaign.getEntries())
+            See.if(expected, Actual => expect(Actual)
+                .to.have.deep.property('[0].name', CreateANewCampaign.getEntries())
             ))
 
-            // See.if(LastResponse.body(), Actual => expect(Actual).to.have.deep.property('docs.[0].name', CreateANewCampaign.getEntries())
+})
+
+When(/(.*) makes a get campaign call/, async function (actor: string) {
+    return actorInTheSpotlight()
+        .attemptsTo(Get.getCampaigns(campaignPath.GET_CAMPAIGNS.concat('?&limit=10&userGroupsDetail=false'), await AuthenticateApi(), 200))
 })
 
 Then(/search for a campaign/, function () {
     return actorInTheSpotlight().attemptsTo(
         SearchForCampaign.goToCampaigns(campaignName()),
-        
+
     )
 })
 
-Then(/edit the campaign/, function(){
+Then(/edit the campaign/, function () {
     return actorInTheSpotlight().attemptsTo(
         EditCampaign.editCampaign()
     )
 })
 
- Then(/(.*) edits the campaign/, function (actor: string) {
+Then(/(.*) edits the campaign/, function (actor: string) {
 
     return actorCalled(actor).attemptsTo(EditTheCampaign.editCampaignUsingTheEditIcon())
 })
 
-Then(/edit the (content|default) schedule/, function (option:string) {
+Then(/edit the (content|default) schedule/, function (option: string) {
 
-    switch(option){
+    switch (option) {
         case 'content':
             return actorInTheSpotlight().attemptsTo(EditContentSchedule.editContentSchedule());
         case 'default':
             return actorInTheSpotlight().attemptsTo(EditDefaultSchedule.editDefaultSchedule());
     }
 
-    
+
 })
 
 Then(/I can edit the campaign/, function () {

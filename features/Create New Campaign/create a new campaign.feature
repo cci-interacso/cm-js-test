@@ -5,12 +5,14 @@ Feature: Create new campaign
     Scenario: Create campaign using Content manager
         Given S is an internal user in the Spanish Group
         And is on the Create campaign page
-        When he enters
+        Then he enters
             | campaignName |
             | campaignId   |
             | startDate    |
             | endDate      |
+        When S makes a get campaign call    
         Then the campaign is successfully created
+         
 
     @api
     Scenario: Create campaign from a template

@@ -35,13 +35,14 @@ Given(/(.*) uploads a static creative as an internal user/, function (actorName:
             .andIfSo(
                 LogOut.userLogout(),
                 BrowseTo.LoginPage(),
-                Wait.for(Duration.ofSeconds(3)),
+               // Wait.for(Duration.ofSeconds(3)),
             ).otherwise(
                 BrowseTo.LoginPage(),
             ),
         Login.loginOnCM(process.env.SPANISH_INTERNAL_USERNAME, process.env.SPANISH_INTERNAL_PASSWORD),
         UploadACreative.upload(filePath))
 })
+
 
 Then(/the file is available/, async function () {
 
