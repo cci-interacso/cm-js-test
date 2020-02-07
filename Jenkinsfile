@@ -27,7 +27,7 @@ pipeline {
                 sh 'curl -sL https://deb.nodesource.com/setup_10.x | bash'
                 sh 'apt-get install nodejs'
                 sh 'npm install'
-                sh 'npm run webdriver-update'
+              //  sh 'npm run webdriver-update'
                 sh 'npm run postinstall'
             }
         }
