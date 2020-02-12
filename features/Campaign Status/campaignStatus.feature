@@ -5,14 +5,14 @@ Feature: View campaign status
 
 
   Scenario: View campaign status
-    Given there is a new campaign starting today
-    Then get campaign id from the response
+    Given M has a new campaign starting today
+    Then M get campaign id from the response
     Then the campaign has a status of draft
 
 
   Scenario: Current campaigns are in Ongoing status
-    Given there is a new campaign already started
-    Then get campaign id from the response
+    Given X has a new campaign starting today
+    Then X get campaign id from the response
     Then stan upload a creative
     Then get creative id
     Then stan assigns static to default schedule
@@ -21,8 +21,8 @@ Feature: View campaign status
 
 
   Scenario: Pause a campaign
-    Given there is a new campaign already started
-    Then get campaign id from the response
+    Given Y has a new campaign already started
+    Then Y get campaign id from the response
     Then stan upload a creative
     Then get creative id
     Then stan assigns static to default schedule
@@ -32,8 +32,8 @@ Feature: View campaign status
 
 
   Scenario: Campaigns with a future start date have a Scheduled status
-    Given there is a new campaign with a future date
-    Then get campaign id from the response
+    Given Z has a new campaign with a future date
+    Then Z get campaign id from the response
     Then stan upload a creative
     Then get creative id
     Then stan assigns static to default schedule
@@ -42,8 +42,8 @@ Feature: View campaign status
 
   
   Scenario: Completed campaign are in Completed status
-    Given there is a new campaign with an end date in the past
-    Then get campaign id from the response
+    Given U has a new campaign with an end date in the past
+    Then U get campaign id from the response
     Then stan upload a creative
     Then get creative id
     Then stan assigns static to default schedule

@@ -35,5 +35,6 @@ export class Campaigns {
     static ADDED_NEWEST = Target.the('added newest').located(by.xpath("//div[@class='menu transition']/div[6]"))
     static EDIT_ICON = Target.the('edit icon').located(by.xpath("//*[@data-test-id=\"edit-icon\"]"))
     static SCHEDULE_CAMPAIGN = Target.the('start the campaign').located(by.xpath("//*[@data-test-id='schedule-campaign']"))
+    static EMPTY_LIST = Target.the('Empty list returned').located(by.xpath("//*[@data-test-id='empty-list-message']"))
 
 }

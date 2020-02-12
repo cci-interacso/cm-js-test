@@ -1,5 +1,5 @@
 import { WithStage, actorCalled, Question, actorInTheSpotlight, See, Duration } from "@serenity-js/core";
-import { Given } from 'cucumber';
+import { Given, When } from 'cucumber';
 import { BrowseTo } from '../../src/screenplay/ui/tasks/BrowseTo'
 import { Login } from '../../src/screenplay/ui/tasks/Login'
 import { Website, BrowseTheWeb, Browser, Wait } from "@serenity-js/protractor";
@@ -24,22 +24,6 @@ Given(/(.*) is an internal user in the Spanish Group/, async function (this: Wit
             ),
         Login.loginOnCM(process.env.SPANISH_INTERNAL_USERNAME, process.env.SPANISH_INTERNAL_PASSWORD)
     )
-    /*
-const url: string = await BrowseTheWeb.as(actorCalled(actorName)).getCurrentUrl()
-if (url.includes("cmanager.cc")) {
-    return actorInTheSpotlight().attemptsTo(
-        LogOut.userLogout(),
-        BrowseTo.LoginPage(),
-        Wait.for(Duration.ofSeconds(3)),
-        Login.loginOnCM(process.env.SPANISH_INTERNAL_USERNAME, process.env.SPANISH_INTERNAL_PASSWORD),
-    )
-} else {
-    return actorCalled(actorName).attemptsTo(
-        BrowseTo.LoginPage(),
-        Login.loginOnCM(process.env.SPANISH_INTERNAL_USERNAME, process.env.SPANISH_INTERNAL_PASSWORD),
-    )
-}
-*/
 });
 
 Given(/(.*) is an external user in the Spanish Region/, async function (this: WithStage, actorName: string) {
@@ -58,6 +42,30 @@ Given(/(.*) is an external user in the Spanish Region/, async function (this: Wi
         )
     }
 })
+
+When(/(.*) from (.*) attempts to view the campaign/, function(actorName:string, country:string) {
+
+    switch(country) {
+        case "Sweden":
+
+            return actorCalled(actorName).attemptsTo(
+
+                Check.whether(Website.url(), includes("cmanager.cc"))
+                    .andIfSo(
+                        LogOut.userLogout(),
+                        BrowseTo.LoginPage(),
+                        Wait.for(Duration.ofSeconds(3)),
+                    ).otherwise(
+                        BrowseTo.LoginPage(),
+                    ),
+                Login.loginOnCM(process.env.SWEDISH_INTERNAL_USERNAME, process.env.SWEDISH_PASSWORD)
+            )
+
+    }
+
+})
+
+
 
 
 

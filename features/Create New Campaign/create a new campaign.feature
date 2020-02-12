@@ -4,7 +4,7 @@ Feature: Create new campaign
     @ui
     Scenario: Create campaign using Content manager
         Given S is an internal user in the Spanish Group
-        And is on the Create campaign page
+        And S is on the Create campaign page
         Then he enters
             | campaignName |
             | campaignId   |
@@ -16,8 +16,8 @@ Feature: Create new campaign
 
     @api
     Scenario: Create campaign from a template
-        Given there is a new campaign starting today
-        Then get campaign id from the response
+        Given M has a new campaign starting today
+        Then M get campaign id from the response
         Then stan upload a creative
         Then get creative id
         Then stan post the schedules for the campaign
@@ -37,8 +37,8 @@ Feature: Create new campaign
 
     @cmv-189
     Scenario: Schedule a default content only camapaign
-        Given there is a new campaign starting today
-        Then get campaign id from the response
+        Given F has a new campaign starting today
+        Then F get campaign id from the response
         Then stan upload a creative
         Then get creative id
         Then stan assigns static to default schedule

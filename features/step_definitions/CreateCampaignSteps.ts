@@ -2,7 +2,7 @@ import { Given, Then, When } from 'cucumber';
 import { See, Duration, actorInTheSpotlight, actorCalled } from '@serenity-js/core';
 import { CallAnApi, LastResponse } from '@serenity-js/rest';
 import { campaignRequestAlreadyStarted, campaignRequestFutureDate, campaignRequestEndDateInthePast } from '../../src/screenplay/api/endpoints/requests/CampaignRequest'
-import { Wait, isClickable, Text, Website } from '@serenity-js/protractor';
+import { Wait, isClickable, Text, Website, isVisible } from '@serenity-js/protractor';
 import { AuthenticateApi } from '../../src/screenplay/api/authentication/session_Token';
 import { campaignPath, Path, Status } from '../../src/screenplay/cm_variables'
 import { Get } from '../../src/screenplay/api/endpoints/get'
@@ -17,7 +17,7 @@ import { ClickOnNewCampaign } from './../../src/screenplay/ui/tasks/ClickOnNewCa
 import { EditTheCampaign } from './../../src/screenplay/ui/tasks/EditIcon'
 import { EditContentSchedule } from './../../src/screenplay/ui/tasks/EditContentSchedule'
 import { EditDefaultSchedule } from './../../src/screenplay/ui/tasks/EditDefaultSchedule'
-import { Ensure, equals } from '@serenity-js/assertions';
+import { Ensure, equals, not } from '@serenity-js/assertions';
 
 var date = require('date-and-time')
 
@@ -25,16 +25,13 @@ let campaignID: any
 let name: any
 const waitTimeInMillseconds = Duration.ofMilliseconds(15000);
 
+var faker = require('faker');
+const now = new Date();
+const next_month = date.addMonths(now, 1);
 
 
-Given(/there is a new campaign (starting today|already started|with a future date|with an end date in the past)/, async (option: string) => {
 
-    var faker = require('faker');
-
-
-    const now = new Date();
-    const next_month = date.addMonths(now, 1);
-
+Given(/(.*) has a new campaign (starting today|already started|with a future date|with an end date in the past)/, async (actor: string, option: string) => {
 
     var campaignRequest1 = {
         name: faker.random.word(),
@@ -42,10 +39,7 @@ Given(/there is a new campaign (starting today|already started|with a future dat
         toDate: date.format(next_month, 'YYYY-MM-DD')
     }
 
-
-
-
-    actorCalled('Apisit')
+    actorCalled(actor)
 
     switch (option) {
         case 'starting today':
@@ -63,9 +57,24 @@ Given(/there is a new campaign (starting today|already started|with a future dat
     }
 })
 
-Then(/get campaign id from the response/, () => {
+Given(/(.*) from (.*) has created a campaign/, async function (user: string, country: string) {
 
-    return CallAnApi.as(actorInTheSpotlight())
+    var campaignRequest1 = {
+        name: faker.random.word(),
+        fromDate: date.format(now, 'YYYY-MM-DD'),
+        toDate: date.format(next_month, 'YYYY-MM-DD')
+    }
+
+    switch (country) {
+        case "Spain":
+            return actorCalled(user).attemptsTo(
+                Post.post(Path.getCampaigns, campaignRequest1, await AuthenticateApi(), 201))
+    }
+})
+
+Then(/(.*) get campaign id from the response/, (actor: string) => {
+
+    return CallAnApi.as(actorCalled(actor))
         .mapLastResponse(response => {
 
             campaignID = response.data._id;
@@ -114,9 +123,9 @@ Then(/the campaign has a status of (draft|paused|ongoing|scheduled|completed)/, 
 })
 
 
-Given(/is on the Create campaign page/, function () {
+Given(/(.*) is on the Create campaign page/, function (actor: string) {
 
-    return actorInTheSpotlight().attemptsTo(
+    return actorCalled(actor).attemptsTo(
         Wait.upTo(waitTimeInMillseconds).until(Campaigns.NEW_CAMPAIGN_BUTTON, isClickable())
     )
 
@@ -160,6 +169,12 @@ Then(/search for a campaign/, function () {
     return actorInTheSpotlight().attemptsTo(
         SearchForCampaign.goToCampaigns(campaignName()),
 
+    )
+})
+
+Then(/(.*) is unable to view the campaign/, function(actor:string){
+    return actorCalled(actor).attemptsTo(
+        Ensure.that(Campaigns.EMPTY_LIST, isVisible())
     )
 })
 
