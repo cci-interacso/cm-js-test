@@ -168,14 +168,26 @@ When(/(.*) makes a get campaign call/, async function (actor: string) {
 Then(/search for a campaign/, function () {
     return actorInTheSpotlight().attemptsTo(
         SearchForCampaign.goToCampaigns(campaignName()),
-
     )
 })
 
-Then(/(.*) is unable to view the campaign/, function(actor:string){
-    return actorCalled(actor).attemptsTo(
-        Ensure.that(Campaigns.EMPTY_LIST, isVisible())
-    )
+Then(/(.*) is unable to view the (campaign|creative|screen)/, function (actor: string, option: string) {
+
+    switch (option) {
+        case 'campaign':
+            return actorCalled(actor).attemptsTo(
+                Ensure.that(Campaigns.EMPTY_LIST, isVisible())
+            )
+        case 'creative':
+            return actorCalled(actor).attemptsTo(
+                Ensure.that(Text.of(Campaigns.EMPTY_LIST), equals('You don’t have any creatives yet')))
+        case 'campaign':
+            return actorCalled(actor).attemptsTo(
+                Ensure.that(Campaigns.EMPTY_LIST, isVisible())
+            )
+
+    }
+
 })
 
 Then(/edit the campaign/, function () {

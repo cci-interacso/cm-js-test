@@ -43,7 +43,7 @@ Given(/(.*) is an external user in the Spanish Region/, async function (this: Wi
     }
 })
 
-When(/(.*) from (.*) attempts to view the campaign/, function(actorName:string, country:string) {
+When(/(.*) from (.*) logs on to content manager app/, function(actorName:string, country:string) {
 
     switch(country) {
         case "Sweden":

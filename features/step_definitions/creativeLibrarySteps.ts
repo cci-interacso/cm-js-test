@@ -23,6 +23,7 @@ import { creative } from './servicesSteps';
 import { by } from 'protractor';
 import { Actors } from '../support/actors';
 import { LogOut } from '../../src/screenplay/ui/tasks/LogOut';
+import { SearchForInventory} from '../../src/screenplay/ui/tasks/SearchForInventory'
 var path = require('path')
 
 Given(/(.*) uploads a static creative as an internal user/, function (actorName: string) {
@@ -35,7 +36,7 @@ Given(/(.*) uploads a static creative as an internal user/, function (actorName:
             .andIfSo(
                 LogOut.userLogout(),
                 BrowseTo.LoginPage(),
-               // Wait.for(Duration.ofSeconds(3)),
+                // Wait.for(Duration.ofSeconds(3)),
             ).otherwise(
                 BrowseTo.LoginPage(),
             ),
@@ -57,12 +58,22 @@ Then(/share the creative with my regional external users/, function () {
         )
 })
 
-When(/I am on the Library Screen of the APP/, function () {
+When(/I am on the (Library|Inventory) Screen of the APP/, function (option: string) {
 
-    return actorInTheSpotlight()
-        .attemptsTo(
-            LibraryHome.goToLibrary(creative().concat(".jpeg"))
-        )
+    switch (option) {
+        case 'Library':
+            return actorInTheSpotlight()
+                .attemptsTo(
+                    LibraryHome.goToLibrary(creative().concat(".jpeg"))
+                )
+        case 'Inventory':
+            return actorInTheSpotlight()
+                .attemptsTo(
+                    SearchForInventory.searchForInventory("TOOTBEC SHELTER1")
+                )
+    }
+
+
 })
 
 Then(/only permitted static creatives are displayed/, function () {
