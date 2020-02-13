@@ -35,6 +35,7 @@ Given(/(.*) uploads a static creative as an internal user/, function (actorName:
         Check.whether(Website.url(), includes("cmanager.cc"))
             .andIfSo(
                 LogOut.userLogout(),
+                Wait.for(Duration.ofSeconds(3)),
                 BrowseTo.LoginPage(),
                 // Wait.for(Duration.ofSeconds(3)),
             ).otherwise(
