@@ -31,8 +31,8 @@ Feature: Create new campaign
         Then get content schedule id
         Then add a template
         Then get template id
-        Then create a campaign from template id
-        Then marks get the template using templateID
+        When create a campaign from template id
+        Then the campaign has a status of draft
 
 
     @cmv-189
