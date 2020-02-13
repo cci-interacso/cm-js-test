@@ -1,21 +1,23 @@
 @regression @api
 Feature: Create new campaign
 
-     @ui
+    @ui
     Scenario: Create campaign using Content manager
         Given S is an internal user in the Spanish Group
-        And is on the Create campaign page
-        When he enters
+        And S is on the Create campaign page
+        Then he enters
             | campaignName |
             | campaignId   |
             | startDate    |
             | endDate      |
+        When S makes a get campaign call    
         Then the campaign is successfully created
+         
 
     @api
     Scenario: Create campaign from a template
-        Given there is a new campaign starting today
-        Then get campaign id from the response
+        Given M has a new campaign starting today
+        Then M get campaign id from the response
         Then stan upload a creative
         Then get creative id
         Then stan post the schedules for the campaign
@@ -29,7 +31,22 @@ Feature: Create new campaign
         Then get content schedule id
         Then add a template
         Then get template id
-        Then create a campaign from template id
-        Then marks get the template using templateID
+        When create a campaign from template id
+        Then the campaign has a status of draft
+
+
+    @cmv-189
+    Scenario: Schedule a default content only camapaign
+        Given F has a new campaign starting today
+        Then F get campaign id from the response
+        Then stan upload a creative
+        Then get creative id
+        Then stan assigns static to default schedule
+        And S is an internal user in the Spanish Group
+        And search for a campaign
+        And edit the campaign
+        And schedule the campaign to start
+        Then the campaign has a status of ongoing
+
 
 

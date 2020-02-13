@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "protractor ./protractor.conf.js --cucumberOpts.tags",
-    "webdriver-update": "webdriver-manager update --versions.chrome=72.0.3626.69",
+    "webdriver-update": "webdriver-manager update --versions.chrome=78.0.3904.70",
     "pretest": "rimraf target",
     "postinstall": "serenity-bdd update",
     "test:report": "serenity-bdd run",
@@ -34,7 +34,7 @@
     "axios": "^0.19.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^7.1.1",
-    "chromedriver": "^78.0.1",
+    "chromedriver": "^79.0.0",
     "cucumber": "^6.0.5",
     "date-and-time": "^0.11.1",
     "dotenv": "8.2.0",

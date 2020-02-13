@@ -9,7 +9,7 @@ Feature: Permit players to be used by an external user
       Then get screen id
       Then add seville group to screen 
 
-   @ui
+   @ui @cmv-119
    Scenario: Permit a screen to be used by a external user group
       Given Stan is an internal user in the Spanish Group
       Then Stan can click on Screen and assign it to the Seville group

@@ -74,7 +74,7 @@ Then(/(.*) upload a creative/, async function (actor: string) {
     const actual = path.resolve(process.cwd(), 'src/resources/test.jpeg');
 
     fd.append('file', fs.createReadStream(actual));
-    
+
 
     return actorCalled(actor)
         .attemptsTo(PostUpload.post(Path.addStaticContent, fd, await AuthenticateApi(), 200));
@@ -176,7 +176,7 @@ Then(/(.*) post the schedules for the campaign/, async function (actor: string) 
 
 })
 
-Then(/(.*) get (content|default) schedule/, async function (actor: string,option:string) {
+Then(/(.*) get (content|default) schedule/, async function (actor: string, option: string) {
 
     return actorCalled(actor)
         .attemptsTo(Get.get(Path.campaigns.concat("/" + CampaignID() + Path.schedules), await AuthenticateApi(), 200))
@@ -193,9 +193,17 @@ Then(/content schedule is updated/, function () {
             ))
 })
 
+Then(/schedule is updated with permitted player/, function () {
+    return actorInTheSpotlight()
+        .attemptsTo(
+            See.if(LastResponse.body(), Actual => expect(Actual).to.have.deep.property('docs.[0].screens[0].name', 'TOOTBEC SHELTER1')),
+   
+        )
+})
+
 Then(/get content schedule id/, function () {
 
-    CallAnApi.as(actorInTheSpotlight())
+    return CallAnApi.as(actorInTheSpotlight())
         .mapLastResponse(response => {
             contentScheduleID = response.data._id
             contentSchedule = response.data;
@@ -224,7 +232,7 @@ Then(/add a template/, async function () {
             startTime: '00:00:00',
             endTime: "23:59:59",
             visibility: true,
-            screens: [contentSchedule.docs[0].screens[0]],
+            screens: [contentSchedule.docs[0].screens[0]._id],
             screensGroups: [],
             name: 'name',
             fromDate: contentSchedule.docs[0].fromDate,
@@ -252,13 +260,6 @@ Then(/create a campaign from template id/, async function () {
 
     return actorInTheSpotlight()
         .attemptsTo(Post.post(Path.getCampaigns.concat(Path.template + templateID), campaignRequest, await AuthenticateApi(), 201))
-
-})
-
-Then(/(.*) get the template using templateID/, async function (actor: string) {
-
-    return actorCalled(actor)
-        .attemptsTo(Get.get(Path.template.concat(templateID), await AuthenticateApi(), 200))
 
 })
 

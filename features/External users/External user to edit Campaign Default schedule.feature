@@ -3,8 +3,8 @@ Feature: External user to edit campaign default schedule
 
 
   Background:
-    Given there is a new campaign starting today
-    Then get campaign id from the response
+    Given E has a new campaign starting today
+    Then E get campaign id from the response
     Then the campaign has a status of draft
     Then stan get okta groups
     Then extract id for content manager seville

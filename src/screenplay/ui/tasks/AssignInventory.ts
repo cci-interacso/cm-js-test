@@ -3,23 +3,21 @@ import { Inventory } from "../po/Inventory";
 import { Click, Enter, Hover, Wait, isEnabled, isClickable, isVisible } from "@serenity-js/protractor";
 
 export class AssignInventory implements Task {
-  constructor(private inventory: string) {}
+  constructor(private inventory: string) { }
 
   static addInventory(inventory: string): AssignInventory {
     return new AssignInventory(inventory);
   }
 
   performAs(
-    actor: import("@serenity-js/core").PerformsActivities
-  ): PromiseLike<void> {
+    actor: import("@serenity-js/core").PerformsActivities): PromiseLike<void> {
     return actor.attemptsTo(
       Click.on(Inventory.INVENTORY),
       Enter.theValue(this.inventory).into(Inventory.SEARCH_BY_NAME),
+      Wait.for(Duration.ofSeconds(3)),
       Hover.over(Inventory.HOVER_ON_PLAYER),
-      Wait.upTo(Duration.ofSeconds(3)).until(
-        Inventory.ASSIGN_USERGROUP,
-        isClickable()
-      ),
+     // Wait.for(Duration.ofSeconds(2)),
+     // Wait.upTo(Duration.ofSeconds(5)).until(Inventory.ASSIGN_USERGROUP, isVisible()),
       Click.on(Inventory.ASSIGN_USERGROUP),
       Click.on(Inventory.ASSIGN_TO_SEVILLE),
       Click.on(Inventory.ASSIGN)

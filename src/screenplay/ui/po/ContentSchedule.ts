@@ -24,4 +24,7 @@ export class ContentSchedule {
     static START_TIME_MM = Target.the('enter mins').located(by.xpath("//div[2]/ul/li[4]"))
     static END_TIME = Target.the('End time').located(by.xpath("//*[@id='schedule-end-time']"))
     static CLOSE = Target.the('close the schedule').located(by.xpath("//button[@data-test-id='close-schedule']"))
+    static ADD_NEW = Target.the('Add new  schedule').located(by.xpath("//button[@data-test-id='Add-new-schedule']"))
+    static SELECT_PLAYERS = Target.the('Add new  schedule').located(by.xpath("//button[@data-test-id='select-screens']"))
+    static SELECT_A_PLAYER = Target.the('Select the tootbec shelter player').located(by.xpath("//span[contains(text(),'TOOTBEC SHELTER1')]"))
 }
