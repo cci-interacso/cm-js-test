@@ -36,5 +36,6 @@ export class Campaigns {
     static EDIT_ICON = Target.the('edit icon').located(by.xpath("//*[@data-test-id=\"edit-icon\"]"))
     static SCHEDULE_CAMPAIGN = Target.the('start the campaign').located(by.xpath("//*[@data-test-id='schedule-campaign']"))
     static EMPTY_LIST = Target.the('Empty list returned').located(by.xpath("//*[@data-test-id='empty-list-message']"))
+    static SHARED_ICON = Target.the('Campaign is shared Icon').located(by.css(" td:nth-child(6) > i > svg"))
 
 }
