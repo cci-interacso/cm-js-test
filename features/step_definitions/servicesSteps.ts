@@ -87,8 +87,6 @@ When(/(.*) attempts to upload this (.*)/, async function (actor: string, file: s
 
     fd.append('file', fs.createReadStream(actual));
 
-
-
     return actorCalled(actor).attemptsTo(
 
         Send.a(PostRequest.to(Path.addStaticContent)
