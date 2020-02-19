@@ -64,11 +64,11 @@ pipeline {
 
 
 def notifyStarted() {
-     slackSend(channel: '#cm-qa', color: '#FFFF00', message: "STARTED: Environment: *${ENVIRONMENT}* Job: ${env.JOB_NAME} build: ${env.BUILD_NUMBER} More info at: ${env.BUILD_URL}")
+     slackSend(channel: '#cm-qa', color: '#FFFF00', message: "STARTED: Environment: *${params.ENVIRONMENT}* Job: ${env.JOB_NAME} build: ${env.BUILD_NUMBER} More info at: ${env.BUILD_URL}")
 }
 def notifySuccessful() {
-     slackSend(channel: '#cm-qa', color: '#00FF00', message: "SUCCESSFUL: Environment: *${ENVIRONMENT}* Job: ${env.JOB_NAME} build: ${env.BUILD_NUMBER} More info at: ${env.BUILD_URL}")
+     slackSend(channel: '#cm-qa', color: '#00FF00', message: "SUCCESSFUL: Environment: *${params.ENVIRONMENT}* Job: ${env.JOB_NAME} build: ${env.BUILD_NUMBER} More info at: ${env.BUILD_URL}")
 }
 def notifyFailed() {
-     slackSend(channel: '#cm-qa', color: '#FF0000', message: "FAILED: Job Environment: *${ENVIRONMENT}* Job: ${env.JOB_NAME} build: ${env.BUILD_NUMBER} More info at: ${env.BUILD_URL}")
+     slackSend(channel: '#cm-qa', color: '#FF0000', message: "FAILED: Job Environment: *${params.ENVIRONMENT}* Job: ${env.JOB_NAME} build: ${env.BUILD_NUMBER} More info at: ${env.BUILD_URL}")
 }
