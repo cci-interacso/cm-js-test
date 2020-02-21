@@ -1,5 +1,5 @@
 import { Given, Then, When, Before, After } from 'cucumber';
-import { CallAnApi, LastResponse } from '@serenity-js/rest';
+import { CallAnApi, LastResponse, Send, PostRequest } from '@serenity-js/rest';
 import { BrowseTheWeb, Wait } from '@serenity-js/protractor';
 import { protractor } from 'protractor/built/ptor';
 import { AuthenticateApi } from '../../src/screenplay/api/authentication/session_Token';
@@ -78,6 +78,50 @@ Then(/(.*) upload a creative/, async function (actor: string) {
 
     return actorCalled(actor)
         .attemptsTo(PostUpload.post(Path.addStaticContent, fd, await AuthenticateApi(), 200));
+})
+
+When(/(.*) attempts to upload this (.*)/, async function (actor: string, file: string) {
+
+    const fd = new FormData();
+    const actual = path.resolve(process.cwd(), 'src/resources/' + file);
+
+    fd.append('file', fs.createReadStream(actual));
+
+    return actorCalled(actor).attemptsTo(
+
+        Send.a(PostRequest.to(Path.addStaticContent)
+            .using({
+                headers: {
+                    'Content-Type': fd.getHeaders()['content-type'],
+                    'Authorization': 'Token '.concat(await AuthenticateApi()),
+                },
+                data: fd,
+                timeout: 5000
+            })
+        ),
+
+    )
+
+
+})
+
+Then(/(.*) upload is (not successful|successful)/, function (actor: string, option:string) {
+
+    switch(option){
+        case 'not successful':
+            return actorCalled(actor).attemptsTo(
+                Ensure.that(LastResponse.status(), equals(415))
+            )
+        case 'successful' :
+            return actorCalled(actor).attemptsTo(
+                Ensure.that(LastResponse.status(), equals(200))
+            )    
+
+    }
+
+    return actorCalled(actor).attemptsTo(
+        Ensure.that(LastResponse.status(), equals(200))
+    )
 })
 
 Then(/get creative id/, function () {
@@ -197,7 +241,6 @@ Then(/schedule is updated with permitted player/, function () {
     return actorInTheSpotlight()
         .attemptsTo(
             See.if(LastResponse.body(), Actual => expect(Actual).to.have.deep.property('docs.[0].screens[0].name', 'TOOTBEC SHELTER1')),
-   
         )
 })
 

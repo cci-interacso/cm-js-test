@@ -17,7 +17,8 @@ import { ClickOnNewCampaign } from './../../src/screenplay/ui/tasks/ClickOnNewCa
 import { EditTheCampaign } from './../../src/screenplay/ui/tasks/EditIcon'
 import { EditContentSchedule } from './../../src/screenplay/ui/tasks/EditContentSchedule'
 import { EditDefaultSchedule } from './../../src/screenplay/ui/tasks/EditDefaultSchedule'
-import { Ensure, equals, not } from '@serenity-js/assertions';
+import { Ensure, equals, not, and } from '@serenity-js/assertions';
+import { AssignCampaign } from  './../../src/screenplay/ui/tasks/AssignCampaign'
 
 var date = require('date-and-time')
 
@@ -157,7 +158,6 @@ Then(/the campaign is successfully (?:created|edited)/, async function () {
             See.if(expected, Actual => expect(Actual)
                 .to.have.deep.property('[0].name', CreateANewCampaign.getEntries())
             ))
-
 })
 
 When(/(.*) makes a get campaign call/, async function (actor: string) {
@@ -168,6 +168,19 @@ When(/(.*) makes a get campaign call/, async function (actor: string) {
 Then(/search for a campaign/, function () {
     return actorInTheSpotlight().attemptsTo(
         SearchForCampaign.goToCampaigns(campaignName()),
+    )
+})
+
+Then(/(.*) assigns campaign to external group/, function(actor:string){
+    return actorCalled(actor).attemptsTo(
+        AssignCampaign.assignCampaign()
+    )
+})
+
+Then(/graphical icon is displayed against the shared campaign/, function(){
+    return actorInTheSpotlight().attemptsTo(
+       Ensure.that(Campaigns.SHARED_ICON, isVisible())
+
     )
 })
 

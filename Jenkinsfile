@@ -3,6 +3,7 @@ pipeline {
     agent { node { label 'slave' } }
     parameters {
         string(name: 'TAGS', defaultValue: '@regression', description: 'cucumber tags for test to execute')
+        string(defaultValue: 'test-20', name: 'ENVIRONMENT', description: 'Environment')
         gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH'
 
     }
@@ -10,14 +11,10 @@ pipeline {
         timeout(time: 6, unit: 'HOURS')
     }
     stages {
-        stage('delete workspace'){
-            steps {
-                sh 'git clean -fdx'
-            }
-        }
+       
         stage("Get repo") {
             steps {
-              //  git credentialsId: 'github-user-token', url: 'https://github.com/cci-interacso/cm-js-test.git'
+              notifyStarted()  
               git branch: "${params.BRANCH}", url: 'https://github.com/jenkinsci/git-parameter-plugin.git'
             }
         }
@@ -27,7 +24,6 @@ pipeline {
                 sh 'curl -sL https://deb.nodesource.com/setup_10.x | bash'
                 sh 'apt-get install nodejs'
                 sh 'npm install'
-              //  sh 'npm run webdriver-update'
                 sh 'npm run postinstall'
             }
         }
@@ -68,11 +64,11 @@ pipeline {
 
 
 def notifyStarted() {
-    // slackSend(channel: '#cm-qa', color: '#FFFF00', message: "STARTED: Environment: *${ENVIRONMENT}* Job: ${env.JOB_NAME} build: ${env.BUILD_NUMBER} More info at: ${env.BUILD_URL}")
+     slackSend(channel: '#cm-qa', color: '#FFFF00', message: "STARTED: Environment: *${params.ENVIRONMENT}* Job: ${env.JOB_NAME} build: ${env.BUILD_NUMBER} More info at: ${env.BUILD_URL}")
 }
 def notifySuccessful() {
-    // slackSend(channel: '#cm-qa', color: '#00FF00', message: "SUCCESSFUL: Environment: *${ENVIRONMENT}* Job: ${env.JOB_NAME} build: ${env.BUILD_NUMBER} More info at: ${env.BUILD_URL}")
+     slackSend(channel: '#cm-qa', color: '#00FF00', message: "SUCCESSFUL: Environment: *${params.ENVIRONMENT}* Job: ${env.JOB_NAME} build: ${env.BUILD_NUMBER} More info at: ${env.BUILD_URL}")
 }
 def notifyFailed() {
-    // slackSend(channel: '#cm-qa', color: '#FF0000', message: "FAILED: Job Environment: *${ENVIRONMENT}* Job: ${env.JOB_NAME} build: ${env.BUILD_NUMBER} More info at: ${env.BUILD_URL}")
+     slackSend(channel: '#cm-qa', color: '#FF0000', message: "FAILED: Job Environment: *${params.ENVIRONMENT}* Job: ${env.JOB_NAME} build: ${env.BUILD_NUMBER} More info at: ${env.BUILD_URL}")
 }
