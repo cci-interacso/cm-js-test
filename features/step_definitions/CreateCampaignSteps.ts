@@ -30,17 +30,6 @@ var faker = require('faker');
 const now = new Date();
 const next_month = date.addMonths(now, 1);
 
-function campaignReq() {
-
-    var  campaignRequest1 = {
-        name: faker.random.word(),
-        fromDate: date.format(now, 'YYYY-MM-DD'),
-        toDate: date.format(next_month, 'YYYY-MM-DD')
-    }
-    
-    return campaignRequest1
-}
-
 Given(/(.*) has a new campaign (starting today|already started|with a future date|with an end date in the past)/, async (actor: string, option: string) => {
 
     var  campaignRequest1 = {
@@ -55,7 +44,7 @@ Given(/(.*) has a new campaign (starting today|already started|with a future dat
     switch (option) {
         case 'starting today':
             return actorInTheSpotlight().attemptsTo(
-                Post.post(Path.getCampaigns, campaignReq(), await AuthenticateApi(), 201))
+                Post.post(Path.getCampaigns, campaignRequest1, await AuthenticateApi(), 201))
         case 'already started':
             return actorInTheSpotlight().attemptsTo(
                 Post.post(Path.getCampaigns, campaignRequestAlreadyStarted, await AuthenticateApi(), 201))
