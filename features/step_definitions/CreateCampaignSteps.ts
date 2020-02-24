@@ -55,7 +55,7 @@ Given(/(.*) has a new campaign (starting today|already started|with a future dat
     switch (option) {
         case 'starting today':
             return actorInTheSpotlight().attemptsTo(
-                Post.post(Path.getCampaigns, campaignRequest1, await AuthenticateApi(), 201))
+                Post.post(Path.getCampaigns, campaignReq(), await AuthenticateApi(), 201))
         case 'already started':
             return actorInTheSpotlight().attemptsTo(
                 Post.post(Path.getCampaigns, campaignRequestAlreadyStarted, await AuthenticateApi(), 201))
