@@ -33,7 +33,7 @@ const next_month = date.addMonths(now, 1);
 Given(/(.*) has a new campaign (starting today|already started|with a future date|with an end date in the past)/, async (actor: string, option: string) => {
 
     var  campaignRequest1 = {
-        name: faker.random.word(),
+        name: faker.random.word()+faker.random.number(),
         fromDate: date.format(now, 'YYYY-MM-DD'),
         toDate: date.format(next_month, 'YYYY-MM-DD')
     }
