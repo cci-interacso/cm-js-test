@@ -52,8 +52,8 @@ Then(/extract id for content manager seville/, async function () {
     CallAnApi.as(actorInTheSpotlight())
         .mapLastResponse(response => data = response.data
         )
-    SEVILLE_ID = data[1].id;
-    SPAIN_ID = data[2].id
+    SEVILLE_ID = data[0].id;
+    SPAIN_ID = data[1].id
 })
 
 Then(/(.*) adds the campaign to a group/, async function (actor: string) {
