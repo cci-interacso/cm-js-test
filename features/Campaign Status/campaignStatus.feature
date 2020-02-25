@@ -9,7 +9,7 @@ Feature: View campaign status
     Then M get campaign id from the response
     Then the campaign has a status of draft
 
-  @test
+  
   Scenario: Current campaigns are in Ongoing status
     Given X has a new campaign starting today
     Then X get campaign id from the response

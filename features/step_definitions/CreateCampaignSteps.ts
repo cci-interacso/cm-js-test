@@ -35,7 +35,8 @@ Given(/(.*) has a new campaign (starting today|already started|with a future dat
     var  campaignRequest1 = {
         name: faker.random.word()+faker.random.number(),
         fromDate: date.format(now, 'YYYY-MM-DD'),
-        toDate: date.format(next_month, 'YYYY-MM-DD')
+        toDate: date.format(next_month, 'YYYY-MM-DD'),
+        campaignId: faker.random.number()+faker.random.alphaNumeric()
     }
     
    

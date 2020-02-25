@@ -1,7 +1,7 @@
 @regression
 Feature: Delete Campaign
 
-  @ui @api
+  @ui @api 
   Scenario: Delete a campaign
     Given A has a new campaign starting today
     Then  A get campaign id from the response
