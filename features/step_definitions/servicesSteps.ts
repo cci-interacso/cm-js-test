@@ -214,7 +214,7 @@ Then(/(.*) post the schedules for the campaign/, async function (actor: string) 
 
 })
 
-Then(/(.*) get (content|default) schedule/, async function (actor: string) {
+Then(/(.*) get (content|default) schedule/, async function (actor: string,option: string) {
 
     return actorCalled(actor)
         .attemptsTo(Get.get(Path.campaigns.concat("/" + CampaignID() + Path.schedules), await AuthenticateApi(), 200))
