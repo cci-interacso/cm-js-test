@@ -1,6 +1,6 @@
-import { Task } from "@serenity-js/core";
+import { Task, Duration } from "@serenity-js/core";
 import { Campaigns } from "../po/campaigns";
-import { Click, Enter, Hover } from "@serenity-js/protractor";
+import { Click, Enter, Hover, Wait } from "@serenity-js/protractor";
 
 
 export class SearchForCampaign implements Task {
@@ -16,6 +16,7 @@ export class SearchForCampaign implements Task {
     performAs(actor: import("@serenity-js/core").PerformsActivities): PromiseLike<void> {
        return actor.attemptsTo(
             Click.on(Campaigns.CAMPAIGNS),
+            Wait.for(Duration.ofSeconds(5)),
             Enter.theValue(this.campaignName).into(Campaigns.SEARCH_BY_NAME)
         )
     }

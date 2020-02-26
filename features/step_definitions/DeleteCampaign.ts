@@ -11,7 +11,8 @@ import { Wait } from "@serenity-js/protractor";
 Then(/he attempts to delete the campaign/, function () {
 
     return actorInTheSpotlight()
-        .attemptsTo(SearchForCampaign.goToCampaigns(campaignName()),
+        .attemptsTo(
+            //SearchForCampaign.goToCampaigns(campaignName()),
             DeleteCampaign.deleteCampaign()
             )
 })
