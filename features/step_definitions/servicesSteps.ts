@@ -1,7 +1,5 @@
-import { Given, Then, When, Before, After } from 'cucumber';
+import { Given, Then, When } from 'cucumber';
 import { CallAnApi, LastResponse, Send, PostRequest } from '@serenity-js/rest';
-import { BrowseTheWeb, Wait } from '@serenity-js/protractor';
-import { protractor } from 'protractor/built/ptor';
 import { AuthenticateApi } from '../../src/screenplay/api/authentication/session_Token';
 import { Path } from '../../src/screenplay/cm_variables'
 import { Get } from '../../src/screenplay/api/endpoints/get'
@@ -12,11 +10,10 @@ import { PostUpload } from '../../src/screenplay/api/endpoints/postUpload';
 import { Post } from '../../src/screenplay/api/endpoints/post';
 import { Patch } from '../../src/screenplay/api/endpoints/patch'
 import { campaignRequest } from '../../src/screenplay/api/endpoints/requests/CampaignRequest';
-import { Actors } from '../support/actors';
-import { engage, actorCalled, actorInTheSpotlight, Duration, Question, See } from '@serenity-js/core';
-import { LogOut } from '../../src/screenplay/ui/tasks/LogOut';
-import { Ensure, equals, includes } from '@serenity-js/assertions';
+import { actorCalled, actorInTheSpotlight, See } from '@serenity-js/core';
+import { Ensure, equals } from '@serenity-js/assertions';
 import { expect } from '../../src/expect';
+import { campaignNewResponse } from './../../features/step_definitions/CreateCampaignSteps';
 
 var FormData = require('form-data');
 var faker = require('faker');
@@ -29,17 +26,12 @@ const today = date.format(now, 'YYYY-MM-DD');
 
 
 let creativeID: any
-let userGroup: any
-let campaignID: any
-let name: any
 var SEVILLE_ID: any
 var SPAIN_ID: any
-var creativeFileID: any
 var contentScheduleID: any
 var screens: any
 var contentSchedule: any
 var templateID: any
-var creativeName: string
 
 Given(/(.*) get okta groups/, async function (actor: string) {
 
@@ -59,18 +51,21 @@ Then(/extract id for content manager seville/, async function () {
 Then(/(.*) adds the campaign to a group/, async function (actor: string) {
 
     var groups = {
-        userGroups: [SPAIN_ID, SEVILLE_ID]
+        userGroups: [SPAIN_ID, SEVILLE_ID],
+        name: campaignNewResponse().name,
+        fromDate: campaignNewResponse().fromDate,
+        toDate: campaignNewResponse().toDate,
+        campaignId:  campaignNewResponse().campaignId
+        
     }
 
     return actorCalled(actor)
-        .whoCan(CallAnApi.at(process.env.REST_API), BrowseTheWeb.using(protractor.browser))
         .attemptsTo(Put.put(Path.campaigns.concat("/" + CampaignID()), groups, await AuthenticateApi(), 200))
 })
 
 Then(/(.*) upload a creative/, async function (actor: string) {
 
     const fd = new FormData();
-    creativeName = faker.name.firstName();
     const actual = path.resolve(process.cwd(), 'src/resources/test.jpeg');
 
     fd.append('file', fs.createReadStream(actual));
@@ -127,7 +122,6 @@ Then(/(.*) upload is (not successful|successful)/, function (actor: string, opti
 Then(/get creative id/, function () {
     return CallAnApi.as(actorInTheSpotlight()).mapLastResponse((res) => {
         creativeID = res.data._id;
-        creativeFileID = res.data.fileId;
     })
 })
 
@@ -220,7 +214,7 @@ Then(/(.*) post the schedules for the campaign/, async function (actor: string) 
 
 })
 
-Then(/(.*) get (content|default) schedule/, async function (actor: string, option: string) {
+Then(/(.*) get (content|default) schedule/, async function (actor: string) {
 
     return actorCalled(actor)
         .attemptsTo(Get.get(Path.campaigns.concat("/" + CampaignID() + Path.schedules), await AuthenticateApi(), 200))

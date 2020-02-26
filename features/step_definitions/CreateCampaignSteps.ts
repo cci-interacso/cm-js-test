@@ -24,6 +24,7 @@ var date = require('date-and-time')
 
 let campaignID: any
 let name: any
+let campaignResponse: any
 const waitTimeInMillseconds = Duration.ofMilliseconds(15000);
 
 var faker = require('faker');
@@ -32,13 +33,13 @@ const next_month = date.addMonths(now, 1);
 
 Given(/(.*) has a new campaign (starting today|already started|with a future date|with an end date in the past)/, async (actor: string, option: string) => {
 
-    var  campaignRequest1 = {
+     var  campaignRequest1 = {
         name: faker.random.word()+faker.random.number(),
         fromDate: date.format(now, 'YYYY-MM-DD'),
         toDate: date.format(next_month, 'YYYY-MM-DD'),
         campaignId: faker.random.number()+faker.random.alphaNumeric()
     }
-    
+
    
     actorCalled(actor)
 
@@ -80,11 +81,15 @@ Then(/(.*) get campaign id from the response/, (actor: string) => {
 
             campaignID = response.data._id;
             name = response.data.name
+            campaignResponse = response.data
         })
 })
 
 export function getCampaignName(): string {
     return name
+}
+export function campaignNewResponse():any {
+    return campaignResponse
 }
 
 Then(/Output/, function () {
