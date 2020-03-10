@@ -44,8 +44,13 @@ Then(/extract id for content manager seville/, async function () {
     CallAnApi.as(actorInTheSpotlight())
         .mapLastResponse(response => data = response.data
         )
-    SEVILLE_ID = data[0].id;
-    SPAIN_ID = data[1].id
+
+    var sevilleID = data.filter(e => e.name.includes("!App Content Manager (External)"))
+    var spainId = data.filter(e => e.name.includes("!App Content Manager (Internal)"))
+
+    SEVILLE_ID = sevilleID[0].id
+    SPAIN_ID = spainId[0].id
+
 })
 
 Then(/(.*) adds the campaign to a group/, async function (actor: string) {
@@ -55,8 +60,8 @@ Then(/(.*) adds the campaign to a group/, async function (actor: string) {
         name: campaignNewResponse().name,
         fromDate: campaignNewResponse().fromDate,
         toDate: campaignNewResponse().toDate,
-        campaignId:  campaignNewResponse().campaignId
-        
+        campaignId: campaignNewResponse().campaignId
+
     }
 
     return actorCalled(actor)
@@ -100,17 +105,17 @@ When(/(.*) attempts to upload this (.*)/, async function (actor: string, file: s
 
 })
 
-Then(/(.*) upload is (not successful|successful)/, function (actor: string, option:string) {
+Then(/(.*) upload is (not successful|successful)/, function (actor: string, option: string) {
 
-    switch(option){
+    switch (option) {
         case 'not successful':
             return actorCalled(actor).attemptsTo(
                 Ensure.that(LastResponse.status(), equals(415))
             )
-        case 'successful' :
+        case 'successful':
             return actorCalled(actor).attemptsTo(
                 Ensure.that(LastResponse.status(), equals(200))
-            )    
+            )
 
     }
 
@@ -214,7 +219,7 @@ Then(/(.*) post the schedules for the campaign/, async function (actor: string) 
 
 })
 
-Then(/(.*) get (content|default) schedule/, async function (actor: string,option: string) {
+Then(/(.*) get (content|default) schedule/, async function (actor: string, option: string) {
 
     return actorCalled(actor)
         .attemptsTo(Get.get(Path.campaigns.concat("/" + CampaignID() + Path.schedules), await AuthenticateApi(), 200))
