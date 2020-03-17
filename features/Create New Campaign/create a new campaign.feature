@@ -1,7 +1,7 @@
 @regression @api
 Feature: Create new campaign
 
-    @ui
+    @ui @test
     Scenario: Create campaign using Content manager
         Given S is an internal user in the Spanish Group
         And S is on the Create campaign page
