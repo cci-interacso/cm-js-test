@@ -7,7 +7,7 @@ export class Library {
 
     static LIBRARY = Target.the('Library').located(by.linkText('Library'));
     static UPLOAD_CREATIVES_ICON = Target.the('upload creatives').located(by.xpath("//button[@data-test-id='upload-creativities']"));
-    static UPLOAD_CREATIVES_FROM_DEVICE = Target.the('upload from device').located(by.css(" div:nth-child(2) > div.css-w6fiy5.e5tq3qf3"));
+    static UPLOAD_CREATIVES_FROM_DEVICE = Target.the('upload from device').located(by.xpath("//div[contains(text(), 'Upload your own creativities from your device')]"));
     static SELECT_CREATIVES = Target.the('select creatives').located(by.css("div > div > p > span"));
     static UPLOAD_SUCCESS = Target.the('select creatives').located(by.css("div.css-ihkhlw.en6jioo11 > div > div.label"));
     static NEXT_BUTTON = Target.the('next button').located(by.xpath("//*[contains(text(),'Next')]"));
