@@ -31,7 +31,7 @@
     "@serenity-js/serenity-bdd": "2.0.1-alpha.114",
     "@types/cucumber": "^6.0.0",
     "@types/node": "^12.12.16",
-    "axios": "^0.19.0",
+    "axios": "^0.21.2",
     "chai": "^3.5.0",
     "chai-as-promised": "^7.1.1",
     "chromedriver": "^79.0.0",
